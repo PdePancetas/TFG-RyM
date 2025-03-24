@@ -1,5 +1,6 @@
 -- =========================================================
 -- SCRIPT DE CREACIÓN DE LA BASE DE DATOS DRCars
+-- CON TABLA DE RESERVAS
 -- =========================================================
 
 -- 1) Crear la base de datos si no existe:
@@ -144,6 +145,29 @@ CREATE TABLE PIEZAS_VEHICULOS (
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
   CONSTRAINT fk_piezas_vehiculo_vehiculo
+    FOREIGN KEY (id_vehiculo)
+    REFERENCES VEHICULOS (id_vehiculo)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4;
+
+-- =========================================================
+-- 8) TABLA RESERVAS (NUEVA, para reservar un vehículo)
+-- =========================================================
+CREATE TABLE RESERVAS (
+  id_reserva INT AUTO_INCREMENT PRIMARY KEY,
+  id_cliente INT NOT NULL,
+  id_vehiculo INT NOT NULL,
+  fecha_reserva DATE NOT NULL,
+  precio_reserva DECIMAL(10,2) NOT NULL,
+  CONSTRAINT fk_reserva_cliente
+    FOREIGN KEY (id_cliente)
+    REFERENCES CLIENTES (id_cliente)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
+  CONSTRAINT fk_reserva_vehiculo
     FOREIGN KEY (id_vehiculo)
     REFERENCES VEHICULOS (id_vehiculo)
     ON UPDATE CASCADE
