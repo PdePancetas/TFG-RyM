@@ -1,0 +1,9 @@
+
+Campos a encriptar: 
+
+Trabajadores -> dni, direccion, ciudad, codigo postal
+Clientes - > dni, direccion, ciudad, codigo postal
+Ventas -> id cliente y de trabajador
+Vehiculos -> id proveedor
+Proveedores -> cif/nif, direccion, ciudad, codigo postal
+Reservas -> id cliente, vehiculo
