@@ -1,9 +1,12 @@
 
 Campos a encriptar: 
 
-Trabajadores -> dni, direccion, ciudad, codigo postal
-Clientes - > dni, direccion, ciudad, codigo postal
+Trabajadores -> dni, id_usuario, direccion, ciudad, codigo postal
+Clientes - > dni, id_usuario, direccion, ciudad, codigo postal
 Ventas -> id cliente y de trabajador
 Vehiculos -> id proveedor
-Proveedores -> cif/nif, direccion, ciudad, codigo postal
+Proveedores ->  
+  (si es privada/particular) nif, direccion, ciudad, codigo postal
+  (si es publica/empresa) no se encripta nada
+
 Reservas -> id cliente, vehiculo
