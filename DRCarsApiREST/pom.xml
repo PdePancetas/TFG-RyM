@@ -8,11 +8,11 @@
 		<version>3.4.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.RDCars</groupId>
-	<artifactId>RDCarsApiREST</artifactId>
+	<groupId>com.DRCars</groupId>
+	<artifactId>DRCarsApiREST</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>RDCarsApiREST</name>
-	<description>ApiREST para la gestion de datos de RDCars</description>
+	<name>DRCarsApiREST</name>
+	<description>ApiREST para la gestion de datos de DRCars</description>
 	<url/>
 	<licenses>
 		<license/>
