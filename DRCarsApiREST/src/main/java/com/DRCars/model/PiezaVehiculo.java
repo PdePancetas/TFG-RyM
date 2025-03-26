@@ -12,7 +12,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 
-//PiezaVehiculo Entity (Composite Key)
 @Entity
 @Table(name = "PIEZAS_VEHICULOS")
 public class PiezaVehiculo implements Serializable {

@@ -6,7 +6,6 @@ import java.util.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
-//Composite Key for PiezaVehiculo
 @Embeddable
 public class PiezaVehiculoId implements Serializable {
 

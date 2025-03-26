@@ -14,7 +14,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-//Proveedor Entity
 @Entity
 @Table(name = "PROVEEDORES")
 public class Proveedor implements Serializable {
