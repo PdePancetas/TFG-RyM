@@ -1,0 +1,16 @@
+Campos trabajadores clientes todo hasheado al guardarlos y recuperarlos (salvo ids y fechaContrato trabajador)
+Campos usuarios hasheado usuario y contraseña
+Campos proveedores, si es particular, todo hasheado menos el id
+
+solucionar bugs de la pagina (todos)
+
+configurar endpoints: 
+1. enpoint inicio de sesión y registro de cuenta
+2. endpoint catalogo
+
+
+BBDD:
+Coches: combustible y transmisión
+Usuario: coches favoritos, ultimo acceso y fecha subcripcion
+
+
