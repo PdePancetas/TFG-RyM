@@ -5,12 +5,13 @@ Campos proveedores, si es particular, todo hasheado menos el id
 solucionar bugs de la pagina (todos)
 
 configurar endpoints: 
-1. enpoint inicio de sesión y registro de cuenta
+1. endpoint inicio de sesión y registro de cuenta
 2. endpoint catalogo
 
 
 BBDD:
-Coches: combustible y transmisión
-Usuario: coches favoritos, ultimo acceso y fecha subcripcion
-
+Coches: combustible y transmisión	-DONE
+Usuario: ultimo acceso y fecha suscripción	-DONE
+ventas: financiación (3,6,9,12 meses), seguro(1 o 2 años)	-DONE	
+nueva tabla: coches favoritos (N:M)	-DONE
 
