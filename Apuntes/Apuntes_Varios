@@ -1,0 +1,5 @@
+Cuando se inicie sesión, se pasa un json con la estructura: 
+{
+  "usuario": "usuario123",
+  "contraseña": "s0m3H4sh3dV4lu3"
+}
