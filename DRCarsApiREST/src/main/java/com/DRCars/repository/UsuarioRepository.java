@@ -3,6 +3,7 @@ package com.DRCars.repository;
 import com.DRCars.model.Usuario;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,5 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     // Custom query methods if needed
-    List<Usuario> findByUsuario(String usuario);
+    Optional<Usuario> findByUsuario(String usuario);
 }

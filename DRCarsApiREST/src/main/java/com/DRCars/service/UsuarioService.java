@@ -1,6 +1,5 @@
 package com.DRCars.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.DRCars.model.Usuario;
@@ -10,7 +9,9 @@ public interface UsuarioService {
 
 	Optional<Usuario> obtenerUsuarioPorId(Long id);
 
-	List<Usuario> obtenerUsuarioPorNombre(String usuario);
+	Optional<Usuario> obtenerUsuarioPorNombre(String usuario);
 
 	void eliminarUsuario(Long id);
+	
+	boolean verificarContraseña(String hashIngresado, String hashGuardado);
 }

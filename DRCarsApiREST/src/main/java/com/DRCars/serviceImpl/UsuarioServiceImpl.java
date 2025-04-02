@@ -30,7 +30,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Usuario> obtenerUsuarioPorNombre(String usuario) {
+	public Optional<Usuario> obtenerUsuarioPorNombre(String usuario) {
 		return usuarioRepository.findByUsuario(usuario);
 	}
 
@@ -38,5 +38,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Transactional
 	public void eliminarUsuario(Long id) {
 		usuarioRepository.deleteById(id);
+	}
+
+	@Override
+	public boolean verificarContraseña(String hashIngresado, String hashGuardado) {
+	    return hashIngresado.equals(hashGuardado);
 	}
 }

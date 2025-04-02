@@ -53,4 +53,9 @@ public class VehiculoServiceImpl implements VehiculoService {
 	public void eliminarVehiculo(Long id) {
 		vehiculoRepository.deleteById(id);
 	}
+
+	@Override
+	public List<Vehiculo> obtenerVehiculos() {
+		return vehiculoRepository.findAll();
+	}
 }

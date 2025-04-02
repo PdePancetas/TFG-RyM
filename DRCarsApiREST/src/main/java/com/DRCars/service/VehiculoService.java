@@ -7,6 +7,9 @@ import com.DRCars.model.Vehiculo;
 import com.DRCars.model.Vehiculo.Estado;
 
 public interface VehiculoService {
+	
+	List<Vehiculo> obtenerVehiculos();
+	
 	Vehiculo crearVehiculo(Vehiculo vehiculo);
 
 	Optional<Vehiculo> obtenerVehiculoPorId(Long id);
