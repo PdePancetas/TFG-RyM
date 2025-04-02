@@ -1,6 +1,6 @@
 Campos trabajadores clientes todo hasheado al guardarlos y recuperarlos (salvo ids y fechaContrato trabajador)
 Campos usuarios hasheado usuario y contraseña
-Campos proveedores, si es particular, todo hasheado menos el id
+Campos proveedores, si es particular, todo hasheado menos el id y el tipo de proveedor
 
 solucionar bugs de la pagina (todos)
 
