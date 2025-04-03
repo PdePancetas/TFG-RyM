@@ -1,6 +1,7 @@
 package com.DRCars.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -34,6 +35,12 @@ public class Usuario implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo_usuario", nullable = false)
 	private TipoUsuario tipoUsuario;
+
+	@Column(name = "ultimo_acceso", nullable = false)
+	private String ultimo_acceso;
+	
+	@Column(name = "registro_cuenta", nullable = false)
+	private String registro_cuenta;
 
 	public enum TipoUsuario {
 		ADMIN, USER
@@ -73,6 +80,14 @@ public class Usuario implements Serializable {
 
 	public void setTipoUsuario(TipoUsuario tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
+	}
+
+	public String getUltimo_acceso() {
+		return ultimo_acceso;
+	}
+
+	public void setUltimo_acceso(String ultimo_acceso) {
+		this.ultimo_acceso = ultimo_acceso;
 	}
 
 	@Override
