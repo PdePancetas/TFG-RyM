@@ -3,3 +3,5 @@ Añadir id de usuario a trabajadores y a clientes
 Crear tabla usuarios
 Usuarios será relacion 1:1 con trabajadores y clientes
 Quitar id_pieza_vehiculo en tabla piezas_vehiculos y hacer clave compuesta entre id_pieza e id_vehiculo
+
+Añadir a campo estado el valor REPARACION en tabla vehiculo

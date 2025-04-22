@@ -1,0 +1,6 @@
+Para el 13/05/25
+
+Tener el caso de uso básico implementado y funcional
+Tener desarrollado el front de la app escritorio 
+Tener conectada la API
+Manejo de imagenes

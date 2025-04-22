@@ -89,6 +89,14 @@ public class Usuario implements Serializable {
 	public void setUltimo_acceso(String ultimo_acceso) {
 		this.ultimo_acceso = ultimo_acceso;
 	}
+	
+	public String getRegistro_cuenta() {
+		return registro_cuenta;
+	}
+
+	public void setRegistro_cuenta(String registro_cuenta) {
+		this.registro_cuenta = registro_cuenta;
+	}
 
 	public String getRegistro_cuenta() {
 		return registro_cuenta;
