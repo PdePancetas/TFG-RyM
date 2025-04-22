@@ -1,6 +1,7 @@
 package com.DRCars.controller;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,8 @@ public class CatalogoController {
     @GetMapping
     public ResponseEntity<List<Vehiculo>> obtenerCatalogo() {
         List<Vehiculo> vehiculos = vehiculoService.obtenerVehiculos();
+        
+        ExecutorService a;
         return ResponseEntity.ok(vehiculos);
     }
 }

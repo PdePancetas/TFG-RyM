@@ -8,7 +8,7 @@ public class DrCarsApiRestApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DrCarsApiRestApplication.class, args);
-		
+		System.out.println("Servidor activo..");
 	}
 
 }

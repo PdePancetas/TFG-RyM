@@ -90,6 +90,14 @@ public class Usuario implements Serializable {
 		this.ultimo_acceso = ultimo_acceso;
 	}
 
+	public String getRegistro_cuenta() {
+		return registro_cuenta;
+	}
+
+	public void setRegistro_cuenta(String registro_cuenta) {
+		this.registro_cuenta = registro_cuenta;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(idUsuario);
