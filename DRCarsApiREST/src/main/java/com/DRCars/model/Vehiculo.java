@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -60,6 +62,7 @@ public class Vehiculo implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "id_proveedor")
+	@JsonIgnore
 	private Proveedor proveedor;
 
 	@OneToMany(mappedBy = "vehiculo")
