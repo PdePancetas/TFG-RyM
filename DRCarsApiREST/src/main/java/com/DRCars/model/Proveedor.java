@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -53,6 +55,7 @@ public class Proveedor implements Serializable {
 	private String codigoPostal;
 
 	@OneToMany(mappedBy = "proveedor")
+	@JsonManagedReference
 	private Set<Vehiculo> vehiculos;
 
 	// Enum for Proveedor type
