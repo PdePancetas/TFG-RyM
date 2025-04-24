@@ -55,7 +55,6 @@ public class Proveedor implements Serializable {
 	private String codigoPostal;
 
 	@OneToMany(mappedBy = "proveedor")
-	@JsonManagedReference
 	private Set<Vehiculo> vehiculos;
 
 	// Enum for Proveedor type

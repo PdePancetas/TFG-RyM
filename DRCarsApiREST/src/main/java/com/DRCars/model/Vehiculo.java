@@ -63,7 +63,6 @@ public class Vehiculo implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "id_proveedor")
-	@JsonBackReference
 	private Proveedor proveedor;
 
 	@OneToMany(mappedBy = "vehiculo")

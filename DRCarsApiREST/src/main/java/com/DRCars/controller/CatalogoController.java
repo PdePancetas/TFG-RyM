@@ -26,7 +26,7 @@ public class CatalogoController {
     @GetMapping
     public ResponseEntity<List<VehiculoDTO>> obtenerCatalogo() {
         List<Vehiculo> vehiculos = vehiculoService.obtenerVehiculos();
-        ExecutorService a;
-        return ResponseEntity.ok(vehiculos.stream().map(VehiculoMapper.INSTANCE::toDTO).toList());
+        List<VehiculoDTO> vehiculosDTO = vehiculos.stream().map(VehiculoMapper.INSTANCE::toDTO).collect(Collectors.toList());
+        return ResponseEntity.ok(vehiculosDTO);
     }
 }
