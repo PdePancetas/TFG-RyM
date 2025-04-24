@@ -1,7 +1,6 @@
 package com.DRCars.model;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
