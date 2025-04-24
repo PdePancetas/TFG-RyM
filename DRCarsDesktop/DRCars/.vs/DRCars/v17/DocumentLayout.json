@@ -1,0 +1,190 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|d:\\estudios\\tfg-rym\\drcarsdesktop\\drcars\\drcars\\usercontrols\\inventorycontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|solutionrelative:drcars\\usercontrols\\inventorycontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|d:\\estudios\\tfg-rym\\drcarsdesktop\\drcars\\drcars\\usercontrols\\statisticscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|solutionrelative:drcars\\usercontrols\\statisticscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|d:\\estudios\\tfg-rym\\drcarsdesktop\\drcars\\drcars\\usercontrols\\dashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|solutionrelative:drcars\\usercontrols\\dashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\drcars\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|solutionrelative:drcars\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|d:\\estudios\\tfg-rym\\drcarsdesktop\\drcars\\drcars\\usercontrols\\addvehiclecontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|solutionrelative:drcars\\usercontrols\\addvehiclecontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|d:\\estudios\\tfg-rym\\drcarsdesktop\\drcars\\drcars\\controls\\transparentpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|solutionrelative:drcars\\controls\\transparentpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|d:\\estudios\\tfg-rym\\drcarsdesktop\\drcars\\drcars\\controls\\bufferedpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|solutionrelative:drcars\\controls\\bufferedpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|d:\\estudios\\tfg-rym\\drcarsdesktop\\drcars\\drcars\\controls\\roundedbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|solutionrelative:drcars\\controls\\roundedbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|d:\\estudios\\tfg-rym\\drcarsdesktop\\drcars\\drcars\\controls\\roundedcombobox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|solutionrelative:drcars\\controls\\roundedcombobox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|d:\\estudios\\tfg-rym\\drcarsdesktop\\drcars\\drcars\\controls\\roundedtextbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{859D922C-EC8D-4E25-A66E-AC7DF617CD66}|DRCars\\DRCars.csproj|solutionrelative:drcars\\controls\\roundedtextbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "RoundedTextBox.cs",
+              "DocumentMoniker": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\Controls\\RoundedTextBox.cs",
+              "RelativeDocumentMoniker": "DRCars\\Controls\\RoundedTextBox.cs",
+              "ToolTip": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\Controls\\RoundedTextBox.cs",
+              "RelativeToolTip": "DRCars\\Controls\\RoundedTextBox.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAQwIkBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-24T18:18:11.203Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "RoundedComboBox.cs",
+              "DocumentMoniker": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\Controls\\RoundedComboBox.cs",
+              "RelativeDocumentMoniker": "DRCars\\Controls\\RoundedComboBox.cs",
+              "ToolTip": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\Controls\\RoundedComboBox.cs",
+              "RelativeToolTip": "DRCars\\Controls\\RoundedComboBox.cs",
+              "ViewState": "AgIAAH0AAAAAAAAAAAA9wKgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-24T18:17:43.122Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RoundedButton.cs",
+              "DocumentMoniker": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\Controls\\RoundedButton.cs",
+              "RelativeDocumentMoniker": "DRCars\\Controls\\RoundedButton.cs",
+              "ToolTip": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\Controls\\RoundedButton.cs",
+              "RelativeToolTip": "DRCars\\Controls\\RoundedButton.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-24T18:17:17.004Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BufferedPanel.cs",
+              "DocumentMoniker": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\Controls\\BufferedPanel.cs",
+              "RelativeDocumentMoniker": "DRCars\\Controls\\BufferedPanel.cs",
+              "ToolTip": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\Controls\\BufferedPanel.cs",
+              "RelativeToolTip": "DRCars\\Controls\\BufferedPanel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-24T18:16:56.726Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TransparentPanel.cs",
+              "DocumentMoniker": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\Controls\\TransparentPanel.cs",
+              "RelativeDocumentMoniker": "DRCars\\Controls\\TransparentPanel.cs",
+              "ToolTip": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\Controls\\TransparentPanel.cs",
+              "RelativeToolTip": "DRCars\\Controls\\TransparentPanel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-24T17:57:41.346Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "StatisticsControl.cs",
+              "DocumentMoniker": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\UserControls\\StatisticsControl.cs",
+              "RelativeDocumentMoniker": "DRCars\\UserControls\\StatisticsControl.cs",
+              "ToolTip": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\UserControls\\StatisticsControl.cs",
+              "RelativeToolTip": "DRCars\\UserControls\\StatisticsControl.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGoBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-24T17:54:10.559Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "InventoryControl.cs",
+              "DocumentMoniker": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\UserControls\\InventoryControl.cs",
+              "RelativeDocumentMoniker": "DRCars\\UserControls\\InventoryControl.cs",
+              "ToolTip": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\UserControls\\InventoryControl.cs",
+              "RelativeToolTip": "DRCars\\UserControls\\InventoryControl.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAIwJkBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-24T17:53:44.557Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Dashboard.cs",
+              "DocumentMoniker": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\UserControls\\Dashboard.cs",
+              "RelativeDocumentMoniker": "DRCars\\UserControls\\Dashboard.cs",
+              "ToolTip": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\UserControls\\Dashboard.cs",
+              "RelativeToolTip": "DRCars\\UserControls\\Dashboard.cs",
+              "ViewState": "AgIAAGkBAAAAAAAAAAAswI8BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-24T17:53:24.751Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AddVehicleControl.cs",
+              "DocumentMoniker": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\UserControls\\AddVehicleControl.cs",
+              "RelativeDocumentMoniker": "DRCars\\UserControls\\AddVehicleControl.cs",
+              "ToolTip": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\UserControls\\AddVehicleControl.cs",
+              "RelativeToolTip": "DRCars\\UserControls\\AddVehicleControl.cs",
+              "ViewState": "AgIAAP4AAAAAAAAAAAAswCQBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-24T17:52:31.735Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\Form1.cs",
+              "RelativeDocumentMoniker": "DRCars\\Form1.cs",
+              "ToolTip": "D:\\Estudios\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\Form1.cs",
+              "RelativeToolTip": "DRCars\\Form1.cs",
+              "ViewState": "AgIAAPEAAAAAAAAAAAAswBcBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-24T17:23:27.14Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
