@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{859D922C-EC8D-4E25-A66E-AC7DF617CD66}</ProjectGuid>
+    <ProjectGuid>{5B7F1B89-AB81-494B-90C6-20C3D0A8E904}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>DRCars</RootNamespace>
     <AssemblyName>DRCars</AssemblyName>
@@ -12,6 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,8 +35,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,22 +58,38 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\BufferedPanel.cs">
+    <Compile Include="Controls\DashboardControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\RequestCard.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\RoundedButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\RoundedComboBox.cs">
+    <Compile Include="Controls\RoundedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\RoundedTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\TransparentPanel.cs">
+    <Compile Include="Controls\SalesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UsersControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\VehicleCard.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\VehiclesControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -67,23 +97,29 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AppointmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VehicleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Models\Sale.cs" />
+    <Compile Include="Models\SaleRequest.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserControls\AddVehicleControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\Dashboard.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\InventoryControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\StatisticsControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="Utils\ApiClient.cs" />
+    <Compile Include="Utils\AppConfig.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -93,6 +129,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
