@@ -1,0 +1,12 @@
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\obj\Debug\DRCars.csproj.AssemblyReference.cache
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\obj\Debug\DRCars.Properties.Resources.resources
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\obj\Debug\DRCars.csproj.GenerateResource.cache
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\obj\Debug\DRCars.csproj.CoreCompileInputs.cache
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\DRCars.exe.config
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\DRCars.exe
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\DRCars.pdb
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\Newtonsoft.Json.dll
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\Newtonsoft.Json.xml
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\obj\Debug\DRCars.csproj.Up2Date
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\obj\Debug\DRCars.exe
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\obj\Debug\DRCars.pdb
