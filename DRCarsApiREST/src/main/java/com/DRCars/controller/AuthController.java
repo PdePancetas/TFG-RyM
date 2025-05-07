@@ -23,12 +23,13 @@ public class AuthController {
         return ResponseEntity.ok("Usuario registrado con éxito");
     }
 
-    
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest request) {
         Optional<Usuario> usuario = usuarioService.obtenerUsuarioPorNombre(request.getUsuario());
         if (usuario.isPresent() && usuarioService.verificarContraseña(request.getContraseña(), usuario.get().getContraseña())) {
             usuario.get().setUltimo_acceso(request.getUltimo_acceso());
+            usuarioService.crearUsuario(usuario.get());
         	return ResponseEntity.ok("Autenticación exitosa");
         }
         return ResponseEntity.status(401).body("Credenciales incorrectas");
