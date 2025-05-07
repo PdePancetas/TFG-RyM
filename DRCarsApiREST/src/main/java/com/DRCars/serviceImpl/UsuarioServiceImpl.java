@@ -43,4 +43,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public boolean verificarContraseña(String hashIngresado, String hashGuardado) {
 	    return hashIngresado.equals(hashGuardado);
 	}
+
+	@Override
+	public void actualizarUltimoAcceso(Long id, String ultimo_acceso) {
+		usuarioRepository.actualizarUltimoAcceso(id, ultimo_acceso);
+	}
 }

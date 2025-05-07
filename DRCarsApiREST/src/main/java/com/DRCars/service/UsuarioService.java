@@ -14,4 +14,6 @@ public interface UsuarioService {
 	void eliminarUsuario(Long id);
 	
 	boolean verificarContraseña(String hashIngresado, String hashGuardado);
+	
+	void actualizarUltimoAcceso(Long id, String nuevoEmail);
 }

@@ -29,7 +29,7 @@ public class AuthController {
         Optional<Usuario> usuario = usuarioService.obtenerUsuarioPorNombre(request.getUsuario());
         if (usuario.isPresent() && usuarioService.verificarContraseña(request.getContraseña(), usuario.get().getContraseña())) {
             usuario.get().setUltimo_acceso(request.getUltimo_acceso());
-            usuarioService.crearUsuario(usuario.get());
+            usuarioService.actualizarUltimoAcceso(usuario.get().getIdUsuario(), usuario.get().getUltimo_acceso());
         	return ResponseEntity.ok("Autenticación exitosa");
         }
         return ResponseEntity.status(401).body("Credenciales incorrectas");
