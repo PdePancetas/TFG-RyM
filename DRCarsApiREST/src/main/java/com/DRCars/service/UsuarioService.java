@@ -15,5 +15,5 @@ public interface UsuarioService {
 	
 	boolean verificarContraseña(String hashIngresado, String hashGuardado);
 	
-	void actualizarUltimoAcceso(Long id, String nuevoEmail);
+	void actualizarUltimoAcceso(String id, String nuevoEmail);
 }
