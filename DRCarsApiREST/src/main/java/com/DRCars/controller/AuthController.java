@@ -8,6 +8,7 @@ import com.DRCars.dto.LoginRequest;
 import com.DRCars.model.Usuario;
 import com.DRCars.serviceImpl.UsuarioServiceImpl;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
@@ -29,7 +30,7 @@ public class AuthController {
         Optional<Usuario> usuario = usuarioService.obtenerUsuarioPorNombre(request.getUsuario());
         if (usuario.isPresent() && usuarioService.verificarContraseña(request.getContraseña(), usuario.get().getContraseña())) {
             usuario.get().setUltimo_acceso(request.getUltimo_acceso());
-            usuarioService.actualizarUltimoAcceso(usuario.get().getIdUsuario().toString(), usuario.get().getUltimo_acceso());
+            usuarioService.actualizarUltimoAcceso(usuario.get().getIdUsuario().toString(), LocalDateTime.parse(usuario.get().getUltimo_acceso()));
         	return ResponseEntity.ok("Autenticación exitosa");
         }
         return ResponseEntity.status(401).body("Credenciales incorrectas");

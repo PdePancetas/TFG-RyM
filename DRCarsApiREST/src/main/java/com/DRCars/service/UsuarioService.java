@@ -1,5 +1,6 @@
 package com.DRCars.service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import com.DRCars.model.Usuario;
@@ -15,5 +16,5 @@ public interface UsuarioService {
 	
 	boolean verificarContraseña(String hashIngresado, String hashGuardado);
 	
-	void actualizarUltimoAcceso(String id, String nuevoEmail);
+	void actualizarUltimoAcceso(String id, LocalDateTime ultimoAcceso);
 }

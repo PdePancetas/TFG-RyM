@@ -1,5 +1,6 @@
 package com.DRCars.serviceImpl;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public void actualizarUltimoAcceso(String id, String ultimo_acceso) {
+	public void actualizarUltimoAcceso(String id, LocalDateTime ultimo_acceso) {
 		usuarioRepository.actualizarUltimoAcceso(id, ultimo_acceso);
 	}
 }
