@@ -45,7 +45,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public void actualizarUltimoAcceso(Long id, String ultimo_acceso) {
+	public void actualizarUltimoAcceso(String id, String ultimo_acceso) {
 		usuarioRepository.actualizarUltimoAcceso(id, ultimo_acceso);
 	}
 }

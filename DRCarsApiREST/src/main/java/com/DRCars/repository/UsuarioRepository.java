@@ -20,6 +20,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Modifying
     @Transactional
     @Query("UPDATE usuarios u SET u.ultimo_acceso = :ultimo_acceso WHERE u.id = :id")
-    void actualizarUltimoAcceso(Long id, String ultimo_acceso);
+    void actualizarUltimoAcceso(String id, String ultimo_acceso);
     
 }
