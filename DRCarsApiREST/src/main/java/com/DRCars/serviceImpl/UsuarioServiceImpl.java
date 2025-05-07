@@ -45,8 +45,4 @@ public class UsuarioServiceImpl implements UsuarioService {
 	    return hashIngresado.equals(hashGuardado);
 	}
 
-	@Override
-	public void actualizarUltimoAcceso(String id, LocalDateTime ultimo_acceso) {
-		usuarioRepository.actualizarUltimoAcceso(id, ultimo_acceso);
-	}
 }
