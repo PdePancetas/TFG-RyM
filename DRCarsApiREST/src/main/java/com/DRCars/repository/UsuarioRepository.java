@@ -20,7 +20,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE usuarios u SET u.ultimo_acceso = :ultimo_acceso WHERE u.id = :id")
+    @Query("UPDATE Usuario u SET u.ultimo_acceso = :ultimo_acceso WHERE u.id = :id")
     void actualizarUltimoAcceso(String id, LocalDateTime ultimo_acceso);
     
 }
