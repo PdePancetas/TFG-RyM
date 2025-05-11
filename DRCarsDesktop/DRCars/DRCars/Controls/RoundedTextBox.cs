@@ -8,14 +8,16 @@ namespace DRCars.Controls
 {
     public class RoundedTextBox : UserControl
     {
-        private Color borderColor = Color.Silver;
-        private int borderSize = 1;
-        private int borderRadius = 10;
-        private Color placeholderColor = Color.DarkGray;
-        private string placeholderText = "";
-        private bool isPlaceholderActive = false;
-        private bool isPasswordChar = false;
         private TextBox textBox;
+        private Color borderColor = Color.FromArgb(206, 212, 218);
+        private Color borderFocusColor = Color.FromArgb(0, 160, 157);
+        private int borderSize = 1;
+        private int borderRadius = 4;
+        private bool underlinedStyle = false;
+        private bool passwordChar = false;
+        private bool isFocused = false;
+        private string placeholderText = "";
+        private Color placeholderColor = Color.DarkGray;
 
         public event EventHandler TextChanged;
 
@@ -27,6 +29,12 @@ namespace DRCars.Controls
                 borderColor = value;
                 this.Invalidate();
             }
+        }
+
+        public Color BorderFocusColor
+        {
+            get { return borderFocusColor; }
+            set { borderFocusColor = value; }
         }
 
         public int BorderSize
@@ -52,15 +60,30 @@ namespace DRCars.Controls
             }
         }
 
-        public Color PlaceholderColor
+        public bool UnderlinedStyle
         {
-            get { return placeholderColor; }
+            get { return underlinedStyle; }
             set
             {
-                placeholderColor = value;
-                if (isPlaceholderActive)
-                    textBox.ForeColor = value;
+                underlinedStyle = value;
+                this.Invalidate();
             }
+        }
+
+        public bool PasswordChar
+        {
+            get { return passwordChar; }
+            set
+            {
+                passwordChar = value;
+                textBox.UseSystemPasswordChar = value;
+            }
+        }
+
+        public string Texts
+        {
+            get { return textBox.Text; }
+            set { textBox.Text = value; }
         }
 
         public string PlaceholderText
@@ -74,92 +97,65 @@ namespace DRCars.Controls
             }
         }
 
-        public bool PasswordChar
+        public Color PlaceholderColor
         {
-            get { return isPasswordChar; }
+            get { return placeholderColor; }
             set
             {
-                isPasswordChar = value;
-                if (!isPlaceholderActive)
-                    textBox.UseSystemPasswordChar = value;
+                placeholderColor = value;
+                if (isPlaceholder)
+                    textBox.ForeColor = value;
             }
         }
 
-        public string Texts
-        {
-            get
-            {
-                if (isPlaceholderActive)
-                    return "";
-                else
-                    return textBox.Text;
-            }
-            set
-            {
-                textBox.Text = value;
-                SetPlaceholder();
-            }
-        }
+        private bool isPlaceholder = false;
 
         public RoundedTextBox()
         {
-            this.Size = new Size(250, 40);
-            this.BackColor = Color.White;
-            this.Padding = new Padding(10, 7, 10, 7);
-            this.Margin = new Padding(4);
-
             textBox = new TextBox();
-            textBox.BorderStyle = BorderStyle.None;
+            this.SuspendLayout();
+
+            // TextBox
             textBox.BackColor = this.BackColor;
-            textBox.Font = new Font("Segoe UI", 9.5F);
+            textBox.BorderStyle = BorderStyle.None;
             textBox.Dock = DockStyle.Fill;
+            textBox.Location = new Point(10, 7);
+            textBox.Name = "textBox";
+            textBox.Size = new Size(this.Width - 20, this.Height - 14);
+            textBox.Font = new Font("Segoe UI", 10F);
             textBox.Enter += TextBox_Enter;
             textBox.Leave += TextBox_Leave;
+            textBox.KeyPress += TextBox_KeyPress;
             textBox.TextChanged += TextBox_TextChanged;
 
+            // Control
             this.Controls.Add(textBox);
-            SetPlaceholder();
-        }
-
-        private void TextBox_TextChanged(object sender, EventArgs e)
-        {
-            if (TextChanged != null)
-                TextChanged.Invoke(sender, e);
-        }
-
-        private void TextBox_Enter(object sender, EventArgs e)
-        {
-            if (isPlaceholderActive)
-            {
-                isPlaceholderActive = false;
-                textBox.Text = "";
-                textBox.ForeColor = Color.Black;
-                if (isPasswordChar)
-                    textBox.UseSystemPasswordChar = true;
-            }
-        }
-
-        private void TextBox_Leave(object sender, EventArgs e)
-        {
-            SetPlaceholder();
+            this.Size = new Size(250, 40);
+            this.ForeColor = Color.FromArgb(51, 51, 51);
+            this.BackColor = Color.White;
+            this.Padding = new Padding(10, 7, 10, 7);
+            this.Font = new Font("Segoe UI", 10F);
+            this.ResumeLayout(false);
+            this.PerformLayout();
         }
 
         private void SetPlaceholder()
         {
             if (string.IsNullOrWhiteSpace(textBox.Text) && placeholderText != "")
             {
-                isPlaceholderActive = true;
+                isPlaceholder = true;
                 textBox.Text = placeholderText;
                 textBox.ForeColor = placeholderColor;
-                if (isPasswordChar)
-                    textBox.UseSystemPasswordChar = false;
             }
-            else
+        }
+
+        private void RemovePlaceholder()
+        {
+            if (isPlaceholder && placeholderText != "")
             {
-                isPlaceholderActive = false;
-                textBox.ForeColor = Color.Black;
-                if (isPasswordChar)
-                    textBox.UseSystemPasswordChar = true;
+                isPlaceholder = false;
+                textBox.Text = "";
+                textBox.ForeColor = this.ForeColor;
             }
         }
 
@@ -170,26 +166,63 @@ namespace DRCars.Controls
 
             if (borderRadius > 1) // Rounded TextBox
             {
-                // Draw border
-                using (GraphicsPath path = GetFigurePath(this.ClientRectangle, borderRadius))
+                // Fields
+                var rectBorderSmooth = this.ClientRectangle;
+                var rectBorder = Rectangle.Inflate(rectBorderSmooth, -borderSize, -borderSize);
+                int smoothSize = borderSize > 0 ? borderSize : 1;
+
+                using (GraphicsPath pathBorderSmooth = GetFigurePath(rectBorderSmooth, borderRadius))
+                using (GraphicsPath pathBorder = GetFigurePath(rectBorder, borderRadius - borderSize))
+                using (Pen penBorderSmooth = new Pen(this.Parent.BackColor, smoothSize))
                 using (Pen penBorder = new Pen(borderColor, borderSize))
-                using (SolidBrush brushBg = new SolidBrush(this.BackColor))
                 {
-                    this.Region = new Region(path);
+                    // Drawing
+                    this.Region = new Region(pathBorderSmooth); // Set the rounded region of UserControl
+                    if (borderRadius > 15) SetTextBoxRoundedRegion(); // Set the rounded region of TextBox
                     g.SmoothingMode = SmoothingMode.AntiAlias;
-                    g.FillPath(brushBg, path); // Fill background
-                    g.DrawPath(penBorder, path); // Draw border
+                    penBorder.Alignment = PenAlignment.Center;
+
+                    if (isFocused) penBorder.Color = borderFocusColor;
+
+                    if (underlinedStyle) // Line Style
+                    {
+                        // Draw border smoothing
+                        g.DrawPath(penBorderSmooth, pathBorderSmooth);
+                        // Draw border
+                        g.SmoothingMode = SmoothingMode.None;
+                        g.DrawLine(penBorder, 0, this.Height - 1, this.Width, this.Height - 1);
+                    }
+                    else // Normal Style
+                    {
+                        // Draw border smoothing
+                        g.DrawPath(penBorderSmooth, pathBorderSmooth);
+                        // Draw border
+                        g.DrawPath(penBorder, pathBorder);
+                    }
                 }
             }
-            else // Normal TextBox
+            else // Square/Normal TextBox
             {
                 // Draw border
                 using (Pen penBorder = new Pen(borderColor, borderSize))
                 {
                     this.Region = new Region(this.ClientRectangle);
-                    g.DrawRectangle(penBorder, 0, 0, this.Width - 1, this.Height - 1);
+                    penBorder.Alignment = PenAlignment.Inset;
+
+                    if (isFocused) penBorder.Color = borderFocusColor;
+
+                    if (underlinedStyle) // Line Style
+                        g.DrawLine(penBorder, 0, this.Height - 1, this.Width, this.Height - 1);
+                    else // Normal Style
+                        g.DrawRectangle(penBorder, 0, 0, this.Width - 0.5F, this.Height - 0.5F);
                 }
             }
+        }
+
+        private void SetTextBoxRoundedRegion()
+        {
+            GraphicsPath pathTxt = GetFigurePath(textBox.ClientRectangle, borderRadius - borderSize);
+            textBox.Region = new Region(pathTxt);
         }
 
         private GraphicsPath GetFigurePath(Rectangle rect, int radius)
@@ -205,6 +238,31 @@ namespace DRCars.Controls
             path.CloseFigure();
 
             return path;
+        }
+
+        private void TextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (TextChanged != null)
+                TextChanged.Invoke(sender, e);
+        }
+
+        private void TextBox_Enter(object sender, EventArgs e)
+        {
+            isFocused = true;
+            this.Invalidate();
+            RemovePlaceholder();
+        }
+
+        private void TextBox_Leave(object sender, EventArgs e)
+        {
+            isFocused = false;
+            this.Invalidate();
+            SetPlaceholder();
+        }
+
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            this.OnKeyPress(e);
         }
     }
 }

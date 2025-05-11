@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 using DRCars.Models;
 using DRCars.Utils;
 
@@ -13,14 +12,26 @@ namespace DRCars.Controls
         private RoundedPanel statsPanel;
         private RoundedPanel salesChartPanel;
         private RoundedPanel vehiclesChartPanel;
-        private Chart salesChart;
-        private Chart vehiclesChart;
+        private RoundedPanel recentSalesPanel;
+        private RoundedPanel pendingRequestsPanel;
+        private Label salesChartLabel;
+        private Label vehiclesChartLabel;
         private Label totalVehiclesLabel;
         private Label totalSalesLabel;
         private Label pendingRequestsLabel;
         private Label averagePriceLabel;
+        private Label recentSalesTitle;
+        private Label pendingRequestsTitle;
+        private FlowLayoutPanel recentSalesFlow;
+        private FlowLayoutPanel pendingRequestsFlow;
 
         private ApiClient apiClient;
+
+        // Colores de Odoo
+        private Color primaryColor = Color.FromArgb(0, 160, 157); // Verde Odoo
+        private Color secondaryColor = Color.FromArgb(242, 242, 242); // Gris claro
+        private Color textColor = Color.FromArgb(51, 51, 51); // Texto oscuro
+        private Color accentColor = Color.FromArgb(108, 117, 125); // Gris para detalles
 
         public DashboardControl()
         {
@@ -34,16 +45,22 @@ namespace DRCars.Controls
             statsPanel = new RoundedPanel();
             salesChartPanel = new RoundedPanel();
             vehiclesChartPanel = new RoundedPanel();
-            salesChart = new Chart();
-            vehiclesChart = new Chart();
+            recentSalesPanel = new RoundedPanel();
+            pendingRequestsPanel = new RoundedPanel();
+            salesChartLabel = new Label();
+            vehiclesChartLabel = new Label();
             totalVehiclesLabel = new Label();
             totalSalesLabel = new Label();
             pendingRequestsLabel = new Label();
             averagePriceLabel = new Label();
+            recentSalesTitle = new Label();
+            pendingRequestsTitle = new Label();
+            recentSalesFlow = new FlowLayoutPanel();
+            pendingRequestsFlow = new FlowLayoutPanel();
 
             // Stats Panel
-            statsPanel.BorderRadius = 15;
-            statsPanel.BorderColor = Color.FromArgb(220, 220, 220);
+            statsPanel.BorderRadius = 8;
+            statsPanel.BorderColor = Color.FromArgb(230, 230, 230);
             statsPanel.BorderSize = 1;
             statsPanel.Dock = DockStyle.Top;
             statsPanel.Height = 100;
@@ -83,82 +100,95 @@ namespace DRCars.Controls
             averagePriceLabel.Text = "Precio Medio\n0 €";
             averagePriceLabel.TextAlign = ContentAlignment.MiddleCenter;
 
-            // Sales Chart Panel
-            salesChartPanel.BorderRadius = 15;
-            salesChartPanel.BorderColor = Color.FromArgb(220, 220, 220);
+            // Charts Row
+            salesChartPanel.BorderRadius = 8;
+            salesChartPanel.BorderColor = Color.FromArgb(230, 230, 230);
             salesChartPanel.BorderSize = 1;
-            salesChartPanel.Size = new Size(450, 350);
+            salesChartPanel.Size = new Size(450, 300);
             salesChartPanel.Location = new Point(0, 120);
             salesChartPanel.BackColor = Color.White;
-            salesChartPanel.Padding = new Padding(10);
-            salesChartPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom;
+            salesChartPanel.Padding = new Padding(15);
+            salesChartPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
-            // Sales Chart
-            salesChart.Size = new Size(430, 330);
-            salesChart.Location = new Point(10, 10);
-            salesChart.BackColor = Color.White;
-            salesChart.BorderlineColor = Color.White;
-            salesChart.Titles.Add(new Title("Ventas Mensuales", Docking.Top, new Font("Segoe UI", 12F, FontStyle.Bold), Color.Black));
-
-            // Configure sales chart
-            ChartArea salesChartArea = new ChartArea("SalesChartArea");
-            salesChartArea.AxisX.Title = "Mes";
-            salesChartArea.AxisY.Title = "Cantidad";
-            salesChartArea.AxisX.MajorGrid.LineColor = Color.LightGray;
-            salesChartArea.AxisY.MajorGrid.LineColor = Color.LightGray;
-            salesChartArea.BackColor = Color.White;
-            salesChart.ChartAreas.Add(salesChartArea);
-
-            // Add series for sales chart
-            Series salesSeries = new Series("Ventas Cerradas");
-            salesSeries.ChartType = SeriesChartType.Column;
-            salesSeries.Color = Color.FromArgb(0, 120, 215);
-            salesChart.Series.Add(salesSeries);
-
-            Series requestsSeries = new Series("Ventas Solicitadas");
-            requestsSeries.ChartType = SeriesChartType.Column;
-            requestsSeries.Color = Color.FromArgb(255, 140, 0);
-            salesChart.Series.Add(requestsSeries);
-
-            // Add legend for sales chart
-            Legend salesLegend = new Legend("SalesLegend");
-            salesLegend.Docking = Docking.Bottom;
-            salesChart.Legends.Add(salesLegend);
+            // Sales Chart Label (placeholder for chart)
+            salesChartLabel.AutoSize = false;
+            salesChartLabel.Size = new Size(420, 270);
+            salesChartLabel.Location = new Point(15, 15);
+            salesChartLabel.Font = new Font("Segoe UI Semibold", 12F);
+            salesChartLabel.Text = "Ventas Mensuales\n\n(Gráfico no disponible - Se requiere System.Windows.Forms.DataVisualization)";
+            salesChartLabel.TextAlign = ContentAlignment.MiddleCenter;
+            salesChartLabel.BackColor = Color.FromArgb(245, 245, 245);
 
             // Vehicles Chart Panel
-            vehiclesChartPanel.BorderRadius = 15;
-            vehiclesChartPanel.BorderColor = Color.FromArgb(220, 220, 220);
+            vehiclesChartPanel.BorderRadius = 8;
+            vehiclesChartPanel.BorderColor = Color.FromArgb(230, 230, 230);
             vehiclesChartPanel.BorderSize = 1;
-            vehiclesChartPanel.Size = new Size(450, 350);
+            vehiclesChartPanel.Size = new Size(450, 300);
             vehiclesChartPanel.Location = new Point(470, 120);
             vehiclesChartPanel.BackColor = Color.White;
-            vehiclesChartPanel.Padding = new Padding(10);
-            vehiclesChartPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
+            vehiclesChartPanel.Padding = new Padding(15);
+            vehiclesChartPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
-            // Vehicles Chart
-            vehiclesChart.Size = new Size(430, 330);
-            vehiclesChart.Location = new Point(10, 10);
-            vehiclesChart.BackColor = Color.White;
-            vehiclesChart.BorderlineColor = Color.White;
-            vehiclesChart.Titles.Add(new Title("Entrada de Vehículos", Docking.Top, new Font("Segoe UI", 12F, FontStyle.Bold), Color.Black));
+            // Vehicles Chart Label (placeholder for chart)
+            vehiclesChartLabel.AutoSize = false;
+            vehiclesChartLabel.Size = new Size(420, 270);
+            vehiclesChartLabel.Location = new Point(15, 15);
+            vehiclesChartLabel.Font = new Font("Segoe UI Semibold", 12F);
+            vehiclesChartLabel.Text = "Entrada de Vehículos\n\n(Gráfico no disponible - Se requiere System.Windows.Forms.DataVisualization)";
+            vehiclesChartLabel.TextAlign = ContentAlignment.MiddleCenter;
+            vehiclesChartLabel.BackColor = Color.FromArgb(245, 245, 245);
 
-            // Configure vehicles chart
-            ChartArea vehiclesChartArea = new ChartArea("VehiclesChartArea");
-            vehiclesChartArea.AxisX.Title = "Mes";
-            vehiclesChartArea.AxisY.Title = "Cantidad";
-            vehiclesChartArea.AxisX.MajorGrid.LineColor = Color.LightGray;
-            vehiclesChartArea.AxisY.MajorGrid.LineColor = Color.LightGray;
-            vehiclesChartArea.BackColor = Color.White;
-            vehiclesChart.ChartAreas.Add(vehiclesChartArea);
+            // Recent Sales Panel
+            recentSalesPanel.BorderRadius = 8;
+            recentSalesPanel.BorderColor = Color.FromArgb(230, 230, 230);
+            recentSalesPanel.BorderSize = 1;
+            recentSalesPanel.Size = new Size(450, 300);
+            recentSalesPanel.Location = new Point(0, 440);
+            recentSalesPanel.BackColor = Color.White;
+            recentSalesPanel.Padding = new Padding(15);
+            recentSalesPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
 
-            // Add series for vehicles chart
-            Series vehiclesSeries = new Series("Vehículos");
-            vehiclesSeries.ChartType = SeriesChartType.Line;
-            vehiclesSeries.Color = Color.FromArgb(0, 150, 50);
-            vehiclesSeries.BorderWidth = 3;
-            vehiclesSeries.MarkerStyle = MarkerStyle.Circle;
-            vehiclesSeries.MarkerSize = 8;
-            vehiclesChart.Series.Add(vehiclesSeries);
+            // Recent Sales Title
+            recentSalesTitle.AutoSize = false;
+            recentSalesTitle.Size = new Size(420, 30);
+            recentSalesTitle.Location = new Point(15, 15);
+            recentSalesTitle.Font = new Font("Segoe UI Semibold", 12F);
+            recentSalesTitle.Text = "Ventas Recientes";
+            recentSalesTitle.TextAlign = ContentAlignment.MiddleLeft;
+            recentSalesTitle.ForeColor = textColor;
+
+            // Recent Sales Flow
+            recentSalesFlow.AutoScroll = true;
+            recentSalesFlow.Size = new Size(420, 240);
+            recentSalesFlow.Location = new Point(15, 45);
+            recentSalesFlow.BackColor = Color.White;
+            recentSalesFlow.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
+
+            // Pending Requests Panel
+            pendingRequestsPanel.BorderRadius = 8;
+            pendingRequestsPanel.BorderColor = Color.FromArgb(230, 230, 230);
+            pendingRequestsPanel.BorderSize = 1;
+            pendingRequestsPanel.Size = new Size(450, 300);
+            pendingRequestsPanel.Location = new Point(470, 440);
+            pendingRequestsPanel.BackColor = Color.White;
+            pendingRequestsPanel.Padding = new Padding(15);
+            pendingRequestsPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
+
+            // Pending Requests Title
+            pendingRequestsTitle.AutoSize = false;
+            pendingRequestsTitle.Size = new Size(420, 30);
+            pendingRequestsTitle.Location = new Point(15, 15);
+            pendingRequestsTitle.Font = new Font("Segoe UI Semibold", 12F);
+            pendingRequestsTitle.Text = "Solicitudes Pendientes";
+            pendingRequestsTitle.TextAlign = ContentAlignment.MiddleLeft;
+            pendingRequestsTitle.ForeColor = textColor;
+
+            // Pending Requests Flow
+            pendingRequestsFlow.AutoScroll = true;
+            pendingRequestsFlow.Size = new Size(420, 240);
+            pendingRequestsFlow.Location = new Point(15, 45);
+            pendingRequestsFlow.BackColor = Color.White;
+            pendingRequestsFlow.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
 
             // Add controls to panels
             statsPanel.Controls.Add(totalVehiclesLabel);
@@ -166,16 +196,24 @@ namespace DRCars.Controls
             statsPanel.Controls.Add(pendingRequestsLabel);
             statsPanel.Controls.Add(averagePriceLabel);
 
-            salesChartPanel.Controls.Add(salesChart);
-            vehiclesChartPanel.Controls.Add(vehiclesChart);
+            salesChartPanel.Controls.Add(salesChartLabel);
+            vehiclesChartPanel.Controls.Add(vehiclesChartLabel);
+
+            recentSalesPanel.Controls.Add(recentSalesTitle);
+            recentSalesPanel.Controls.Add(recentSalesFlow);
+
+            pendingRequestsPanel.Controls.Add(pendingRequestsTitle);
+            pendingRequestsPanel.Controls.Add(pendingRequestsFlow);
 
             // Add panels to control
             this.Controls.Add(statsPanel);
             this.Controls.Add(salesChartPanel);
             this.Controls.Add(vehiclesChartPanel);
+            this.Controls.Add(recentSalesPanel);
+            this.Controls.Add(pendingRequestsPanel);
 
             this.Dock = DockStyle.Fill;
-            this.BackColor = Color.FromArgb(245, 245, 245);
+            this.BackColor = secondaryColor;
             this.Padding = new Padding(20);
 
             // Handle resize event
@@ -189,10 +227,20 @@ namespace DRCars.Controls
 
             salesChartPanel.Width = halfWidth;
             vehiclesChartPanel.Width = halfWidth;
-            vehiclesChartPanel.Location = new Point(salesChartPanel.Width + 40, 120);
+            vehiclesChartPanel.Location = new Point(halfWidth + 40, 120);
 
-            salesChart.Width = salesChartPanel.Width - 20;
-            vehiclesChart.Width = vehiclesChartPanel.Width - 20;
+            salesChartLabel.Width = salesChartPanel.Width - 30;
+            vehiclesChartLabel.Width = vehiclesChartPanel.Width - 30;
+
+            recentSalesPanel.Width = halfWidth;
+            pendingRequestsPanel.Width = halfWidth;
+            pendingRequestsPanel.Location = new Point(halfWidth + 40, 440);
+
+            recentSalesTitle.Width = recentSalesPanel.Width - 30;
+            pendingRequestsTitle.Width = pendingRequestsPanel.Width - 30;
+
+            recentSalesFlow.Width = recentSalesPanel.Width - 30;
+            pendingRequestsFlow.Width = pendingRequestsPanel.Width - 30;
         }
 
         private async void LoadData()
@@ -228,9 +276,11 @@ namespace DRCars.Controls
                 }
                 pendingRequestsLabel.Text = $"Solicitudes Pendientes\n{pendingRequests}";
 
-                // Populate charts
-                PopulateSalesChart(sales, requests);
-                PopulateVehiclesChart(vehicles);
+                // Populate recent sales
+                PopulateRecentSales(sales);
+
+                // Populate pending requests
+                PopulatePendingRequests(requests);
             }
             catch (Exception ex)
             {
@@ -238,81 +288,192 @@ namespace DRCars.Controls
             }
         }
 
-        private void PopulateSalesChart(List<Sale> sales, List<SaleRequest> requests)
+        private void PopulateRecentSales(List<Sale> sales)
         {
-            // Clear existing data
-            salesChart.Series["Ventas Cerradas"].Points.Clear();
-            salesChart.Series["Ventas Solicitadas"].Points.Clear();
+            recentSalesFlow.Controls.Clear();
 
-            // Group sales by month
-            Dictionary<string, int> salesByMonth = new Dictionary<string, int>();
-            Dictionary<string, int> requestsByMonth = new Dictionary<string, int>();
+            // Sort sales by date (newest first)
+            sales.Sort((a, b) => b.SaleDate.CompareTo(a.SaleDate));
 
-            // Initialize months (last 6 months)
-            for (int i = 5; i >= 0; i--)
+            // Take only the 5 most recent sales
+            int count = Math.Min(sales.Count, 5);
+            for (int i = 0; i < count; i++)
             {
-                string month = DateTime.Now.AddMonths(-i).ToString("MMM");
-                salesByMonth[month] = 0;
-                requestsByMonth[month] = 0;
-            }
+                var sale = sales[i];
 
-            // Count sales by month
-            foreach (var sale in sales)
-            {
-                string month = sale.SaleDate.ToString("MMM");
-                if (salesByMonth.ContainsKey(month))
+                RoundedPanel salePanel = new RoundedPanel
                 {
-                    salesByMonth[month]++;
-                }
-            }
+                    Size = new Size(recentSalesFlow.Width - 20, 80),
+                    BorderRadius = 4,
+                    BorderColor = Color.FromArgb(230, 230, 230),
+                    BorderSize = 1,
+                    BackColor = Color.White,
+                    Margin = new Padding(0, 0, 0, 10)
+                };
 
-            // Count requests by month
-            foreach (var request in requests)
-            {
-                string month = request.CreatedAt.ToString("MMM");
-                if (requestsByMonth.ContainsKey(month))
+                Label customerLabel = new Label
                 {
-                    requestsByMonth[month]++;
-                }
+                    AutoSize = false,
+                    Size = new Size(200, 25),
+                    Location = new Point(15, 10),
+                    Font = new Font("Segoe UI Semibold", 10F),
+                    ForeColor = textColor,
+                    Text = sale.CustomerName,
+                    TextAlign = ContentAlignment.MiddleLeft
+                };
+
+                Label vehicleLabel = new Label
+                {
+                    AutoSize = false,
+                    Size = new Size(200, 20),
+                    Location = new Point(15, 35),
+                    Font = new Font("Segoe UI", 9F),
+                    ForeColor = accentColor,
+                    Text = sale.Vehicle != null ? $"{sale.Vehicle.Brand} {sale.Vehicle.Model}" : $"Vehículo ID: {sale.VehicleId}",
+                    TextAlign = ContentAlignment.MiddleLeft
+                };
+
+                Label priceLabel = new Label
+                {
+                    AutoSize = false,
+                    Size = new Size(100, 25),
+                    Location = new Point(salePanel.Width - 115, 10),
+                    Font = new Font("Segoe UI Semibold", 10F),
+                    ForeColor = primaryColor,
+                    Text = $"{sale.TotalPrice:N0} €",
+                    TextAlign = ContentAlignment.MiddleRight
+                };
+
+                Label dateLabel = new Label
+                {
+                    AutoSize = false,
+                    Size = new Size(100, 20),
+                    Location = new Point(salePanel.Width - 115, 35),
+                    Font = new Font("Segoe UI", 9F),
+                    ForeColor = accentColor,
+                    Text = sale.SaleDate.ToShortDateString(),
+                    TextAlign = ContentAlignment.MiddleRight
+                };
+
+                salePanel.Controls.Add(customerLabel);
+                salePanel.Controls.Add(vehicleLabel);
+                salePanel.Controls.Add(priceLabel);
+                salePanel.Controls.Add(dateLabel);
+
+                recentSalesFlow.Controls.Add(salePanel);
             }
 
-            // Add data to chart
-            foreach (var month in salesByMonth.Keys)
+            if (count == 0)
             {
-                salesChart.Series["Ventas Cerradas"].Points.AddXY(month, salesByMonth[month]);
-                salesChart.Series["Ventas Solicitadas"].Points.AddXY(month, requestsByMonth[month]);
+                Label noSalesLabel = new Label
+                {
+                    AutoSize = false,
+                    Size = new Size(recentSalesFlow.Width - 20, 80),
+                    Font = new Font("Segoe UI", 10F),
+                    ForeColor = accentColor,
+                    Text = "No hay ventas recientes",
+                    TextAlign = ContentAlignment.MiddleCenter
+                };
+
+                recentSalesFlow.Controls.Add(noSalesLabel);
             }
         }
 
-        private void PopulateVehiclesChart(List<Vehicle> vehicles)
+        private void PopulatePendingRequests(List<SaleRequest> requests)
         {
-            // Clear existing data
-            vehiclesChart.Series["Vehículos"].Points.Clear();
+            pendingRequestsFlow.Controls.Clear();
 
-            // Group vehicles by month
-            Dictionary<string, int> vehiclesByMonth = new Dictionary<string, int>();
+            // Filter pending requests
+            var pendingReqs = requests.FindAll(r => r.Status == RequestStatus.Pending || r.Status == RequestStatus.Scheduled);
 
-            // Initialize months (last 6 months)
-            for (int i = 5; i >= 0; i--)
+            // Sort by date (newest first)
+            pendingReqs.Sort((a, b) => b.RequestDate.CompareTo(a.RequestDate));
+
+            // Take only the 5 most recent requests
+            int count = Math.Min(pendingReqs.Count, 5);
+            for (int i = 0; i < count; i++)
             {
-                string month = DateTime.Now.AddMonths(-i).ToString("MMM");
-                vehiclesByMonth[month] = 0;
-            }
+                var request = pendingReqs[i];
 
-            // Count vehicles by month
-            foreach (var vehicle in vehicles)
-            {
-                string month = vehicle.CreatedAt.ToString("MMM");
-                if (vehiclesByMonth.ContainsKey(month))
+                RoundedPanel requestPanel = new RoundedPanel
                 {
-                    vehiclesByMonth[month]++;
-                }
+                    Size = new Size(pendingRequestsFlow.Width - 20, 80),
+                    BorderRadius = 4,
+                    BorderColor = Color.FromArgb(230, 230, 230),
+                    BorderSize = 1,
+                    BackColor = Color.White,
+                    Margin = new Padding(0, 0, 0, 10)
+                };
+
+                Label customerLabel = new Label
+                {
+                    AutoSize = false,
+                    Size = new Size(200, 25),
+                    Location = new Point(15, 10),
+                    Font = new Font("Segoe UI Semibold", 10F),
+                    ForeColor = textColor,
+                    Text = request.CustomerName,
+                    TextAlign = ContentAlignment.MiddleLeft
+                };
+
+                Label vehicleLabel = new Label
+                {
+                    AutoSize = false,
+                    Size = new Size(200, 20),
+                    Location = new Point(15, 35),
+                    Font = new Font("Segoe UI", 9F),
+                    ForeColor = accentColor,
+                    Text = request.Vehicle != null ? $"{request.Vehicle.Brand} {request.Vehicle.Model}" : $"Vehículo ID: {request.VehicleId}",
+                    TextAlign = ContentAlignment.MiddleLeft
+                };
+
+                Label statusLabel = new Label
+                {
+                    AutoSize = false,
+                    Size = new Size(100, 25),
+                    Location = new Point(requestPanel.Width - 115, 10),
+                    Font = new Font("Segoe UI", 9F),
+                    ForeColor = Color.Black,
+                    Text = request.Status == RequestStatus.Pending ? "Pendiente" : "Programada",
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    BackColor = request.Status == RequestStatus.Pending ?
+                        Color.FromArgb(255, 243, 205) : Color.FromArgb(207, 226, 255)
+                };
+
+                Label dateLabel = new Label
+                {
+                    AutoSize = false,
+                    Size = new Size(100, 20),
+                    Location = new Point(requestPanel.Width - 115, 45),
+                    Font = new Font("Segoe UI", 9F),
+                    ForeColor = accentColor,
+                    Text = request.ScheduledDate.HasValue ?
+                        request.ScheduledDate.Value.ToShortDateString() :
+                        request.RequestDate.ToShortDateString(),
+                    TextAlign = ContentAlignment.MiddleRight
+                };
+
+                requestPanel.Controls.Add(customerLabel);
+                requestPanel.Controls.Add(vehicleLabel);
+                requestPanel.Controls.Add(statusLabel);
+                requestPanel.Controls.Add(dateLabel);
+
+                pendingRequestsFlow.Controls.Add(requestPanel);
             }
 
-            // Add data to chart
-            foreach (var month in vehiclesByMonth.Keys)
+            if (count == 0)
             {
-                vehiclesChart.Series["Vehículos"].Points.AddXY(month, vehiclesByMonth[month]);
+                Label noRequestsLabel = new Label
+                {
+                    AutoSize = false,
+                    Size = new Size(pendingRequestsFlow.Width - 20, 80),
+                    Font = new Font("Segoe UI", 10F),
+                    ForeColor = accentColor,
+                    Text = "No hay solicitudes pendientes",
+                    TextAlign = ContentAlignment.MiddleCenter
+                };
+
+                pendingRequestsFlow.Controls.Add(noRequestsLabel);
             }
         }
     }

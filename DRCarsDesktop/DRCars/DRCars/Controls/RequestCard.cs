@@ -5,21 +5,30 @@ using DRCars.Models;
 
 namespace DRCars.Controls
 {
-    public class RequestCard : RoundedPanel
+    public class RequestCard : UserControl
     {
         private SaleRequest _request;
+        private RoundedPanel mainPanel;
         private Label customerNameLabel;
-        private Label customerContactLabel;
-        private Label requestDetailsLabel;
-        private Label statusLabel;
+        private Label vehicleLabel;
         private Label dateLabel;
+        private Label statusLabel;
+        private RoundedButton viewDetailsButton;
         private RoundedButton scheduleButton;
         private RoundedButton completeButton;
         private RoundedButton cancelButton;
 
+        // Colores de Odoo
+        private Color primaryColor = Color.FromArgb(0, 160, 157); // Verde Odoo
+        private Color secondaryColor = Color.FromArgb(242, 242, 242); // Gris claro
+        private Color textColor = Color.FromArgb(51, 51, 51); // Texto oscuro
+        private Color accentColor = Color.FromArgb(108, 117, 125); // Gris para detalles
+
+        public event EventHandler<SaleRequest> ViewDetailsClicked;
         public event EventHandler<SaleRequest> ScheduleClicked;
         public event EventHandler<SaleRequest> CompleteClicked;
         public event EventHandler<SaleRequest> CancelClicked;
+        public event EventHandler<SaleRequest> ProcessClicked;
 
         public SaleRequest Request
         {
@@ -38,96 +47,106 @@ namespace DRCars.Controls
 
         private void InitializeComponent()
         {
+            mainPanel = new RoundedPanel();
             customerNameLabel = new Label();
-            customerContactLabel = new Label();
-            requestDetailsLabel = new Label();
-            statusLabel = new Label();
+            vehicleLabel = new Label();
             dateLabel = new Label();
+            statusLabel = new Label();
+            viewDetailsButton = new RoundedButton();
             scheduleButton = new RoundedButton();
             completeButton = new RoundedButton();
             cancelButton = new RoundedButton();
 
-            // Request Card
-            this.Size = new Size(400, 250);
-            this.BorderRadius = 15;
-            this.BorderColor = Color.FromArgb(220, 220, 220);
-            this.BorderSize = 1;
-            this.BackColor = Color.White;
-            this.Padding = new Padding(15);
+            // Main Panel
+            mainPanel.BorderRadius = 8;
+            mainPanel.BorderColor = Color.FromArgb(230, 230, 230);
+            mainPanel.BorderSize = 1;
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.BackColor = Color.White;
+            mainPanel.Padding = new Padding(15);
 
             // Customer Name Label
             customerNameLabel.AutoSize = false;
-            customerNameLabel.Size = new Size(370, 30);
+            customerNameLabel.Size = new Size(270, 30);
             customerNameLabel.Location = new Point(15, 15);
-            customerNameLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            customerNameLabel.Font = new Font("Segoe UI Semibold", 12F);
+            customerNameLabel.ForeColor = textColor;
             customerNameLabel.TextAlign = ContentAlignment.MiddleLeft;
 
-            // Customer Contact Label
-            customerContactLabel.AutoSize = false;
-            customerContactLabel.Size = new Size(370, 25);
-            customerContactLabel.Location = new Point(15, 45);
-            customerContactLabel.Font = new Font("Segoe UI", 9F);
-            customerContactLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // Vehicle Label
+            vehicleLabel.AutoSize = false;
+            vehicleLabel.Size = new Size(270, 20);
+            vehicleLabel.Location = new Point(15, 45);
+            vehicleLabel.Font = new Font("Segoe UI", 9F);
+            vehicleLabel.ForeColor = accentColor;
+            vehicleLabel.TextAlign = ContentAlignment.MiddleLeft;
 
-            // Request Details Label
-            requestDetailsLabel.AutoSize = false;
-            requestDetailsLabel.Size = new Size(370, 60);
-            requestDetailsLabel.Location = new Point(15, 75);
-            requestDetailsLabel.Font = new Font("Segoe UI", 9F);
-            requestDetailsLabel.TextAlign = ContentAlignment.TopLeft;
+            // Date Label
+            dateLabel.AutoSize = false;
+            dateLabel.Size = new Size(270, 20);
+            dateLabel.Location = new Point(15, 65);
+            dateLabel.Font = new Font("Segoe UI", 9F);
+            dateLabel.ForeColor = accentColor;
+            dateLabel.TextAlign = ContentAlignment.MiddleLeft;
 
             // Status Label
             statusLabel.AutoSize = false;
             statusLabel.Size = new Size(100, 25);
-            statusLabel.Location = new Point(15, 140);
-            statusLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            statusLabel.Location = new Point(15, 95);
+            statusLabel.Font = new Font("Segoe UI", 9F);
             statusLabel.TextAlign = ContentAlignment.MiddleCenter;
             statusLabel.BackColor = Color.FromArgb(240, 240, 240);
-            statusLabel.BorderStyle = BorderStyle.FixedSingle;
+            statusLabel.BorderStyle = BorderStyle.None;
 
-            // Date Label
-            dateLabel.AutoSize = false;
-            dateLabel.Size = new Size(250, 25);
-            dateLabel.Location = new Point(135, 140);
-            dateLabel.Font = new Font("Segoe UI", 9F);
-            dateLabel.TextAlign = ContentAlignment.MiddleRight;
+            // View Details Button
+            viewDetailsButton.Text = "Ver Detalles";
+            viewDetailsButton.Size = new Size(90, 35);
+            viewDetailsButton.Location = new Point(15, 130);
+            viewDetailsButton.BorderRadius = 4;
+            viewDetailsButton.BackColor = Color.FromArgb(108, 117, 125);
+            viewDetailsButton.ForeColor = Color.White;
+            viewDetailsButton.Click += ViewDetailsButton_Click;
 
             // Schedule Button
-            scheduleButton.Text = "Programar Cita";
-            scheduleButton.Size = new Size(120, 35);
-            scheduleButton.Location = new Point(15, 180);
-            scheduleButton.BorderRadius = 10;
-            scheduleButton.BackColor = Color.FromArgb(0, 120, 215);
+            scheduleButton.Text = "Programar";
+            scheduleButton.Size = new Size(90, 35);
+            scheduleButton.Location = new Point(115, 130);
+            scheduleButton.BorderRadius = 4;
+            scheduleButton.BackColor = primaryColor;
             scheduleButton.ForeColor = Color.White;
             scheduleButton.Click += ScheduleButton_Click;
 
             // Complete Button
             completeButton.Text = "Completar";
-            completeButton.Size = new Size(120, 35);
-            completeButton.Location = new Point(145, 180);
-            completeButton.BorderRadius = 10;
-            completeButton.BackColor = Color.FromArgb(0, 150, 50);
+            completeButton.Size = new Size(90, 35);
+            completeButton.Location = new Point(215, 130);
+            completeButton.BorderRadius = 4;
+            completeButton.BackColor = Color.FromArgb(40, 167, 69);
             completeButton.ForeColor = Color.White;
             completeButton.Click += CompleteButton_Click;
 
             // Cancel Button
             cancelButton.Text = "Cancelar";
-            cancelButton.Size = new Size(100, 35);
-            cancelButton.Location = new Point(275, 180);
-            cancelButton.BorderRadius = 10;
-            cancelButton.BackColor = Color.FromArgb(200, 50, 50);
+            cancelButton.Size = new Size(90, 35);
+            cancelButton.Location = new Point(315, 130);
+            cancelButton.BorderRadius = 4;
+            cancelButton.BackColor = Color.FromArgb(220, 53, 69);
             cancelButton.ForeColor = Color.White;
             cancelButton.Click += CancelButton_Click;
 
             // Add controls to panel
-            this.Controls.Add(customerNameLabel);
-            this.Controls.Add(customerContactLabel);
-            this.Controls.Add(requestDetailsLabel);
-            this.Controls.Add(statusLabel);
-            this.Controls.Add(dateLabel);
-            this.Controls.Add(scheduleButton);
-            this.Controls.Add(completeButton);
-            this.Controls.Add(cancelButton);
+            mainPanel.Controls.Add(customerNameLabel);
+            mainPanel.Controls.Add(vehicleLabel);
+            mainPanel.Controls.Add(dateLabel);
+            mainPanel.Controls.Add(statusLabel);
+            mainPanel.Controls.Add(viewDetailsButton);
+            mainPanel.Controls.Add(scheduleButton);
+            mainPanel.Controls.Add(completeButton);
+            mainPanel.Controls.Add(cancelButton);
+
+            // Add panel to control
+            this.Controls.Add(mainPanel);
+            this.Size = new Size(420, 180);
         }
 
         private void UpdateCardInfo()
@@ -135,55 +154,39 @@ namespace DRCars.Controls
             if (_request != null)
             {
                 customerNameLabel.Text = _request.CustomerName;
-                customerContactLabel.Text = $"Email: {_request.CustomerEmail} | Teléfono: {_request.CustomerPhone}";
 
-                string details = $"Vehículo deseado: {_request.DesiredBrand} {_request.DesiredModel}";
-                if (_request.Budget.HasValue)
+                if (_request.Vehicle != null)
                 {
-                    details += $"\nPresupuesto: {_request.Budget:N0} €";
+                    vehicleLabel.Text = $"{_request.Vehicle.Brand} {_request.Vehicle.Model} ({_request.Vehicle.Year})";
                 }
-                if (!string.IsNullOrEmpty(_request.DeliveryTimeframe))
+                else if (!string.IsNullOrEmpty(_request.DesiredBrand) || !string.IsNullOrEmpty(_request.DesiredModel))
                 {
-                    details += $" | Plazo de entrega: {_request.DeliveryTimeframe}";
+                    vehicleLabel.Text = $"Deseado: {_request.DesiredBrand} {_request.DesiredModel}";
                 }
-                requestDetailsLabel.Text = details;
+                else
+                {
+                    vehicleLabel.Text = $"Vehículo ID: {_request.VehicleId}";
+                }
+
+                dateLabel.Text = $"Solicitud: {_request.RequestDate.ToShortDateString()}";
+
+                if (_request.ScheduledDate.HasValue)
+                {
+                    dateLabel.Text += $" | Cita: {_request.ScheduledDate.Value.ToShortDateString()}";
+                }
+                else if (_request.AppointmentDate.HasValue)
+                {
+                    dateLabel.Text += $" | Cita: {_request.AppointmentDate.Value.ToShortDateString()}";
+                }
 
                 // Set status label
                 statusLabel.Text = GetStatusText(_request.Status);
                 statusLabel.BackColor = GetStatusColor(_request.Status);
 
-                // Set date label
-                dateLabel.Text = $"Creado: {_request.CreatedAt:dd/MM/yyyy}";
-                if (_request.AppointmentDate.HasValue)
-                {
-                    dateLabel.Text += $" | Cita: {_request.AppointmentDate.Value:dd/MM/yyyy HH:mm}";
-                }
-
                 // Enable/disable buttons based on status
-                UpdateButtonsState();
-            }
-        }
-
-        private void UpdateButtonsState()
-        {
-            switch (_request.Status)
-            {
-                case RequestStatus.Pending:
-                    scheduleButton.Enabled = true;
-                    completeButton.Enabled = true;
-                    cancelButton.Enabled = true;
-                    break;
-                case RequestStatus.Scheduled:
-                    scheduleButton.Enabled = false;
-                    completeButton.Enabled = true;
-                    cancelButton.Enabled = true;
-                    break;
-                case RequestStatus.Completed:
-                case RequestStatus.Cancelled:
-                    scheduleButton.Enabled = false;
-                    completeButton.Enabled = false;
-                    cancelButton.Enabled = false;
-                    break;
+                scheduleButton.Visible = _request.Status == RequestStatus.Pending;
+                completeButton.Visible = _request.Status == RequestStatus.Scheduled;
+                cancelButton.Visible = _request.Status != RequestStatus.Completed && _request.Status != RequestStatus.Cancelled;
             }
         }
 
@@ -209,15 +212,23 @@ namespace DRCars.Controls
             switch (status)
             {
                 case RequestStatus.Pending:
-                    return Color.FromArgb(255, 255, 230);
+                    return Color.FromArgb(255, 243, 205); // Amarillo claro
                 case RequestStatus.Scheduled:
-                    return Color.FromArgb(230, 255, 230);
+                    return Color.FromArgb(207, 226, 255); // Azul claro
                 case RequestStatus.Completed:
-                    return Color.FromArgb(230, 230, 255);
+                    return Color.FromArgb(209, 231, 221); // Verde claro
                 case RequestStatus.Cancelled:
-                    return Color.FromArgb(255, 230, 230);
+                    return Color.FromArgb(248, 215, 218); // Rojo claro
                 default:
-                    return Color.FromArgb(240, 240, 240);
+                    return Color.FromArgb(240, 240, 240); // Gris claro
+            }
+        }
+
+        private void ViewDetailsButton_Click(object sender, EventArgs e)
+        {
+            if (_request != null && ViewDetailsClicked != null)
+            {
+                ViewDetailsClicked(this, _request);
             }
         }
 

@@ -157,6 +157,7 @@ namespace DRCars.Forms
                 DateTime appointmentDate = datePicker.Value.Date.Add(timePicker.Value.TimeOfDay);
 
                 // Update request with appointment date
+                _request.ScheduledDate = appointmentDate;
                 _request.AppointmentDate = appointmentDate;
                 _request.Status = RequestStatus.Scheduled;
                 _request.AdditionalDetails = (_request.AdditionalDetails ?? "") + "\n\nNotas de la cita: " + notesTextBox.Text;

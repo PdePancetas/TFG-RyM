@@ -112,6 +112,9 @@ namespace DRCars.Controls
             usersDataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             usersDataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             usersDataGridView.EnableHeadersVisualStyles = false;
+            usersDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            usersDataGridView.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            usersDataGridView.DefaultCellStyle.Padding = new Padding(5);
             usersDataGridView.CellClick += UsersDataGridView_CellClick;
 
             // Add columns to DataGridView
@@ -124,15 +127,15 @@ namespace DRCars.Controls
             usersDataGridView.Columns.Add("CreatedAt", "Fecha de Creación");
             usersDataGridView.Columns.Add("LastLogin", "Último Acceso");
 
-            // Set column widths
-            usersDataGridView.Columns["Id"].Width = 50;
-            usersDataGridView.Columns["Name"].Width = 150;
-            usersDataGridView.Columns["Email"].Width = 200;
+            // Set column widths more uniformly
+            usersDataGridView.Columns["Id"].Width = 60;
+            usersDataGridView.Columns["Name"].Width = 180;
+            usersDataGridView.Columns["Email"].Width = 180;
             usersDataGridView.Columns["Phone"].Width = 120;
-            usersDataGridView.Columns["Role"].Width = 100;
-            usersDataGridView.Columns["Status"].Width = 80;
-            usersDataGridView.Columns["CreatedAt"].Width = 150;
-            usersDataGridView.Columns["LastLogin"].Width = 150;
+            usersDataGridView.Columns["Role"].Width = 120;
+            usersDataGridView.Columns["Status"].Width = 100;
+            usersDataGridView.Columns["CreatedAt"].Width = 120;
+            usersDataGridView.Columns["LastLogin"].Width = 120;
 
             // Add controls to panels
             headerPanel.Controls.Add(searchTextBox);
