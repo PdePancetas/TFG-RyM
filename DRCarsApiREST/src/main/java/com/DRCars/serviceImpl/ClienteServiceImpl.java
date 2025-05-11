@@ -24,13 +24,7 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<Cliente> obtenerClientePorId(Long id) {
-		return clienteRepository.findById(id);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public Cliente obtenerClientePorDni(String dniNif) {
+	public Optional<Cliente> obtenerClientePorDni(String dniNif) {
 		return clienteRepository.findByDniNif(dniNif);
 	}
 
@@ -48,7 +42,7 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Override
 	@Transactional
-	public void eliminarCliente(Long id) {
-		clienteRepository.deleteById(id);
+	public void eliminarCliente(String dni) {
+		clienteRepository.deleteById(dni);
 	}
 }

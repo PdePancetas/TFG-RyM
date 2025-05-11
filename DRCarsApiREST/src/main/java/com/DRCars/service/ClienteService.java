@@ -11,13 +11,11 @@ import org.springframework.stereotype.Service;
 public interface ClienteService {
 	Cliente crearCliente(Cliente cliente);
 
-	Optional<Cliente> obtenerClientePorId(Long id);
-
-	Cliente obtenerClientePorDni(String dniNif);
+	Optional<Cliente> obtenerClientePorDni(String dniNif);
 
 	List<Cliente> obtenerTodosClientes();
 
 	Cliente actualizarCliente(Cliente cliente);
 
-	void eliminarCliente(Long id);
+	void eliminarCliente(String dni);
 }
