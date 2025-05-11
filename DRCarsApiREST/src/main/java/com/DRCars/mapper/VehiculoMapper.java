@@ -17,6 +17,4 @@ public interface VehiculoMapper {
 
     ProveedorDTO toDTO(Proveedor proveedor);
 
-    // Tambien se puede mapeo inverso
-    // Vehiculo toEntity(VehiculoDTO vehiculoDTO);
 }

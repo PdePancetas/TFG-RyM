@@ -28,7 +28,7 @@ public class Venta implements Serializable {
 	private Long idVenta;
 
 	@ManyToOne
-	@JoinColumn(name = "id_cliente", nullable = false)
+	@JoinColumn(name = "dni_cliente", nullable = false)
 	private Cliente cliente;
 
 	@ManyToOne

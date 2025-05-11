@@ -23,9 +23,8 @@ public class Cliente implements Serializable {
 	private static final long serialVersionUID = 9021452717053706915L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_cliente")
-	private Long idCliente;
+	@Column(name = "dni_cliente")
+	private String dniCliente;
 
 	@OneToOne
 	@JoinColumn(name = "id_usuario", nullable = true)
@@ -65,12 +64,12 @@ public class Cliente implements Serializable {
 		super();
 	}
 
-	public Long getIdCliente() {
-		return idCliente;
+	public String getDniCliente() {
+		return dniCliente;
 	}
 
-	public void setIdCliente(Long idCliente) {
-		this.idCliente = idCliente;
+	public void setDniCliente(String dniCliente) {
+		this.dniCliente = dniCliente;
 	}
 
 	public Usuario getUsuario() {
@@ -163,7 +162,7 @@ public class Cliente implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(idCliente);
+		return Objects.hash(dniCliente);
 	}
 
 	@Override
@@ -175,7 +174,7 @@ public class Cliente implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Cliente other = (Cliente) obj;
-		return Objects.equals(idCliente, other.idCliente);
+		return Objects.equals(dniCliente, other.dniCliente);
 	}
 
 }

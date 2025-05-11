@@ -12,9 +12,8 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                // Permitir todas las peticiones desde cualquier origen (ideal para desarrollo)
                 registry.addMapping("/**")
-                    .allowedOrigins("https://v0-pagina-de-venta-drc-ars.vercel.app/") // o especifica la URL de tu frontend: "https://mi-frontend.com"
+                    .allowedOrigins("https://v0-pagina-de-venta-drc-ars.vercel.app/")
                     .allowedMethods("*")
                     .allowedHeaders("*");
             }
