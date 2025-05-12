@@ -2,7 +2,7 @@ package com.DRCars.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -36,7 +36,7 @@ public class Reserva implements Serializable {
 	private Vehiculo vehiculo;
 
 	@Column(name = "fecha_reserva", nullable = false)
-	private LocalDate fechaReserva;
+	private LocalDateTime fechaReserva;
 
 	@Column(name = "precio_reserva", nullable = false)
 	private BigDecimal precioReserva;
@@ -72,11 +72,11 @@ public class Reserva implements Serializable {
 		this.vehiculo = vehiculo;
 	}
 
-	public LocalDate getFechaReserva() {
+	public LocalDateTime getFechaReserva() {
 		return fechaReserva;
 	}
 
-	public void setFechaReserva(LocalDate fechaReserva) {
+	public void setFechaReserva(LocalDateTime fechaReserva) {
 		this.fechaReserva = fechaReserva;
 	}
 

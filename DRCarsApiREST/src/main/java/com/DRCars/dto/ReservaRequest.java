@@ -1,6 +1,6 @@
 package com.DRCars.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ReservaRequest {
 
@@ -9,7 +9,7 @@ public class ReservaRequest {
 	private String apellidos;
 	private String email;
 
-	private LocalDate fecha;
+	private LocalDateTime fecha;
 	private String motivo;
 	private Long precio;
 	private Long idVehiculo;
@@ -47,11 +47,11 @@ public class ReservaRequest {
 		this.dni = dni;
 	}
 
-	public LocalDate getFecha() {
+	public LocalDateTime getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(LocalDateTime fecha) {
 		this.fecha = fecha;
 	}
 
