@@ -48,6 +48,7 @@ public class ReservaService {
 
 		reserva.setFechaReserva(reservaRequest.getFecha());
 		reserva.setPrecioReserva(BigDecimal.valueOf(reservaRequest.getPrecio()));
+		reserva.setDescripcion(reservaRequest.getDescripcion());
 
 		reservaRepo.save(reserva);
 	}

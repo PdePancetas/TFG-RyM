@@ -14,6 +14,7 @@ public class ReservaRequest {
 	private String motivo;
 	private Long precio;
 	private Long idVehiculo;
+	private String descripcion;
 
 	public String getNombre() {
 		return nombre;
@@ -85,6 +86,14 @@ public class ReservaRequest {
 
 	public void setIdVehiculo(Long idVehiculo) {
 		this.idVehiculo = idVehiculo;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 }

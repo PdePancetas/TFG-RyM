@@ -40,6 +40,9 @@ public class Reserva implements Serializable {
 
 	@Column(name = "precio_reserva", nullable = false)
 	private BigDecimal precioReserva;
+	
+	@Column(name = "descripcion", nullable = true)
+	private String descripcion;
 
 	public Reserva() {
 		super();
@@ -83,6 +86,14 @@ public class Reserva implements Serializable {
 
 	public void setPrecioReserva(BigDecimal precioReserva) {
 		this.precioReserva = precioReserva;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	@Override
