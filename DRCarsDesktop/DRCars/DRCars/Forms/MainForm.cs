@@ -14,15 +14,11 @@ namespace DRCars.Forms
         private Panel contentPanel;
         private Panel headerPanel;
         private Label titleLabel;
-        private RoundedButton dashboardButton;
-        private RoundedButton vehiclesButton;
-        private RoundedButton salesButton;
-        private RoundedButton usersButton;
-        private RoundedButton settingsButton;
-        private RoundedButton logoutButton;
+        private Panel menuItemsPanel;
         private Label userNameLabel;
         private Label userRoleLabel;
         private PictureBox logoBox;
+        private Panel activeIndicator;
 
         private DashboardControl dashboardControl;
         private VehiclesControl vehiclesControl;
@@ -31,6 +27,18 @@ namespace DRCars.Forms
         private SettingsControl settingsControl;
 
         private User currentUser;
+        private Control activeControl;
+        private string currentSection = "Dashboard";
+
+        // Diccionario para almacenar referencias a los paneles del menú
+        private Dictionary<string, Panel> menuPanels = new Dictionary<string, Panel>();
+
+        // Colores de Odoo
+        private Color primaryColor = Color.FromArgb(0, 160, 157); // Verde Odoo
+        private Color secondaryColor = Color.FromArgb(242, 242, 242); // Gris claro
+        private Color textColor = Color.FromArgb(51, 51, 51); // Texto oscuro
+        private Color accentColor = Color.FromArgb(108, 117, 125); // Gris para detalles
+        private Color whiteColor = Color.White;
 
         public MainForm(User user)
         {
@@ -46,142 +54,160 @@ namespace DRCars.Forms
             this.contentPanel = new Panel();
             this.headerPanel = new Panel();
             this.titleLabel = new Label();
-            this.dashboardButton = new RoundedButton();
-            this.vehiclesButton = new RoundedButton();
-            this.salesButton = new RoundedButton();
-            this.usersButton = new RoundedButton();
-            this.settingsButton = new RoundedButton();
-            this.logoutButton = new RoundedButton();
+            this.menuItemsPanel = new Panel();
             this.userNameLabel = new Label();
             this.userRoleLabel = new Label();
             this.logoBox = new PictureBox();
+            this.activeIndicator = new Panel();
 
             // Form
             this.Text = "DRCars - Sistema de Gestión";
             this.Size = new Size(1200, 800);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.MinimumSize = new Size(1000, 700);
+            this.BackColor = secondaryColor;
 
             // Header Panel
             this.headerPanel.Dock = DockStyle.Top;
             this.headerPanel.Height = 60;
-            this.headerPanel.BackColor = Color.White;
-            this.headerPanel.BorderStyle = BorderStyle.FixedSingle;
+            this.headerPanel.BackColor = whiteColor;
+            this.headerPanel.Padding = new Padding(20, 0, 20, 0);
 
             // Title Label
             this.titleLabel.AutoSize = false;
             this.titleLabel.Dock = DockStyle.Fill;
-            this.titleLabel.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            this.titleLabel.TextAlign = ContentAlignment.MiddleCenter;
+            this.titleLabel.Font = new Font("Segoe UI Semibold", 16F);
+            this.titleLabel.ForeColor = textColor;
+            this.titleLabel.TextAlign = ContentAlignment.MiddleLeft;
             this.titleLabel.Text = "Dashboard";
 
             // Sidebar Panel
             this.sidebarPanel.Dock = DockStyle.Left;
-            this.sidebarPanel.Width = 220;
-            this.sidebarPanel.BackColor = Color.FromArgb(30, 30, 30);
-            this.sidebarPanel.Padding = new Padding(10);
+            this.sidebarPanel.Width = 240;
+            this.sidebarPanel.BackColor = whiteColor;
+            this.sidebarPanel.Padding = new Padding(0, 20, 0, 20);
 
             // Logo Box
-            this.logoBox.Size = new Size(200, 80);
-            this.logoBox.Location = new Point(10, 20);
+            this.logoBox.Size = new Size(200, 60);
+            this.logoBox.Location = new Point(20, 20);
             this.logoBox.BackColor = Color.Transparent;
             this.logoBox.SizeMode = PictureBoxSizeMode.Zoom;
             // Set a placeholder logo or load from resources
 
+            // Menu Items Panel
+            this.menuItemsPanel.Location = new Point(0, 100);
+            this.menuItemsPanel.Size = new Size(240, 400);
+            this.menuItemsPanel.BackColor = Color.Transparent;
+
             // User Name Label
             this.userNameLabel.AutoSize = false;
-            this.userNameLabel.Size = new Size(200, 30);
-            this.userNameLabel.Location = new Point(10, 110);
-            this.userNameLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            this.userNameLabel.ForeColor = Color.White;
+            this.userNameLabel.Size = new Size(240, 30);
+            this.userNameLabel.Location = new Point(0, this.sidebarPanel.Height - 80);
+            this.userNameLabel.Font = new Font("Segoe UI Semibold", 12F);
+            this.userNameLabel.ForeColor = textColor;
             this.userNameLabel.TextAlign = ContentAlignment.MiddleCenter;
             this.userNameLabel.Text = currentUser?.Name ?? "Usuario";
 
             // User Role Label
             this.userRoleLabel.AutoSize = false;
-            this.userRoleLabel.Size = new Size(200, 20);
-            this.userRoleLabel.Location = new Point(10, 140);
+            this.userRoleLabel.Size = new Size(240, 20);
+            this.userRoleLabel.Location = new Point(0, this.sidebarPanel.Height - 50);
             this.userRoleLabel.Font = new Font("Segoe UI", 9F);
-            this.userRoleLabel.ForeColor = Color.Silver;
+            this.userRoleLabel.ForeColor = accentColor;
             this.userRoleLabel.TextAlign = ContentAlignment.MiddleCenter;
             this.userRoleLabel.Text = GetRoleText(currentUser?.Role ?? UserRole.Viewer);
 
-            // Dashboard Button
-            this.dashboardButton.Text = "Dashboard";
-            this.dashboardButton.Size = new Size(200, 45);
-            this.dashboardButton.Location = new Point(10, 180);
-            this.dashboardButton.BackColor = Color.FromArgb(50, 50, 50);
-            this.dashboardButton.ForeColor = Color.White;
-            this.dashboardButton.BorderRadius = 10;
-            this.dashboardButton.Click += DashboardButton_Click;
-
-            // Vehicles Button
-            this.vehiclesButton.Text = "Vehículos";
-            this.vehiclesButton.Size = new Size(200, 45);
-            this.vehiclesButton.Location = new Point(10, 235);
-            this.vehiclesButton.BackColor = Color.FromArgb(50, 50, 50);
-            this.vehiclesButton.ForeColor = Color.White;
-            this.vehiclesButton.BorderRadius = 10;
-            this.vehiclesButton.Click += VehiclesButton_Click;
-
-            // Sales Button
-            this.salesButton.Text = "Ventas";
-            this.salesButton.Size = new Size(200, 45);
-            this.salesButton.Location = new Point(10, 290);
-            this.salesButton.BackColor = Color.FromArgb(50, 50, 50);
-            this.salesButton.ForeColor = Color.White;
-            this.salesButton.BorderRadius = 10;
-            this.salesButton.Click += SalesButton_Click;
-
-            // Users Button
-            this.usersButton.Text = "Usuarios";
-            this.usersButton.Size = new Size(200, 45);
-            this.usersButton.Location = new Point(10, 345);
-            this.usersButton.BackColor = Color.FromArgb(50, 50, 50);
-            this.usersButton.ForeColor = Color.White;
-            this.usersButton.BorderRadius = 10;
-            this.usersButton.Click += UsersButton_Click;
-
-            // Settings Button
-            this.settingsButton.Text = "Configuración";
-            this.settingsButton.Size = new Size(200, 45);
-            this.settingsButton.Location = new Point(10, 400);
-            this.settingsButton.BackColor = Color.FromArgb(50, 50, 50);
-            this.settingsButton.ForeColor = Color.White;
-            this.settingsButton.BorderRadius = 10;
-            this.settingsButton.Click += SettingsButton_Click;
-
-            // Logout Button
-            this.logoutButton.Text = "Cerrar Sesión";
-            this.logoutButton.Size = new Size(200, 45);
-            this.logoutButton.Location = new Point(10, 600);
-            this.logoutButton.BackColor = Color.FromArgb(200, 50, 50);
-            this.logoutButton.ForeColor = Color.White;
-            this.logoutButton.BorderRadius = 10;
-            this.logoutButton.Click += LogoutButton_Click;
+            // Active Indicator
+            this.activeIndicator.Size = new Size(4, 40);
+            this.activeIndicator.BackColor = primaryColor;
+            this.activeIndicator.Visible = false;
 
             // Content Panel
             this.contentPanel.Dock = DockStyle.Fill;
-            this.contentPanel.BackColor = Color.FromArgb(245, 245, 245);
+            this.contentPanel.BackColor = secondaryColor;
             this.contentPanel.Padding = new Padding(20);
 
             // Add controls to panels
             this.headerPanel.Controls.Add(this.titleLabel);
 
             this.sidebarPanel.Controls.Add(this.logoBox);
+            this.sidebarPanel.Controls.Add(this.menuItemsPanel);
             this.sidebarPanel.Controls.Add(this.userNameLabel);
             this.sidebarPanel.Controls.Add(this.userRoleLabel);
-            this.sidebarPanel.Controls.Add(this.dashboardButton);
-            this.sidebarPanel.Controls.Add(this.vehiclesButton);
-            this.sidebarPanel.Controls.Add(this.salesButton);
-            this.sidebarPanel.Controls.Add(this.usersButton);
-            this.sidebarPanel.Controls.Add(this.settingsButton);
-            this.sidebarPanel.Controls.Add(this.logoutButton);
+            this.sidebarPanel.Controls.Add(this.activeIndicator);
 
             // Add panels to form
             this.Controls.Add(this.contentPanel);
             this.Controls.Add(this.sidebarPanel);
             this.Controls.Add(this.headerPanel);
+
+            // Create menu items
+            CreateMenuItem("Dashboard", "dashboard", DashboardButton_Click);
+            CreateMenuItem("Vehículos", "vehicles", VehiclesButton_Click);
+            CreateMenuItem("Ventas", "sales", SalesButton_Click);
+            CreateMenuItem("Usuarios", "users", UsersButton_Click);
+            CreateMenuItem("Configuración", "settings", SettingsButton_Click);
+            CreateMenuItem("Cerrar Sesión", "logout", LogoutButton_Click, true);
+        }
+
+        private void CreateMenuItem(string text, string iconName, EventHandler clickEvent, bool isLogout = false)
+        {
+            int index = menuItemsPanel.Controls.Count;
+            int yPos = index * 50;
+
+            Panel itemPanel = new Panel();
+            itemPanel.Size = new Size(240, 40);
+            itemPanel.Location = new Point(0, yPos);
+            itemPanel.Cursor = Cursors.Hand;
+            itemPanel.Tag = text;
+            itemPanel.Name = text + "Panel"; // Añadir un nombre único para facilitar la identificación
+
+            if (isLogout)
+            {
+                // Position logout at bottom
+                itemPanel.Location = new Point(0, 350);
+            }
+
+            Label iconLabel = new Label();
+            iconLabel.AutoSize = false;
+            iconLabel.Size = new Size(40, 40);
+            iconLabel.Location = new Point(20, 0);
+            iconLabel.TextAlign = ContentAlignment.MiddleCenter;
+            iconLabel.Font = new Font("Segoe UI Symbol", 14F);
+
+            // Simple icon representation using symbols
+            switch (iconName)
+            {
+                case "dashboard": iconLabel.Text = "📊"; break;
+                case "vehicles": iconLabel.Text = "🚗"; break;
+                case "sales": iconLabel.Text = "💰"; break;
+                case "users": iconLabel.Text = "👥"; break;
+                case "settings": iconLabel.Text = "⚙️"; break;
+                case "logout": iconLabel.Text = "🚪"; break;
+                default: iconLabel.Text = "📄"; break;
+            }
+
+            Label textLabel = new Label();
+            textLabel.AutoSize = false;
+            textLabel.Size = new Size(180, 40);
+            textLabel.Location = new Point(60, 0);
+            textLabel.TextAlign = ContentAlignment.MiddleLeft;
+            textLabel.Font = new Font("Segoe UI", 11F);
+            textLabel.ForeColor = isLogout ? Color.FromArgb(220, 53, 69) : textColor;
+            textLabel.Text = text;
+
+            // Hacer que todo el panel sea clickeable
+            itemPanel.Click += clickEvent;
+            iconLabel.Click += clickEvent;
+            textLabel.Click += clickEvent;
+
+            itemPanel.Controls.Add(iconLabel);
+            itemPanel.Controls.Add(textLabel);
+
+            menuItemsPanel.Controls.Add(itemPanel);
+
+            // Guardar referencia al panel en el diccionario
+            menuPanels[text] = itemPanel;
         }
 
         private void InitializeControls()
@@ -223,7 +249,9 @@ namespace DRCars.Forms
             contentPanel.Controls.Clear();
             contentPanel.Controls.Add(dashboardControl);
             titleLabel.Text = "Dashboard";
-            SetActiveButton(dashboardButton);
+            currentSection = "Dashboard";
+            SetActiveButton(currentSection);
+            activeControl = dashboardControl;
         }
 
         private void ShowVehicles()
@@ -231,7 +259,9 @@ namespace DRCars.Forms
             contentPanel.Controls.Clear();
             contentPanel.Controls.Add(vehiclesControl);
             titleLabel.Text = "Gestión de Vehículos";
-            SetActiveButton(vehiclesButton);
+            currentSection = "Vehículos";
+            SetActiveButton(currentSection);
+            activeControl = vehiclesControl;
         }
 
         private void ShowSales()
@@ -239,7 +269,9 @@ namespace DRCars.Forms
             contentPanel.Controls.Clear();
             contentPanel.Controls.Add(salesControl);
             titleLabel.Text = "Gestión de Ventas";
-            SetActiveButton(salesButton);
+            currentSection = "Ventas";
+            SetActiveButton(currentSection);
+            activeControl = salesControl;
         }
 
         private void ShowUsers()
@@ -247,7 +279,9 @@ namespace DRCars.Forms
             contentPanel.Controls.Clear();
             contentPanel.Controls.Add(usersControl);
             titleLabel.Text = "Gestión de Usuarios";
-            SetActiveButton(usersButton);
+            currentSection = "Usuarios";
+            SetActiveButton(currentSection);
+            activeControl = usersControl;
         }
 
         private void ShowSettings()
@@ -255,20 +289,39 @@ namespace DRCars.Forms
             contentPanel.Controls.Clear();
             contentPanel.Controls.Add(settingsControl);
             titleLabel.Text = "Configuración";
-            SetActiveButton(settingsButton);
+            currentSection = "Configuración";
+            SetActiveButton(currentSection);
+            activeControl = settingsControl;
         }
 
-        private void SetActiveButton(RoundedButton activeButton)
+        private void SetActiveButton(string buttonText)
         {
-            // Reset all buttons
-            dashboardButton.BackColor = Color.FromArgb(50, 50, 50);
-            vehiclesButton.BackColor = Color.FromArgb(50, 50, 50);
-            salesButton.BackColor = Color.FromArgb(50, 50, 50);
-            usersButton.BackColor = Color.FromArgb(50, 50, 50);
-            settingsButton.BackColor = Color.FromArgb(50, 50, 50);
+            // Restablecer todos los paneles a su estado normal
+            foreach (var kvp in menuPanels)
+            {
+                kvp.Value.BackColor = Color.Transparent;
+            }
 
-            // Set active button
-            activeButton.BackColor = Color.FromArgb(0, 120, 215);
+            // Si encontramos el panel correspondiente al botón activo, lo resaltamos
+            if (menuPanels.ContainsKey(buttonText))
+            {
+                Panel activePanel = menuPanels[buttonText];
+                activePanel.BackColor = Color.FromArgb(240, 240, 240);
+
+                // Posicionar el indicador activo
+                activeIndicator.Location = new Point(0, activePanel.Location.Y);
+                activeIndicator.Height = activePanel.Height;
+                activeIndicator.Visible = true;
+                activeIndicator.BringToFront();
+            }
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            // Asegurarse de que el indicador esté correctamente posicionado al inicio
+            SetActiveButton(currentSection);
         }
 
         private void DashboardButton_Click(object sender, EventArgs e)

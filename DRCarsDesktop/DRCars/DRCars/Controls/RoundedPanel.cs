@@ -7,8 +7,8 @@ namespace DRCars.Controls
 {
     public class RoundedPanel : Panel
     {
-        private int borderRadius = 15;
-        private Color borderColor = Color.Silver;
+        private int borderRadius = 8;
+        private Color borderColor = Color.FromArgb(230, 230, 230);
         private int borderSize = 1;
 
         public int BorderRadius
@@ -43,9 +43,9 @@ namespace DRCars.Controls
 
         public RoundedPanel()
         {
-            this.Size = new Size(350, 200);
             this.BackColor = Color.White;
-            this.Padding = new Padding(borderSize + 5);
+            this.Size = new Size(350, 200);
+            this.Padding = new Padding(borderSize + 2);
         }
 
         protected override void OnPaint(PaintEventArgs e)

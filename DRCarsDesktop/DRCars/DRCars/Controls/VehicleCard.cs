@@ -5,9 +5,10 @@ using DRCars.Models;
 
 namespace DRCars.Controls
 {
-    public class VehicleCard : RoundedPanel
+    public class VehicleCard : UserControl
     {
         private Vehicle _vehicle;
+        private RoundedPanel mainPanel;
         private PictureBox vehicleImage;
         private Label brandModelLabel;
         private Label yearLabel;
@@ -15,6 +16,12 @@ namespace DRCars.Controls
         private Label detailsLabel;
         private Label statusLabel;
         private RoundedButton viewDetailsButton;
+
+        // Colores de Odoo
+        private Color primaryColor = Color.FromArgb(0, 160, 157); // Verde Odoo
+        private Color secondaryColor = Color.FromArgb(242, 242, 242); // Gris claro
+        private Color textColor = Color.FromArgb(51, 51, 51); // Texto oscuro
+        private Color accentColor = Color.FromArgb(108, 117, 125); // Gris para detalles
 
         public event EventHandler<Vehicle> ViewDetailsClicked;
 
@@ -35,6 +42,7 @@ namespace DRCars.Controls
 
         private void InitializeComponent()
         {
+            mainPanel = new RoundedPanel();
             vehicleImage = new PictureBox();
             brandModelLabel = new Label();
             yearLabel = new Label();
@@ -43,75 +51,83 @@ namespace DRCars.Controls
             statusLabel = new Label();
             viewDetailsButton = new RoundedButton();
 
-            // Vehicle Card
-            this.Size = new Size(300, 400);
-            this.BorderRadius = 15;
-            this.BorderColor = Color.FromArgb(220, 220, 220);
-            this.BorderSize = 1;
-            this.BackColor = Color.White;
-            this.Padding = new Padding(10);
+            // Main Panel
+            mainPanel.BorderRadius = 8;
+            mainPanel.BorderColor = Color.FromArgb(230, 230, 230);
+            mainPanel.BorderSize = 1;
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.BackColor = Color.White;
+            mainPanel.Padding = new Padding(0);
 
             // Vehicle Image
-            vehicleImage.Size = new Size(280, 180);
-            vehicleImage.Location = new Point(10, 10);
-            vehicleImage.SizeMode = PictureBoxSizeMode.Zoom;
+            vehicleImage.Size = new Size(300, 180);
+            vehicleImage.Location = new Point(0, 0);
+            vehicleImage.SizeMode = PictureBoxSizeMode.CenterImage;
             vehicleImage.BackColor = Color.FromArgb(245, 245, 245);
+            vehicleImage.Dock = DockStyle.Top;
 
             // Brand Model Label
             brandModelLabel.AutoSize = false;
             brandModelLabel.Size = new Size(280, 30);
-            brandModelLabel.Location = new Point(10, 200);
-            brandModelLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            brandModelLabel.Location = new Point(15, 195);
+            brandModelLabel.Font = new Font("Segoe UI Semibold", 12F);
+            brandModelLabel.ForeColor = textColor;
             brandModelLabel.TextAlign = ContentAlignment.MiddleLeft;
 
             // Year Label
             yearLabel.AutoSize = false;
             yearLabel.Size = new Size(280, 20);
-            yearLabel.Location = new Point(10, 230);
+            yearLabel.Location = new Point(15, 225);
             yearLabel.Font = new Font("Segoe UI", 9F);
+            yearLabel.ForeColor = accentColor;
             yearLabel.TextAlign = ContentAlignment.MiddleLeft;
 
             // Price Label
             priceLabel.AutoSize = false;
             priceLabel.Size = new Size(280, 30);
-            priceLabel.Location = new Point(10, 250);
-            priceLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            priceLabel.Location = new Point(15, 245);
+            priceLabel.Font = new Font("Segoe UI Semibold", 12F);
+            priceLabel.ForeColor = primaryColor;
             priceLabel.TextAlign = ContentAlignment.MiddleLeft;
-            priceLabel.ForeColor = Color.FromArgb(0, 120, 215);
 
             // Details Label
             detailsLabel.AutoSize = false;
             detailsLabel.Size = new Size(280, 40);
-            detailsLabel.Location = new Point(10, 280);
+            detailsLabel.Location = new Point(15, 275);
             detailsLabel.Font = new Font("Segoe UI", 9F);
+            detailsLabel.ForeColor = accentColor;
             detailsLabel.TextAlign = ContentAlignment.MiddleLeft;
 
             // Status Label
             statusLabel.AutoSize = false;
             statusLabel.Size = new Size(100, 25);
-            statusLabel.Location = new Point(10, 320);
-            statusLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            statusLabel.Location = new Point(15, 320);
+            statusLabel.Font = new Font("Segoe UI", 9F);
             statusLabel.TextAlign = ContentAlignment.MiddleCenter;
             statusLabel.BackColor = Color.FromArgb(240, 240, 240);
-            statusLabel.BorderStyle = BorderStyle.FixedSingle;
+            statusLabel.BorderStyle = BorderStyle.None;
 
             // View Details Button
             viewDetailsButton.Text = "Ver Detalles";
             viewDetailsButton.Size = new Size(150, 35);
-            viewDetailsButton.Location = new Point(140, 320);
-            viewDetailsButton.BorderRadius = 10;
-            viewDetailsButton.BackColor = Color.FromArgb(50, 50, 50);
+            viewDetailsButton.Location = new Point(135, 320);
+            viewDetailsButton.BorderRadius = 4;
+            viewDetailsButton.BackColor = primaryColor;
             viewDetailsButton.ForeColor = Color.White;
             viewDetailsButton.Click += ViewDetailsButton_Click;
 
             // Add controls to panel
-            this.Controls.Add(vehicleImage);
-            this.Controls.Add(brandModelLabel);
-            this.Controls.Add(yearLabel);
-            this.Controls.Add(priceLabel);
-            this.Controls.Add(detailsLabel);
-            this.Controls.Add(statusLabel);
-            this.Controls.Add(viewDetailsButton);
+            mainPanel.Controls.Add(vehicleImage);
+            mainPanel.Controls.Add(brandModelLabel);
+            mainPanel.Controls.Add(yearLabel);
+            mainPanel.Controls.Add(priceLabel);
+            mainPanel.Controls.Add(detailsLabel);
+            mainPanel.Controls.Add(statusLabel);
+            mainPanel.Controls.Add(viewDetailsButton);
+
+            // Add panel to control
+            this.Controls.Add(mainPanel);
+            this.Size = new Size(300, 380);
         }
 
         private void UpdateCardInfo()
@@ -173,17 +189,17 @@ namespace DRCars.Controls
             switch (status)
             {
                 case VehicleStatus.InStock:
-                    return Color.FromArgb(230, 255, 230);
+                    return Color.FromArgb(209, 231, 221); // Verde claro
                 case VehicleStatus.InGarage:
-                    return Color.FromArgb(230, 230, 255);
+                    return Color.FromArgb(207, 226, 255); // Azul claro
                 case VehicleStatus.ForSale:
-                    return Color.FromArgb(255, 255, 230);
+                    return Color.FromArgb(255, 243, 205); // Amarillo claro
                 case VehicleStatus.Sold:
-                    return Color.FromArgb(255, 230, 230);
+                    return Color.FromArgb(248, 215, 218); // Rojo claro
                 case VehicleStatus.InRepair:
-                    return Color.FromArgb(255, 240, 220);
+                    return Color.FromArgb(255, 228, 208); // Naranja claro
                 default:
-                    return Color.FromArgb(240, 240, 240);
+                    return Color.FromArgb(240, 240, 240); // Gris claro
             }
         }
 

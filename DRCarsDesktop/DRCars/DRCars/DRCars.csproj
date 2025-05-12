@@ -65,7 +65,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\RequestCard.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\RoundedButton.cs">
       <SubType>Component</SubType>
@@ -86,7 +86,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\VehicleCard.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\VehiclesControl.cs">
       <SubType>UserControl</SubType>
