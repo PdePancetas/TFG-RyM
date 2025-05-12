@@ -29,7 +29,7 @@ public class ReservaService {
 	@Transactional
 	public void crearReserva(ReservaRequest reservaRequest) {
 
-		Cliente cliente = clienteRepo.findByDniNif(reservaRequest.getDni()).orElseGet(() -> {
+		Cliente cliente = clienteRepo.findByDniCliente(reservaRequest.getDni()).orElseGet(() -> {
 			Cliente nuevoCliente = new Cliente();
 			nuevoCliente.setDniCliente(reservaRequest.getDni());
 			nuevoCliente.setNombre(reservaRequest.getNombre());
@@ -47,7 +47,10 @@ public class ReservaService {
 			reserva.setVehiculo(vehiculoRepo.getReferenceById(reservaRequest.getIdVehiculo()));
 
 		reserva.setFechaReserva(reservaRequest.getFecha());
-		reserva.setPrecioReserva(BigDecimal.valueOf(reservaRequest.getPrecio()));
+		if (reservaRequest.getPrecio() != null)
+			reserva.setPrecioReserva(BigDecimal.valueOf(reservaRequest.getPrecio()));
+		else
+			reserva.setPrecioReserva(BigDecimal.ZERO);
 		reserva.setDescripcion(reservaRequest.getDescripcion());
 
 		reservaRepo.save(reserva);

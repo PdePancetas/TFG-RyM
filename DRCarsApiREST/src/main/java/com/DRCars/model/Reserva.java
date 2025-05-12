@@ -32,7 +32,7 @@ public class Reserva implements Serializable {
 	private Cliente cliente;
 
 	@ManyToOne
-	@JoinColumn(name = "id_vehiculo", nullable = false)
+	@JoinColumn(name = "id_vehiculo", nullable = true)
 	private Vehiculo vehiculo;
 
 	@Column(name = "fecha_reserva", nullable = false)

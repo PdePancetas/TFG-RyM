@@ -25,7 +25,7 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<Cliente> obtenerClientePorDni(String dniNif) {
-		return clienteRepository.findByDniNif(dniNif);
+		return clienteRepository.findByDniCliente(dniNif);
 	}
 
 	@Override

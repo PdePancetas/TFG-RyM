@@ -10,7 +10,6 @@ public class ReservaRequest {
 	private String email;
 
 	private LocalDate fecha;
-	private String hora;
 	private String motivo;
 	private Long precio;
 	private Long idVehiculo;
@@ -54,14 +53,6 @@ public class ReservaRequest {
 
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
-	}
-
-	public String getHora() {
-		return hora;
-	}
-
-	public void setHora(String hora) {
-		this.hora = hora;
 	}
 
 	public String getMotivo() {

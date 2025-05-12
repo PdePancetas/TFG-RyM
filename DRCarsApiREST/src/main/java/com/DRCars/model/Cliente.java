@@ -36,9 +36,6 @@ public class Cliente implements Serializable {
 	@Column(name = "apellidos", nullable = false)
 	private String apellidos;
 
-	@Column(name = "dni_nif", nullable = false)
-	private String dniNif;
-
 	@Column(name = "telefono")
 	private String telefono;
 
@@ -94,14 +91,6 @@ public class Cliente implements Serializable {
 
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
-	}
-
-	public String getDniNif() {
-		return dniNif;
-	}
-
-	public void setDniNif(String dniNif) {
-		this.dniNif = dniNif;
 	}
 
 	public String getTelefono() {

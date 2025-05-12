@@ -10,7 +10,7 @@ import com.DRCars.model.Cliente;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, String> {
 
-	Optional<Cliente> findByDniNif(String dniNif);
+	Optional<Cliente> findByDniCliente(String dniCliente);
 
 	Cliente findByEmail(String email);
 }
