@@ -8,6 +8,10 @@ public class ProveedorDTO {
 	private String telefono;
 	private String ciudad;
 
+	public ProveedorDTO() {
+		super();
+	}
+
 	public Long getIdProveedor() {
 		return idProveedor;
 	}

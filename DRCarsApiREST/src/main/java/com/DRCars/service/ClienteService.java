@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-@Service
 public interface ClienteService {
 	Cliente crearCliente(Cliente cliente);
 
