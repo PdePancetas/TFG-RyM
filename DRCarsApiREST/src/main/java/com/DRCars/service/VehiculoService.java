@@ -3,6 +3,7 @@ package com.DRCars.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.DRCars.dto.VehiculoRequest;
 import com.DRCars.model.Vehiculo;
 import com.DRCars.model.Vehiculo.Estado;
 
@@ -10,7 +11,7 @@ public interface VehiculoService {
 	
 	List<Vehiculo> obtenerVehiculos();
 	
-	Vehiculo crearVehiculo(Vehiculo vehiculo);
+	Vehiculo anyadirVehiculo(VehiculoRequest vehiculo);
 
 	Optional<Vehiculo> obtenerVehiculoPorId(Long id);
 

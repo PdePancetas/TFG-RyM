@@ -58,6 +58,14 @@ public class Vehiculo implements Serializable {
 	@Column(name = "estado", nullable = false)
 	private Estado estado = Estado.GARAJE;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "combustible", nullable = true)
+	private Combustible combustible;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "transmision", nullable = true)
+	private Transmision transmision;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_proveedor")
 	private Proveedor proveedor;
@@ -73,6 +81,14 @@ public class Vehiculo implements Serializable {
 
 	public enum Estado {
 		GARAJE, VENTA, VENDIDO
+	}
+	
+	public enum Combustible {
+		DIESEL, ELECTRICO, GASOLINA, HIBRIDO
+	}
+	
+	public enum Transmision {
+		MANUAL, AUTOMATICA
 	}
 
 	public Vehiculo() {
@@ -159,6 +175,22 @@ public class Vehiculo implements Serializable {
 		this.estado = estado;
 	}
 
+	public Combustible getCombustible() {
+		return combustible;
+	}
+
+	public void setCombustible(Combustible combustible) {
+		this.combustible = combustible;
+	}
+	
+	public Transmision getTransmision() {
+		return transmision;
+	}
+
+	public void setTransmision(Transmision transmision) {
+		this.transmision = transmision;
+	}
+	
 	public Proveedor getProveedor() {
 		return proveedor;
 	}
