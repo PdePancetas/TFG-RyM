@@ -9,4 +9,5 @@ import com.DRCars.model.Pieza;
 public interface PiezaRepository extends JpaRepository<Pieza, Long> {
     // Custom query methods if needed
     Pieza findByNombre(String nombre);
+    
 }

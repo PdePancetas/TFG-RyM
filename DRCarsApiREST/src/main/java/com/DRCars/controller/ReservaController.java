@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.DRCars.dto.ProcReservaRequest;
 import com.DRCars.dto.ReservaDTO;
 import com.DRCars.dto.ReservaRequest;
 import com.DRCars.dto.VehiculoDTO;
@@ -41,7 +42,19 @@ public class ReservaController {
             reservaService.crearReserva(reserva);
             return ResponseEntity.ok("Reserva realizada con éxito");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la reserva");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la reserva");
         }
+    }
+    
+    @PostMapping("/procesar")
+    public ResponseEntity<String> procesarReserva(@RequestBody ProcReservaRequest reserva){
+    	
+    	try {
+    		reservaService.procesarReserva(reserva);
+    		return ResponseEntity.ok("Reserva procesada con éxito");
+    	} catch(Exception e) {
+    		 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la reserva");
+    	}
+    	
     }
 }

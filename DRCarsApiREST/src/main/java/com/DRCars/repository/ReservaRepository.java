@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.DRCars.dto.ReservaRequest;
 import com.DRCars.model.Cliente;
 import com.DRCars.model.Reserva;
 import com.DRCars.model.Vehiculo;
