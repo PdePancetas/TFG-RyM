@@ -30,9 +30,9 @@ public class AuthController {
         if (usuario.isPresent() && usuarioService.verificarContraseña(request.getContraseña(), usuario.get().getContraseña())) {
             usuario.get().setUltimo_acceso(request.getUltimo_acceso());
             usuarioService.crearUsuario(usuario.get());
-        	return ResponseEntity.ok("Autenticación exitosa");
+        	return ResponseEntity.ok("Autenticación exitosa, ha iniciado sesión: "+usuario.get().getTipoUsuario());
         }
-        return ResponseEntity.status(401).body("Credenciales incorrectas");
+        return ResponseEntity.status(401).body("Credenciales incorrectas, no ha podido iniciar sesión: "+usuario.get().getTipoUsuario());
     }
 }
 
