@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.DRCars.dto.ProcReservaRequest;
-import com.DRCars.dto.ReservaDTO;
 import com.DRCars.dto.ReservaRequest;
-import com.DRCars.mapper.ReservaMapper;
 import com.DRCars.model.Cliente;
 import com.DRCars.model.Reserva;
 import com.DRCars.model.Venta;
@@ -32,10 +30,10 @@ public class ReservaServiceImpl implements ReservaService {
 
 	@Autowired
 	private VehiculoRepository vehiculoRepo;
-	
+
 	@Autowired
 	private VentaRepository ventasRepo;
-	
+
 	@Transactional
 	public void crearReserva(ReservaRequest reservaRequest) {
 
@@ -72,18 +70,26 @@ public class ReservaServiceImpl implements ReservaService {
 
 	@Transactional
 	public void procesarReserva(ProcReservaRequest reserva) {
-		
-		if(reserva.isAceptada()) {
-			Venta venta = new Venta();
-			venta.setCliente(clienteRepo.getReferenceById(reserva.getDniCliente()));
-			venta.setPrecioVenta(reserva.getPrecio());
-			venta.setVehiculo(vehiculoRepo.getReferenceById(reserva.getIdVehiculo()));
-			
-			ventasRepo.save(venta);
+		try {
+			if (reserva.isAceptada()) {
+				Reserva res = reservaRepo.getReferenceById(reserva.getIdReserva());
+				
+				if (res.getVehiculo().getIdVehiculo() != null) {
+					Venta venta = new Venta();
+					venta.setCliente(clienteRepo.getReferenceById(res.getCliente().getDniCliente()));
+					venta.setPrecioVenta(res.getPrecioReserva());
+					venta.setVehiculo(vehiculoRepo.getReferenceById(res.getVehiculo().getIdVehiculo()));
+
+					ventasRepo.save(venta);
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			reservaRepo.delete(reservaRepo.getReferenceById(reserva.getIdReserva()));
 		}
-		
-		reservaRepo.delete(reservaRepo.getReferenceById(reserva.getIdReserva()));
-		
+
 	}
 
 }

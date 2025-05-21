@@ -39,10 +39,10 @@ public class Venta implements Serializable {
 	@JoinColumn(name = "id_trabajador")
 	private Trabajador trabajador;
 
-	@Column(name = "fecha_venta", nullable = false)
+	@Column(name = "fecha_venta", nullable = true)
 	private LocalDate fechaVenta;
 
-	@Column(name = "precio_venta", nullable = false)
+	@Column(name = "precio_venta", nullable = true)
 	private BigDecimal precioVenta;
 
 	public Venta() {
