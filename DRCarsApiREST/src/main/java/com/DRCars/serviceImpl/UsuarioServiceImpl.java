@@ -1,6 +1,6 @@
 package com.DRCars.serviceImpl;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import com.DRCars.service.UsuarioService;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
+	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
@@ -42,7 +43,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public boolean verificarContraseña(String hashIngresado, String hashGuardado) {
-	    return hashIngresado.equals(hashGuardado);
+		return hashIngresado.equals(hashGuardado);
+	}
+
+	@Override
+	public List<Usuario> obtenerUsuarios() {
+		return usuarioRepository.findAll();
 	}
 
 }
