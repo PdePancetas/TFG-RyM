@@ -10,7 +10,7 @@ namespace DRCars.Utils
         private static string _configFilePath = Path.Combine(Application.StartupPath, "config.json");
         private static ConfigData _configData;
 
-        public static string ApiBaseUrl => _configData?.ApiBaseUrl ?? "https://api.drcars.example.com";
+        public static string ApiBaseUrl => _configData?.ApiBaseUrl ?? "https://helped-bug-stirring.ngrok-free.app";
         public static string AppName => _configData?.AppName ?? "DRCars";
         public static string AppVersion => _configData?.AppVersion ?? "1.0.0";
         public static string CompanyName => _configData?.CompanyName ?? "DR Cars Import";
@@ -46,7 +46,7 @@ namespace DRCars.Utils
                     // Create default config
                     _configData = new ConfigData
                     {
-                        ApiBaseUrl = "https://api.drcars.example.com",
+                        ApiBaseUrl = "https://helped-bug-stirring.ngrok-free.app",
                         AppName = "DRCars",
                         AppVersion = "1.0.0",
                         CompanyName = "DR Cars Import",
@@ -66,7 +66,7 @@ namespace DRCars.Utils
                 // Use default values
                 _configData = new ConfigData
                 {
-                    ApiBaseUrl = "https://api.drcars.example.com",
+                    ApiBaseUrl = "https://helped-bug-stirring.ngrok-free.app",
                     AppName = "DRCars",
                     AppVersion = "1.0.0",
                     CompanyName = "DR Cars Import",
@@ -105,6 +105,17 @@ namespace DRCars.Utils
             public string LogoPath { get; set; }
             public string ThemeName { get; set; }
             public bool EnableDarkMode { get; set; }
+
+            public ConfigData()
+            {
+                ApiBaseUrl = "https://helped-bug-stirring.ngrok-free.app";
+                AppName = "DRCars";
+                AppVersion = "1.0.0";
+                CompanyName = "DR Cars Import";
+                LogoPath = Path.Combine(Application.StartupPath, "Resources", "logo.png");
+                ThemeName = "Default";
+                EnableDarkMode = false;
+            }
         }
     }
 }

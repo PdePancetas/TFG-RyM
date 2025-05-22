@@ -36,6 +36,11 @@ namespace DRCars.Controls
         {
             apiClient = new ApiClient();
             InitializeComponent();
+            // Eliminamos la carga automática: LoadVehicles();
+        }
+
+        public void LoadData()
+        {
             LoadVehicles();
         }
 
@@ -184,7 +189,7 @@ namespace DRCars.Controls
             // Vehicles Panel
             vehiclesPanel.Dock = DockStyle.Fill;
             vehiclesPanel.AutoScroll = true;
-            vehiclesPanel.Padding = new Padding(10);
+            vehiclesPanel.Padding = new Padding(5);
 
             // Add controls to panels
             headerPanel.Controls.Add(searchTextBox);
@@ -247,8 +252,8 @@ namespace DRCars.Controls
                 VehicleCard card = new VehicleCard
                 {
                     Vehicle = vehicle,
-                    Margin = new Padding(10),
-                    Size = new Size(300, 400)
+                    Margin = new Padding(5),
+                    Size = new Size(300, 380)
                 };
 
                 card.ViewDetailsClicked += VehicleCard_ViewDetailsClicked;

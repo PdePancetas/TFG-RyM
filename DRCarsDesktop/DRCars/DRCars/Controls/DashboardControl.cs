@@ -37,7 +37,7 @@ namespace DRCars.Controls
         {
             apiClient = new ApiClient();
             InitializeComponent();
-            LoadData();
+            // Eliminamos la carga automática: LoadData();
         }
 
         private void InitializeComponent()
@@ -243,7 +243,7 @@ namespace DRCars.Controls
             pendingRequestsFlow.Width = pendingRequestsPanel.Width - 30;
         }
 
-        private async void LoadData()
+        public async void LoadData()
         {
             try
             {

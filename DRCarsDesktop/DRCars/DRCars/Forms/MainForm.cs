@@ -62,9 +62,9 @@ namespace DRCars.Forms
 
             // Form
             this.Text = "DRCars - Sistema de Gestión";
-            this.Size = new Size(1200, 800);
+            this.Size = new Size(1280, 800);
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.MinimumSize = new Size(1000, 700);
+            this.MinimumSize = new Size(1100, 700);
             this.BackColor = secondaryColor;
 
             // Header Panel
@@ -252,6 +252,7 @@ namespace DRCars.Forms
             currentSection = "Dashboard";
             SetActiveButton(currentSection);
             activeControl = dashboardControl;
+            // No cargamos datos automáticamente en el dashboard
         }
 
         private void ShowVehicles()
@@ -262,6 +263,8 @@ namespace DRCars.Forms
             currentSection = "Vehículos";
             SetActiveButton(currentSection);
             activeControl = vehiclesControl;
+            // Cargamos los datos de vehículos cuando se muestra esta sección
+            vehiclesControl.LoadData();
         }
 
         private void ShowSales()
@@ -272,6 +275,8 @@ namespace DRCars.Forms
             currentSection = "Ventas";
             SetActiveButton(currentSection);
             activeControl = salesControl;
+            // Cargamos los datos de ventas cuando se muestra esta sección
+            salesControl.LoadData();
         }
 
         private void ShowUsers()
@@ -282,6 +287,8 @@ namespace DRCars.Forms
             currentSection = "Usuarios";
             SetActiveButton(currentSection);
             activeControl = usersControl;
+            // Cargamos los datos de usuarios cuando se muestra esta sección
+            usersControl.LoadData();
         }
 
         private void ShowSettings()
@@ -292,6 +299,8 @@ namespace DRCars.Forms
             currentSection = "Configuración";
             SetActiveButton(currentSection);
             activeControl = settingsControl;
+            // Cargamos los datos de configuración cuando se muestra esta sección
+            settingsControl.LoadData();
         }
 
         private void SetActiveButton(string buttonText)

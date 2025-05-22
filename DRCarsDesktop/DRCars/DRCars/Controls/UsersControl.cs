@@ -26,7 +26,7 @@ namespace DRCars.Controls
         {
             apiClient = new ApiClient();
             InitializeComponent();
-            LoadUsers();
+            // Eliminamos la carga automática: LoadUsers();
         }
 
         private void InitializeComponent()
@@ -256,6 +256,11 @@ namespace DRCars.Controls
                 int userId = Convert.ToInt32(usersDataGridView.Rows[e.RowIndex].Cells["Id"].Value);
                 selectedUser = allUsers.Find(u => u.Id == userId);
             }
+        }
+
+        public void LoadData()
+        {
+            LoadUsers();
         }
 
         private void AddUserButton_Click(object sender, EventArgs e)

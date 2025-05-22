@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using DRCars.Controls;
 using DRCars.Models;
+using System.Net.Http;
+using DRCars.Utils;
 
 namespace DRCars.Forms
 {
@@ -168,37 +170,62 @@ namespace DRCars.Forms
             this.Controls.Add(loginPanel);
         }
 
-        private void LoginButton_Click(object sender, EventArgs e)
+        private async void LoginButton_Click(object sender, EventArgs e)
         {
-            string email = emailTextBox.Texts;
-            string password = passwordTextBox.Texts;
-
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            try
             {
-                statusLabel.Text = "Por favor, ingrese email y contraseña.";
-                statusLabel.Visible = true;
-                return;
+                string email = emailTextBox.Texts;
+                string password = passwordTextBox.Texts;
+
+                if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                {
+                    statusLabel.Text = "Por favor, ingrese email y contraseña.";
+                    statusLabel.Visible = true;
+                    return;
+                }
+
+                // Deshabilitar el botón de login mientras se procesa
+                loginButton.Enabled = false;
+                loginButton.Text = "Iniciando sesión...";
+                statusLabel.Visible = false;
+
+                // Crear instancia de ApiClient
+                ApiClient apiClient = new ApiClient();
+
+                // Intentar iniciar sesión
+                var (success, userType, message) = await apiClient.LoginAsync(email, password);
+
+                if (success)
+                {
+                    // Si el login fue exitoso (solo para ADMIN)
+                    // Crear un objeto User básico para pasar al MainForm
+                    User user = new User
+                    {
+                        Email = email,
+                        Role = UserRole.Admin,
+                        Name = "Administrador", // Podríamos obtener el nombre real del usuario de la API
+                        IsActive = true
+                    };
+
+                    // Abrir el formulario principal
+                    MainForm mainForm = new MainForm(user);
+                    this.Hide();
+                    mainForm.ShowDialog();
+                    this.Close();
+                }
+                else
+                {
+                    // Mostrar el mensaje de error
+                    statusLabel.Text = message;
+                    statusLabel.Visible = true;
+                }
             }
-
-            // For demo purposes, allow any login
-            // In a real application, you would validate against the API
-
-            // Create a mock user for demo
-            User user = new User
+            finally
             {
-                Id = 1,
-                Name = "Usuario Demo",
-                Email = email,
-                Role = UserRole.Admin,
-                IsActive = true,
-                LastLogin = DateTime.Now
-            };
-
-            // Open main form and close login form
-            MainForm mainForm = new MainForm(user);
-            this.Hide();
-            mainForm.ShowDialog();
-            this.Close();
+                // Restaurar el botón de login
+                loginButton.Enabled = true;
+                loginButton.Text = "Iniciar Sesión";
+            }
         }
 
         private void ForgotPasswordLink_Click(object sender, EventArgs e)

@@ -22,7 +22,7 @@ namespace DRCars.Controls
         public SettingsControl()
         {
             InitializeComponent();
-            LoadSettings();
+            // Eliminamos la carga automática: LoadSettings();
         }
 
         private void InitializeComponent()
@@ -138,6 +138,11 @@ namespace DRCars.Controls
 
             this.Dock = DockStyle.Fill;
             this.BackColor = Color.FromArgb(245, 245, 245);
+        }
+
+        public void LoadData()
+        {
+            LoadSettings();
         }
 
         private void LoadSettings()

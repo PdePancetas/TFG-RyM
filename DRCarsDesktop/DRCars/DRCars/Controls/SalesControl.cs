@@ -32,7 +32,27 @@ namespace DRCars.Controls
         {
             apiClient = new ApiClient();
             InitializeComponent();
-            LoadData();
+            // Eliminamos la carga automática: LoadData();
+        }
+
+        public async void LoadData()
+        {
+            try
+            {
+                // Load sale requests
+                allRequests = await apiClient.GetSaleRequestsAsync();
+                requestsCountLabel.Text = $"Solicitudes: {allRequests.Count}";
+                PopulateRequestCards();
+
+                // Load sales
+                allSales = await apiClient.GetSalesAsync();
+                salesCountLabel.Text = $"Ventas: {allSales.Count}";
+                PopulateSalesCards();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar datos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void InitializeComponent()
@@ -176,25 +196,7 @@ namespace DRCars.Controls
             refreshSalesButton.Location = new Point(salesHeaderPanel.Width - 150, 15);
         }
 
-        private async void LoadData()
-        {
-            try
-            {
-                // Load sale requests
-                allRequests = await apiClient.GetSaleRequestsAsync();
-                requestsCountLabel.Text = $"Solicitudes: {allRequests.Count}";
-                PopulateRequestCards();
 
-                // Load sales
-                allSales = await apiClient.GetSalesAsync();
-                salesCountLabel.Text = $"Ventas: {allSales.Count}";
-                PopulateSalesCards();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cargar datos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private void PopulateRequestCards()
         {
