@@ -1,4 +1,4 @@
-package com.DRCars.serviceImpl;
+package com.DRCars.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -59,5 +59,9 @@ public class VentaServiceImpl implements VentaService {
 	@Transactional
 	public void eliminarVenta(Long id) {
 		ventaRepository.deleteById(id);
+	}
+
+	public List<Venta> obtenerVentas() {
+		return ventaRepository.findAll();
 	}
 }

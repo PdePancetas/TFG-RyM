@@ -8,7 +8,7 @@ import com.DRCars.dto.VehiculoDTO;
 import com.DRCars.model.Proveedor;
 import com.DRCars.model.Vehiculo;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface VehiculoMapper {
 	
     VehiculoMapper INSTANCE = Mappers.getMapper(VehiculoMapper.class);

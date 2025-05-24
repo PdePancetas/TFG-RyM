@@ -20,7 +20,7 @@ import com.DRCars.mapper.VehiculoMapper;
 import com.DRCars.model.Reserva;
 import com.DRCars.model.Vehiculo;
 import com.DRCars.service.ReservaService;
-import com.DRCars.serviceImpl.ReservaServiceImpl;
+import com.DRCars.service.impl.ReservaServiceImpl;
 
 @RestController
 @RequestMapping("/reservas")

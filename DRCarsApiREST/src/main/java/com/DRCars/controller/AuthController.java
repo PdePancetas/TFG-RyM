@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.DRCars.dto.LoginRequest;
 import com.DRCars.model.Usuario;
-import com.DRCars.serviceImpl.UsuarioServiceImpl;
+import com.DRCars.service.impl.UsuarioServiceImpl;
 
 import java.util.Optional;
 
