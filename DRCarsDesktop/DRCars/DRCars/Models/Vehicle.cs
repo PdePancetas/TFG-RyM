@@ -34,7 +34,7 @@ namespace DRCars.Models
     public class Vehicle
     {
         [JsonProperty("idVehiculo")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("marca")]
         public string Brand { get; set; }
