@@ -14,7 +14,8 @@ public class VehiculoDTO {
 	private String numeroChasis;
 	private BigDecimal precioCompra;
 	private String estado;
-
+	private String combustible;
+	private String transmision;
 	private ProveedorDTO proveedor;
 
 	public Long getIdVehiculo() {
@@ -103,6 +104,22 @@ public class VehiculoDTO {
 
 	public void setProveedor(ProveedorDTO proveedor) {
 		this.proveedor = proveedor;
+	}
+
+	public String getCombustible() {
+		return combustible;
+	}
+
+	public void setCombustible(String combustible) {
+		this.combustible = combustible;
+	}
+
+	public String getTransmision() {
+		return transmision;
+	}
+
+	public void setTransmision(String transmision) {
+		this.transmision = transmision;
 	}
 
 }
