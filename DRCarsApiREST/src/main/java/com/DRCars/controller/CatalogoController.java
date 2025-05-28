@@ -53,14 +53,16 @@ public class CatalogoController {
 	}
 
 	@PostMapping("/act")
-	public ResponseEntity<String> updtVehiculo(@RequestBody Vehiculo v) {
-		
+	public ResponseEntity<Vehiculo> updtVehiculo(@RequestBody Vehiculo v) {
+		Vehiculo vehiculo = null;
 		try {
-			vehiculoService.actualizarVehiculo(v);
-			return ResponseEntity.ok("El vehiculo con id "+v.getIdVehiculo()+" se ha actualizado correctamente");
+			vehiculo = vehiculoService.actualizarVehiculo(v);
+			return ResponseEntity.ok(vehiculo);
+//			return ResponseEntity.ok("El vehiculo con id "+v.getIdVehiculo()+" se ha actualizado correctamente");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.ok("El vehiculo con id "+v.getIdVehiculo()+" no se pudo actualizar");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(vehiculo);
+//			return ResponseEntity.ok("El vehiculo con id "+v.getIdVehiculo()+" no se pudo actualizar");
 		}
 		
 	}
