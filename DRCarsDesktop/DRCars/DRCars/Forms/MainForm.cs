@@ -365,6 +365,12 @@ namespace DRCars.Forms
 
             if (result == DialogResult.Yes)
             {
+                // Clear Firebase authentication
+                if (AppConfig.FirebaseAuth != null)
+                {
+                    AppConfig.FirebaseAuth.ClearToken();
+                }
+
                 Application.Exit();
             }
         }

@@ -10,3 +10,15 @@ D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\Newtonsoft.Json.xml
 D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\obj\Debug\DRCars.csproj.Up2Date
 D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\obj\Debug\DRCars.exe
 D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\obj\Debug\DRCars.pdb
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\SixLabors.ImageSharp.dll
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\System.Buffers.dll
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\System.Memory.dll
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\System.Numerics.Vectors.dll
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\System.Text.Encoding.CodePages.dll
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\SixLabors.ImageSharp.xml
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\System.Buffers.xml
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\System.Memory.xml
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\System.Numerics.Vectors.xml
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\Estudios\TFG-RyM\DRCarsDesktop\DRCars\DRCars\bin\Debug\System.Text.Encoding.CodePages.xml

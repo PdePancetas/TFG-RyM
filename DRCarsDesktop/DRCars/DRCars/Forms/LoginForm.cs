@@ -197,21 +197,52 @@ namespace DRCars.Forms
 
                 if (success)
                 {
-                    // Si el login fue exitoso (solo para ADMIN)
-                    // Crear un objeto User básico para pasar al MainForm
-                    User user = new User
-                    {
-                        Email = email,
-                        Role = UserRole.Admin,
-                        Name = "Administrador", // Podríamos obtener el nombre real del usuario de la API
-                        IsActive = true
-                    };
+                    // Si el login fue exitoso, autenticar con Firebase
+                    loginButton.Text = "Conectando con Firebase...";
+                    Console.WriteLine("=== LOGIN API EXITOSO - INICIANDO FIREBASE ===");
+                    Console.WriteLine($"Usuario autenticado: {email}");
+                    Console.WriteLine($"Tipo de usuario: {userType}");
 
-                    // Abrir el formulario principal
-                    MainForm mainForm = new MainForm(user);
-                    this.Hide();
-                    mainForm.ShowDialog();
-                    this.Close();
+                    var firebaseAuth = new FirebaseAuthService();
+                    Console.WriteLine("Instancia de FirebaseAuthService creada");
+
+                    bool firebaseSuccess = await firebaseAuth.AuthenticateAsync();
+                    Console.WriteLine($"Resultado autenticación Firebase: {firebaseSuccess}");
+
+                    if (firebaseSuccess)
+                    {
+                        Console.WriteLine("✅ Firebase autenticado correctamente");
+                        // Guardar la instancia de autenticación en AppConfig para uso global
+                        AppConfig.SetFirebaseAuth(firebaseAuth);
+
+                        // Crear un objeto User básico para pasar al MainForm
+                        User user = new User
+                        {
+                            Email = email,
+                            Role = UserRole.Admin,
+                            Name = "Administrador",
+                            IsActive = true
+                        };
+
+                        Console.WriteLine("Abriendo MainForm...");
+                        Console.WriteLine($"🎯 Estado final de autenticación:");
+                        Console.WriteLine($"  - API Login exitoso: {success}");
+                        Console.WriteLine($"  - Firebase autenticado: {AppConfig.IsFirebaseAuthenticated()}");
+                        Console.WriteLine($"  - Token disponible: {!string.IsNullOrEmpty(AppConfig.GetFirebaseAuthToken())}");
+                        Console.WriteLine($"  - Usuario: {user.Name} ({user.Email})");
+                        Console.WriteLine("=== INICIANDO APLICACIÓN PRINCIPAL ===");
+                        // Abrir el formulario principal
+                        MainForm mainForm = new MainForm(user);
+                        this.Hide();
+                        mainForm.ShowDialog();
+                        this.Close();
+                    }
+                    else
+                    {
+                        Console.WriteLine("❌ Error en autenticación Firebase");
+                        statusLabel.Text = "Error al conectar con Firebase. Intente nuevamente.";
+                        statusLabel.Visible = true;
+                    }
                 }
                 else
                 {
@@ -219,6 +250,12 @@ namespace DRCars.Forms
                     statusLabel.Text = message;
                     statusLabel.Visible = true;
                 }
+            }
+            catch (Exception ex)
+            {
+                statusLabel.Text = "Error al procesar la solicitud de inicio de sesión.";
+                statusLabel.Visible = true;
+                Console.WriteLine($"Login error: {ex.Message}");
             }
             finally
             {

@@ -38,15 +38,33 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SixLabors.ImageSharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>..\packages\SixLabors.ImageSharp.2.1.8\lib\net472\SixLabors.ImageSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.5.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
@@ -120,6 +138,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ApiClient.cs" />
     <Compile Include="Utils\AppConfig.cs" />
+    <Compile Include="Utils\FirebaseAuthService.cs" />
+    <Compile Include="Utils\FirebaseImageService.cs" />
+    <Compile Include="Utils\FirebaseVehicleService.cs" />
+    <Compile Include="Utils\FirestoreImageService.cs" />
+    <Compile Include="Utils\SimpleImageService.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

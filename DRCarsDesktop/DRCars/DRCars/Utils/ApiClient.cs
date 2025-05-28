@@ -68,7 +68,7 @@ namespace DRCars.Utils
 
         public async Task<Vehicle> GetVehicleAsync(int id)
         {
-            var response = await _httpClient.GetAsync($"/catalogo/{id}");
+            var response = await _httpClient.GetAsync($"/api/vehicles/{id}");
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Vehicle>(content);
@@ -78,7 +78,7 @@ namespace DRCars.Utils
         {
             var json = JsonConvert.SerializeObject(vehicle);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/catalogo/crear", content);
+            var response = await _httpClient.PostAsync("/api/vehicles", content);
             response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Vehicle>(responseContent);
@@ -88,15 +88,49 @@ namespace DRCars.Utils
         {
             var json = JsonConvert.SerializeObject(vehicle);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PutAsync($"/catalogo/act", content);
+            var response = await _httpClient.PutAsync($"/api/vehicles/{vehicle.Id}", content);
             response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Vehicle>(responseContent);
         }
 
+        public async Task<Vehicle> UpdateVehicleToApiAsync(Vehicle vehicle)
+        {
+            try
+            {
+                // Crear objeto del vehículo sin imágenes para la API
+                var vehicleData = new
+                {
+                    idVehiculo = vehicle.Id,
+                    marca = vehicle.Brand,
+                    modelo = vehicle.Model,
+                    annoFabricacion = vehicle.Year,
+                    color = vehicle.Color,
+                    kilometraje = vehicle.Kilometers,
+                    precioCompra = vehicle.Price,
+                    matricula = vehicle.LicensePlate,
+                    numeroChasis = vehicle.VIN,
+                    estado = vehicle.StatusString,
+                    proveedor = vehicle.Supplier
+                };
+
+                var json = JsonConvert.SerializeObject(vehicleData);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync("/catalogo/act", content);
+                response.EnsureSuccessStatusCode();
+
+                return vehicle;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al actualizar vehículo en la API: {ex.Message}", ex);
+            }
+        }
+
         public async Task<List<User>> GetUsersAsync()
         {
-            var response = await _httpClient.GetAsync("/users");
+            var response = await _httpClient.GetAsync("/api/users");
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<List<User>>(content);
@@ -104,7 +138,7 @@ namespace DRCars.Utils
 
         public async Task<List<SaleRequest>> GetSaleRequestsAsync()
         {
-            var response = await _httpClient.GetAsync("/reservas");
+            var response = await _httpClient.GetAsync("/api/salerequests");
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<List<SaleRequest>>(content);
@@ -114,7 +148,7 @@ namespace DRCars.Utils
         {
             var json = JsonConvert.SerializeObject(request);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PutAsync($"/reservas/procesar", content);
+            var response = await _httpClient.PutAsync($"/api/salerequests/{request.Id}", content);
             response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<SaleRequest>(responseContent);
@@ -122,22 +156,22 @@ namespace DRCars.Utils
 
         public async Task<List<Sale>> GetSalesAsync()
         {
-            var response = await _httpClient.GetAsync("/ventas");
+            var response = await _httpClient.GetAsync("/api/sales");
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<List<Sale>>(content);
         }
-        /*
+
         public async Task<Sale> AddSaleAsync(Sale sale)
         {
             var json = JsonConvert.SerializeObject(sale);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/ventas/crear", content);
+            var response = await _httpClient.PostAsync("/api/sales", content);
             response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Sale>(responseContent);
         }
-        */
+
         public async Task<(bool Success, string UserType, string Message)> LoginAsync(string email, string password)
         {
             try
@@ -385,7 +419,7 @@ namespace DRCars.Utils
                 {
                     Id = 3,
                     CustomerName = "Carlos Rodríguez",
-                    CustomerEmail = "carlos.rodriguez@example.com", 
+                    CustomerEmail = "carlos.rodriguez@example.com",
                     CustomerPhone = "600333444",
                     DesiredBrand = "Audi",
                     DesiredModel = "Q7",
