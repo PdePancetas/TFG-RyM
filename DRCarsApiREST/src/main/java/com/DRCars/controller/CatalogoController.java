@@ -35,12 +35,15 @@ public class CatalogoController {
 	}
 
 	@PostMapping("/crear")
-	public ResponseEntity<String> addVehiculo(@RequestBody VehiculoRequest vehiculo) {
+	public ResponseEntity<Vehiculo> addVehiculo(@RequestBody VehiculoRequest vehiculo) {
+		Vehiculo v = null;
 		try {
-			vehiculoService.anyadirVehiculo(vehiculo);
-			return ResponseEntity.ok("Vehiculo añadido con éxito");
+			v = vehiculoService.anyadirVehiculo(vehiculo);
+			//return ResponseEntity.ok("Vehiculo añadido con éxito");
+			return ResponseEntity.ok(v);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al añadir el vehiculo");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(v);
+			//return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al añadir el vehiculo");
 		}
 	}
 
