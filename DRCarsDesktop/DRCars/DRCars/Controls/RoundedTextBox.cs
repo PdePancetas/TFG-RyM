@@ -82,9 +82,16 @@ namespace DRCars.Controls
 
         public string Texts
         {
-            get { return textBox.Text; }
-            set { textBox.Text = value; }
+            get
+            {return isPlaceholder ? string.Empty : textBox.Text;}
+            set
+            {
+                isPlaceholder = false;
+                textBox.ForeColor = this.ForeColor;
+                textBox.Text = value;
+            }
         }
+
 
         public string PlaceholderText
         {
@@ -141,13 +148,14 @@ namespace DRCars.Controls
 
         private void SetPlaceholder()
         {
-            if (string.IsNullOrWhiteSpace(textBox.Text) && placeholderText != "")
+            if (string.IsNullOrWhiteSpace(textBox.Text) && !isFocused && placeholderText != "")
             {
                 isPlaceholder = true;
                 textBox.Text = placeholderText;
                 textBox.ForeColor = placeholderColor;
             }
         }
+
 
         private void RemovePlaceholder()
         {

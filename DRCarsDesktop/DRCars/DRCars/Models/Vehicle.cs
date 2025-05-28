@@ -115,10 +115,10 @@ namespace DRCars.Models
         [JsonIgnore]
         public decimal CostPrice { get; set; }
 
-        [JsonIgnore]
+        [JsonProperty("transmision")]
         public string Transmission { get; set; } = "Automática";
 
-        [JsonIgnore]
+        [JsonProperty("combustible")]
         public string FuelType { get; set; } = "Gasolina";
 
         [JsonIgnore]

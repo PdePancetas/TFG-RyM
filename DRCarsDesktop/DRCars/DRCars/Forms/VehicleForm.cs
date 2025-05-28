@@ -675,8 +675,34 @@ namespace DRCars.Forms
                     _vehicle.Status = (VehicleStatus)statusComboBox.SelectedIndex;
                     _vehicle.UpdatedAt = DateTime.Now;
 
+                    switch (_vehicle.FuelType)
+                    {
+                        case "Diésel":
+                            _vehicle.FuelType = "DIESEL";
+                            break;
+                        case "Gasolina":
+                            _vehicle.FuelType = "GASOLINA";
+                            break;
+                        case "Híbrido":
+                            _vehicle.FuelType = "HIBRIDO";
+                            break;
+                        case "Eléctrico":
+                            _vehicle.FuelType = "ELECTRICO";
+                            break;
+                    }
+
+                    switch (_vehicle.Transmission)
+                    {
+                        case "Automática":
+                            _vehicle.Transmission = "AUTOMATICA";
+                            break;
+                        case "Manual":
+                            _vehicle.Transmission = "MANUAL";
+                            break;
+                    }
+
                     // Ejecutar ambas acciones de forma síncrona
-                    var updateVehicleTask = apiClient.UpdateVehicleToApiAsync(_vehicle);
+                    var updateVehicleTask = apiClient.UpdateVehicleAsync(_vehicle);
                     var updateImagesTask = validImages.Count > 0 ?
                         _firestoreImageService.UpdateVehicleImagesInFirestoreAsync(validImages, _vehicle.Id.ToString()) :
                         Task.CompletedTask;

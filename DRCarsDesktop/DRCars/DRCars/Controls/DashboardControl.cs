@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using DRCars.Models;
 using DRCars.Utils;
 
@@ -14,8 +16,8 @@ namespace DRCars.Controls
         private RoundedPanel vehiclesChartPanel;
         private RoundedPanel recentSalesPanel;
         private RoundedPanel pendingRequestsPanel;
-        private Label salesChartLabel;
-        private Label vehiclesChartLabel;
+        private Chart salesChart;
+        private Chart vehiclesChart;
         private Label totalVehiclesLabel;
         private Label totalSalesLabel;
         private Label pendingRequestsLabel;
@@ -39,6 +41,11 @@ namespace DRCars.Controls
             InitializeComponent();
             // Eliminamos la carga automática: LoadData();
         }
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            LoadData(); // Llama al método asíncrono
+        }
 
         private void InitializeComponent()
         {
@@ -47,8 +54,8 @@ namespace DRCars.Controls
             vehiclesChartPanel = new RoundedPanel();
             recentSalesPanel = new RoundedPanel();
             pendingRequestsPanel = new RoundedPanel();
-            salesChartLabel = new Label();
-            vehiclesChartLabel = new Label();
+            salesChart = new Chart();
+            vehiclesChart = new Chart();
             totalVehiclesLabel = new Label();
             totalSalesLabel = new Label();
             pendingRequestsLabel = new Label();
@@ -57,6 +64,24 @@ namespace DRCars.Controls
             pendingRequestsTitle = new Label();
             recentSalesFlow = new FlowLayoutPanel();
             pendingRequestsFlow = new FlowLayoutPanel();
+
+            //Sales Chart
+
+            salesChart.Size = new Size(420, 270);
+            salesChart.Location = new Point(15, 15);
+            salesChart.BackColor = Color.White;
+            salesChart.Dock = DockStyle.Fill;
+            salesChart.ChartAreas.Add(new ChartArea());
+            salesChartPanel.Controls.Add(salesChart);
+
+            // Vehicles Chart
+
+            vehiclesChart.Size = new Size(420, 270);
+            vehiclesChart.Location = new Point(15, 15);
+            vehiclesChart.BackColor = Color.White;
+            vehiclesChart.Dock = DockStyle.Fill;
+            vehiclesChart.ChartAreas.Add(new ChartArea());
+            vehiclesChartPanel.Controls.Add(vehiclesChart);
 
             // Stats Panel
             statsPanel.BorderRadius = 8;
@@ -110,15 +135,6 @@ namespace DRCars.Controls
             salesChartPanel.Padding = new Padding(15);
             salesChartPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
-            // Sales Chart Label (placeholder for chart)
-            salesChartLabel.AutoSize = false;
-            salesChartLabel.Size = new Size(420, 270);
-            salesChartLabel.Location = new Point(15, 15);
-            salesChartLabel.Font = new Font("Segoe UI Semibold", 12F);
-            salesChartLabel.Text = "Ventas Mensuales\n\n(Gráfico no disponible - Se requiere System.Windows.Forms.DataVisualization)";
-            salesChartLabel.TextAlign = ContentAlignment.MiddleCenter;
-            salesChartLabel.BackColor = Color.FromArgb(245, 245, 245);
-
             // Vehicles Chart Panel
             vehiclesChartPanel.BorderRadius = 8;
             vehiclesChartPanel.BorderColor = Color.FromArgb(230, 230, 230);
@@ -128,15 +144,6 @@ namespace DRCars.Controls
             vehiclesChartPanel.BackColor = Color.White;
             vehiclesChartPanel.Padding = new Padding(15);
             vehiclesChartPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-
-            // Vehicles Chart Label (placeholder for chart)
-            vehiclesChartLabel.AutoSize = false;
-            vehiclesChartLabel.Size = new Size(420, 270);
-            vehiclesChartLabel.Location = new Point(15, 15);
-            vehiclesChartLabel.Font = new Font("Segoe UI Semibold", 12F);
-            vehiclesChartLabel.Text = "Entrada de Vehículos\n\n(Gráfico no disponible - Se requiere System.Windows.Forms.DataVisualization)";
-            vehiclesChartLabel.TextAlign = ContentAlignment.MiddleCenter;
-            vehiclesChartLabel.BackColor = Color.FromArgb(245, 245, 245);
 
             // Recent Sales Panel
             recentSalesPanel.BorderRadius = 8;
@@ -196,9 +203,6 @@ namespace DRCars.Controls
             statsPanel.Controls.Add(pendingRequestsLabel);
             statsPanel.Controls.Add(averagePriceLabel);
 
-            salesChartPanel.Controls.Add(salesChartLabel);
-            vehiclesChartPanel.Controls.Add(vehiclesChartLabel);
-
             recentSalesPanel.Controls.Add(recentSalesTitle);
             recentSalesPanel.Controls.Add(recentSalesFlow);
 
@@ -229,8 +233,11 @@ namespace DRCars.Controls
             vehiclesChartPanel.Width = halfWidth;
             vehiclesChartPanel.Location = new Point(halfWidth + 40, 120);
 
-            salesChartLabel.Width = salesChartPanel.Width - 30;
-            vehiclesChartLabel.Width = vehiclesChartPanel.Width - 30;
+            salesChart.Size = new Size(salesChartPanel.Width - 30, salesChartPanel.Height - 30);
+            salesChart.Location = new Point(15, 15);
+
+            vehiclesChart.Size = new Size(vehiclesChartPanel.Width - 30, vehiclesChartPanel.Height - 30);
+            vehiclesChart.Location = new Point(15, 15);
 
             recentSalesPanel.Width = halfWidth;
             pendingRequestsPanel.Width = halfWidth;
@@ -243,6 +250,67 @@ namespace DRCars.Controls
             pendingRequestsFlow.Width = pendingRequestsPanel.Width - 30;
         }
 
+        private async void LoadData2()
+        {
+            try
+            {
+                var sales = await apiClient.GetSalesAsync();           // List<Sale>
+                var vehicles = await apiClient.GetVehiclesAsync();     // List<Vehicle>
+
+                // Agrupar ventas por mes
+                var monthlySales = sales
+                    .GroupBy(s => new { s.SaleDate.Year, s.SaleDate.Month })
+                    .Select(g => new
+                    {
+                        Month = new DateTime(g.Key.Year, g.Key.Month, 1),
+                        Total = g.Sum(s => s.TotalPrice)
+                    })
+                    .OrderBy(g => g.Month)
+                    .ToList();
+
+                // Graficar ventas
+                salesChart.Series.Clear();
+                var salesSeries = new Series("Ventas")
+                {
+                    ChartType = SeriesChartType.Column,
+                    Color = Color.FromArgb(100, 149, 237) // Primary color
+                };
+                foreach (var entry in monthlySales)
+                {
+                    salesSeries.Points.AddXY(entry.Month.ToString("MMM yyyy"), entry.Total);
+                }
+                salesChart.Series.Add(salesSeries);
+
+                // Agrupar vehículos por mes
+                var monthlyVehicles = vehicles
+                    .GroupBy(v => new { v.CreatedAt.Year, v.CreatedAt.Month })
+                    .Select(g => new
+                    {
+                        Month = new DateTime(g.Key.Year, g.Key.Month, 1),
+                        Count = g.Count()
+                    })
+                    .OrderBy(g => g.Month)
+                    .ToList();
+
+                // Graficar vehículos
+                vehiclesChart.Series.Clear();
+                var vehiclesSeries = new Series("Vehículos")
+                {
+                    ChartType = SeriesChartType.Column,
+                    Color = Color.FromArgb(72, 201, 176)
+                };
+                foreach (var entry in monthlyVehicles)
+                {
+                    vehiclesSeries.Points.AddXY(entry.Month.ToString("MMM yyyy"), entry.Count);
+                }
+                vehiclesChart.Series.Add(vehiclesSeries);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar datos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         public async void LoadData()
         {
             try
@@ -250,6 +318,30 @@ namespace DRCars.Controls
                 // Load vehicles
                 var vehicles = await apiClient.GetVehiclesAsync();
                 totalVehiclesLabel.Text = $"Vehículos Totales\n{vehicles.Count}";
+
+                // Agrupar vehículos por mes
+                var monthlyVehicles = vehicles
+                    .GroupBy(v => new { v.CreatedAt.Year, v.CreatedAt.Month })
+                    .Select(g => new
+                    {
+                        Month = new DateTime(g.Key.Year, g.Key.Month, 1),
+                        Count = g.Count()
+                    })
+                    .OrderBy(g => g.Month)
+                    .ToList();
+
+                // Graficar vehículos
+                vehiclesChart.Series.Clear();
+                var vehiclesSeries = new Series("Vehículos")
+                {
+                    ChartType = SeriesChartType.Column,
+                    Color = Color.FromArgb(72, 201, 176)
+                };
+                foreach (var entry in monthlyVehicles)
+                {
+                    vehiclesSeries.Points.AddXY(entry.Month.ToString("MMM yyyy"), entry.Count);
+                }
+                vehiclesChart.Series.Add(vehiclesSeries);
 
                 // Calculate average price
                 decimal totalPrice = 0;
@@ -263,6 +355,30 @@ namespace DRCars.Controls
                 // Load sales
                 var sales = await apiClient.GetSalesAsync();
                 totalSalesLabel.Text = $"Ventas Totales\n{sales.Count}";
+
+                // Agrupar ventas por mes
+                var monthlySales = sales
+                    .GroupBy(s => new { s.SaleDate.Year, s.SaleDate.Month })
+                    .Select(g => new
+                    {
+                        Month = new DateTime(g.Key.Year, g.Key.Month, 1),
+                        Total = g.Sum(s => s.TotalPrice)
+                    })
+                    .OrderBy(g => g.Month)
+                    .ToList();
+
+                // Graficar ventas
+                salesChart.Series.Clear();
+                var salesSeries = new Series("Ventas")
+                {
+                    ChartType = SeriesChartType.Column,
+                    Color = Color.FromArgb(100, 149, 237) // Primary color
+                };
+                foreach (var entry in monthlySales)
+                {
+                    salesSeries.Points.AddXY(entry.Month.ToString("MMM yyyy"), entry.Total);
+                }
+                salesChart.Series.Add(salesSeries);
 
                 // Load sale requests
                 var requests = await apiClient.GetSaleRequestsAsync();
