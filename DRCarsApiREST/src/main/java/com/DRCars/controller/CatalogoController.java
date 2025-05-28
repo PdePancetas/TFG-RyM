@@ -35,14 +35,14 @@ public class CatalogoController {
 	}
 
 	@PostMapping("/crear")
-	public ResponseEntity<Vehiculo> addVehiculo(@RequestBody VehiculoRequest vehiculo) {
+	public ResponseEntity<VehiculoDTO> addVehiculo(@RequestBody VehiculoRequest vehiculo) {
 		Vehiculo v = null;
 		try {
 			v = vehiculoService.anyadirVehiculo(vehiculo);
 			//return ResponseEntity.ok("Vehiculo añadido con éxito");
-			return ResponseEntity.ok(v);
+			return ResponseEntity.ok(VehiculoMapper.INSTANCE.toDTO(v));
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(v);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(VehiculoMapper.INSTANCE.toDTO(v));
 			//return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al añadir el vehiculo");
 		}
 	}
@@ -53,15 +53,15 @@ public class CatalogoController {
 	}
 
 	@PostMapping("/act")
-	public ResponseEntity<Vehiculo> updtVehiculo(@RequestBody Vehiculo v) {
+	public ResponseEntity<VehiculoDTO> updtVehiculo(@RequestBody Vehiculo v) {
 		Vehiculo vehiculo = null;
 		try {
 			vehiculo = vehiculoService.actualizarVehiculo(v);
-			return ResponseEntity.ok(vehiculo);
+			return ResponseEntity.ok(VehiculoMapper.INSTANCE.toDTO(vehiculo));
 //			return ResponseEntity.ok("El vehiculo con id "+v.getIdVehiculo()+" se ha actualizado correctamente");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(vehiculo);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(VehiculoMapper.INSTANCE.toDTO(vehiculo));
 //			return ResponseEntity.ok("El vehiculo con id "+v.getIdVehiculo()+" no se pudo actualizar");
 		}
 		
