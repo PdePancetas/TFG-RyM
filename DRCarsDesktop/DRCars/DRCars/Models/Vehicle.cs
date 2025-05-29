@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace DRCars.Models
 {
     public enum VehicleStatus
     {
-        InStock,
-        InGarage,
-        ForSale,
-        Sold
+        STOCK,
+        GARAJE,
+        VENTA,
+        VENDIDO
     }
 
     public enum TransmissionType
     {
-        Manual,
-        Automatic
+        MANUAL,
+        AUTOMATICA
     }
 
     public enum FuelType
     {
-        Gasoline,
-        Diesel,
-        Electric,
-        Hybrid
+        GASOLINA,
+        DIESEL,
+        HIBRIDO,
+        ELECTRICO
     }
 
     public class Vehicle
@@ -55,12 +56,13 @@ namespace DRCars.Models
         [JsonProperty("numeroChasis")]
         public string VIN { get; set; }
 
-        [JsonProperty("estado")]
-        public string StatusString { get; set; }
+        /*[JsonProperty("estado")]
+        public string StatusString { get; set; }*/
 
-        [JsonIgnore]
-        public VehicleStatus Status
-        {
+        [JsonProperty("estado")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public VehicleStatus Status { get; set; }
+       /* {
             get
             {
                 if (string.IsNullOrEmpty(StatusString))
@@ -96,7 +98,7 @@ namespace DRCars.Models
                         break;
                 }
             }
-        }
+        }*/
 
         [JsonProperty("proveedor")]
         public Supplier Supplier { get; set; }
@@ -105,11 +107,13 @@ namespace DRCars.Models
         [JsonIgnore]
         public decimal CostPrice { get; set; }
 
-        [JsonProperty("transmision")]
-        public string TransmissionString { get; set; }
+        /*[JsonProperty("transmision")]
+        public string TransmissionString { get; set; }*/
 
-        public TransmissionType TransmissionType
-        {
+        [JsonProperty("transmision")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public TransmissionType TransmissionType { get; set; }
+        /*{
             get
             {
                 if (string.IsNullOrEmpty(TransmissionString))
@@ -140,13 +144,15 @@ namespace DRCars.Models
                         break;
                 }
             }
-        }
+        }*/
+
+        /*[JsonProperty("combustible")]
+        public string FuelTypeString { get; set; }*/
 
         [JsonProperty("combustible")]
-        public string FuelTypeString { get; set; }
-
-        public FuelType FuelType
-        {
+        [JsonConverter(typeof(StringEnumConverter))]
+        public FuelType FuelType { get; set; }
+        /*{
             get
             {
                 if (string.IsNullOrEmpty(FuelTypeString))
@@ -187,7 +193,7 @@ namespace DRCars.Models
                         break;
                 }
             }
-        }
+        }*/
 
         [JsonIgnore]
         public string Category { get; set; } = "Estándar";
@@ -232,7 +238,7 @@ namespace DRCars.Models
         {
             AdditionalImages = new List<string>();
             CreatedAt = DateTime.Now;
-            Status = VehicleStatus.InStock;
+            Status = VehicleStatus.STOCK;
         }
     }
 

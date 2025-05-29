@@ -77,7 +77,7 @@ namespace DRCars.Utils
 
         public async Task<Vehicle> AddVehicleAsync(Vehicle vehicle)
         {
-            var json = JsonConvert.SerializeObject(vehicle);
+            var json = JsonConvert.SerializeObject(vehicle, new StringEnumConverter());
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("/catalogo/crear", content);
             response.EnsureSuccessStatusCode();
@@ -87,7 +87,7 @@ namespace DRCars.Utils
 
         public async Task<Vehicle> UpdateVehicleAsync(Vehicle vehicle)
         {
-            var json = JsonConvert.SerializeObject(vehicle);
+            var json = JsonConvert.SerializeObject(vehicle, new StringEnumConverter());
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync($"/catalogo/act", content);
             response.EnsureSuccessStatusCode();
@@ -95,7 +95,7 @@ namespace DRCars.Utils
             return JsonConvert.DeserializeObject<Vehicle>(responseContent);
         }
 
-        public async Task<Vehicle> UpdateVehicleToApiAsync(Vehicle vehicle)
+        /*public async Task<Vehicle> UpdateVehicleToApiAsync(Vehicle vehicle)
         {
             try
             {
@@ -111,11 +111,11 @@ namespace DRCars.Utils
                     precioCompra = vehicle.Price,
                     matricula = vehicle.LicensePlate,
                     numeroChasis = vehicle.VIN,
-                    estado = vehicle.StatusString,
+                    estado = vehicle.Status,
                     proveedor = vehicle.Supplier
                 };
 
-                var json = JsonConvert.SerializeObject(vehicleData);
+                var json = JsonConvert.SerializeObject(vehicleData, new StringEnumConverter());
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync("/catalogo/act", content);
@@ -127,7 +127,7 @@ namespace DRCars.Utils
             {
                 throw new Exception($"Error al actualizar vehículo en la API: {ex.Message}", ex);
             }
-        }
+        }*/
 
         public async Task<List<User>> GetUsersAsync()
         {

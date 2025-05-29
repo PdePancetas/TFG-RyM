@@ -63,14 +63,19 @@ public class CatalogoController {
 
 	@PostMapping("/act")
 	public ResponseEntity<VehiculoDTO> updtVehiculo(@RequestBody Vehiculo v) {
-		Vehiculo vehiculo = null;
+		Optional<Vehiculo> vehiculo = null;
 		try {
-			vehiculo = vehiculoService.actualizarVehiculo(v);
-			return ResponseEntity.ok(VehiculoMapper.INSTANCE.toDTO(vehiculo));
+			vehiculo = vehiculoService.obtenerVehiculoPorId(v.getIdVehiculo());
+			
+			if(vehiculo.isEmpty())
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); 
+			
+			Vehiculo actualizado = vehiculoService.actualizarVehiculo(v);
+			return ResponseEntity.ok(VehiculoMapper.INSTANCE.toDTO(actualizado));
 //			return ResponseEntity.ok("El vehiculo con id "+v.getIdVehiculo()+" se ha actualizado correctamente");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(VehiculoMapper.INSTANCE.toDTO(vehiculo));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(VehiculoMapper.INSTANCE.toDTO(vehiculo.get()));
 //			return ResponseEntity.ok("El vehiculo con id "+v.getIdVehiculo()+" no se pudo actualizar");
 		}
 		

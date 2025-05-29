@@ -59,7 +59,7 @@ namespace DRCars.Utils
                     precio = vehicle.Price,
                     kilometraje = vehicle.Kilometers,
                     color = vehicle.Color,
-                    estado = vehicle.StatusString,
+                    estado = vehicle.Status,
                     categoria = vehicle.Category,
                     tipoCombustible = vehicle.FuelType,
                     transmision = vehicle.TransmissionType,
@@ -116,9 +116,9 @@ namespace DRCars.Utils
                         Price = (decimal)vehicleData.precio,
                         Kilometers = (int)vehicleData.kilometraje,
                         Color = vehicleData.color,
-                        StatusString = vehicleData.estado,
+                        Status = (VehicleStatus) vehicleData.estado,
                         Category = vehicleData.categoria,
-                        FuelType = vehicleData.tipoCombustible,
+                        FuelType = (FuelType) vehicleData.tipoCombustible,
                         TransmissionType = (TransmissionType) vehicleData.TransmissionType,
                         ImageUrl = vehicleData.imagenPrincipal,
                         AdditionalImages = vehicleData.imagenesAdicionales?.ToObject<List<string>>() ?? new List<string>(),
@@ -151,10 +151,10 @@ namespace DRCars.Utils
                     precio = vehicle.Price,
                     kilometraje = vehicle.Kilometers,
                     color = vehicle.Color,
-                    estado = vehicle.StatusString,
+                    estado = vehicle.Status,
                     categoria = vehicle.Category,
                     tipoCombustible = vehicle.FuelType,
-                    transmision = vehicle.TransmissionString,
+                    tipoTransmision = vehicle.TransmissionType,
                     fechaActualizacion = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")
                 };
 

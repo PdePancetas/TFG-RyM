@@ -80,7 +80,7 @@ public class Vehiculo implements Serializable {
 	private Set<Reserva> reservas;
 
 	public enum Estado {
-		GARAJE, VENTA, VENDIDO
+		STOCK, GARAJE, VENTA, VENDIDO
 	}
 	
 	public enum Combustible {

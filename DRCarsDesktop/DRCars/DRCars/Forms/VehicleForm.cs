@@ -196,7 +196,7 @@ namespace DRCars.Forms
             transmissionComboBox.Location = new Point(30, 255);
             transmissionComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             transmissionComboBox.Font = new Font("Segoe UI", 9F);
-            transmissionComboBox.Items.AddRange(new object[] { "Automática", "Manual" });
+            transmissionComboBox.Items.AddRange(new object[] { "Manual", "Automática" });
 
             // Kilometers Label
             kilometersLabel.AutoSize = true;
@@ -221,7 +221,7 @@ namespace DRCars.Forms
             statusComboBox.Location = new Point(470, 255);
             statusComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             statusComboBox.Font = new Font("Segoe UI", 9F);
-            statusComboBox.Items.AddRange(new object[] { "En Stock", "En Garaje", "En Venta", "Vendido", "En Reparación" });
+            statusComboBox.Items.AddRange(new object[] { "En Stock", "En Garaje", "En Venta", "Vendido" });
 
             // Image Section - Multiple Images (up to 5)
             imageLabel = new Label();
@@ -324,45 +324,25 @@ namespace DRCars.Forms
             this.Controls.Add(mainPanel);
         }
 
+        
         private string GetTransmission(TransmissionType transmissionType)
         {
-            switch (transmissionType)
+            switch (transmissionType.ToString())
             {
-                case TransmissionType.Manual: return "Manual";
-                case TransmissionType.Automatic: return "Automática";
-                default: return "Desconocido";
-            }
-        }
-
-        private string GetTransmission(String transmissionType)
-        {
-            switch (transmissionType)
-            {
-                case "Manual": return "MANUAL";
-                case "Automática": return "AUTOMATICA";
+                case "MANUAL": return "Manual";
+                case "AUTOMATICA": return "Automática";
                 default: return "Desconocido";
             }
         }
 
         private string GetFuel(FuelType fuelType)
         {
-            switch (fuelType)
+            switch (fuelType.ToString())
             {
-                case FuelType.Gasoline: return "Gasolina";
-                case FuelType.Diesel: return "Diésel";
-                case FuelType.Hybrid: return "Híbrido";
-                case FuelType.Electric: return "Eléctrico";
-                default: return "Desconocido";
-            }
-        }
-        private string GetFuel(String fuelType)
-        {
-            switch (fuelType)
-            {
-                case "Gasolina": return "GASOLINA";
-                case "Diésel": return "DIESEL";
-                case "Híbrido": return "HIBRIDO";
-                case "Eléctrico": return "ELECTRICO";
+                case "GASOLINA": return "Gasolina";
+                case "DIESEL": return "Diésel";
+                case "HIBRIDO": return "Híbrido";
+                case "ELECTRICO": return "Eléctrico";
                 default: return "Desconocido";
             }
         }
@@ -712,37 +692,12 @@ namespace DRCars.Forms
                     _vehicle.Year = year;
                     _vehicle.Price = price;
                     _vehicle.Category = categoryComboBox.SelectedItem.ToString();
-                    _vehicle.FuelTypeString = GetFuel(fuelTypeComboBox.SelectedItem.ToString());
-                    _vehicle.TransmissionString = GetTransmission(transmissionComboBox.SelectedItem.ToString());
+                    _vehicle.FuelType = (FuelType)fuelTypeComboBox.SelectedIndex;
+                    _vehicle.TransmissionType = (TransmissionType)transmissionComboBox.SelectedIndex;
                     _vehicle.Kilometers = kilometers;
                     _vehicle.Status = (VehicleStatus)statusComboBox.SelectedIndex;
                     _vehicle.UpdatedAt = DateTime.Now;
-                    /*
-                    switch (_vehicle.FuelType)
-                    {
-                        case "Diésel":
-                            _vehicle.FuelType = "DIESEL";
-                            break;
-                        case "Gasolina":
-                            _vehicle.FuelType = "GASOLINA";
-                            break;
-                        case "Híbrido":
-                            _vehicle.FuelType = "HIBRIDO";
-                            break;
-                        case "Eléctrico":
-                            _vehicle.FuelType = "ELECTRICO";
-                            break;
-                    }
-
-                    switch (_vehicle.Transmission)
-                    {
-                        case "Automática":
-                            _vehicle.Transmission = "AUTOMATICA";
-                            break;
-                        case "Manual":
-                            _vehicle.Transmission = "MANUAL";
-                            break;
-                    }*/
+                    
 
                     // Ejecutar ambas acciones de forma síncrona
                     var updateVehicleTask = apiClient.UpdateVehicleAsync(_vehicle);

@@ -333,10 +333,10 @@ namespace DRCars.Controls
                 bool matchesYear = selectedYear == "Todos" || vehicle.Year.ToString() == selectedYear;
 
                 bool matchesStatus = selectedStatus == "Todos" ||
-                                    (selectedStatus == "En Stock" && vehicle.Status == VehicleStatus.InStock) ||
-                                    (selectedStatus == "En Garaje" && vehicle.Status == VehicleStatus.InGarage) ||
-                                    (selectedStatus == "En Venta" && vehicle.Status == VehicleStatus.ForSale) ||
-                                    (selectedStatus == "Vendido" && vehicle.Status == VehicleStatus.Sold);
+                                    (selectedStatus == "En Stock" && vehicle.Status == VehicleStatus.STOCK) ||
+                                    (selectedStatus == "En Garaje" && vehicle.Status == VehicleStatus.GARAJE) ||
+                                    (selectedStatus == "En Venta" && vehicle.Status == VehicleStatus.VENTA) ||
+                                    (selectedStatus == "Vendido" && vehicle.Status == VehicleStatus.VENDIDO);
 
                 if (matchesSearch && matchesBrand && matchesModel && matchesYear && matchesStatus)
                 {

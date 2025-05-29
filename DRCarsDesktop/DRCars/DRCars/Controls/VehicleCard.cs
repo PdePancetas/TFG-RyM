@@ -336,8 +336,8 @@ namespace DRCars.Controls
         {
             switch (transmissionType)
             {
-                case TransmissionType.Manual: return "Manual";
-                case TransmissionType.Automatic: return "Automática";
+                case TransmissionType.MANUAL: return "Manual";
+                case TransmissionType.AUTOMATICA: return "Automática";
                 default: return "Desconocido";
             }
         }
@@ -346,10 +346,10 @@ namespace DRCars.Controls
         {
             switch (fuelType)
             {
-                case FuelType.Gasoline: return "Gasolina";
-                case FuelType.Diesel: return "Diésel";
-                case FuelType.Hybrid: return "Híbrido";
-                case FuelType.Electric: return "Eléctrico";
+                case FuelType.GASOLINA: return "Gasolina";
+                case FuelType.DIESEL: return "Diésel";
+                case FuelType.HIBRIDO: return "Híbrido";
+                case FuelType.ELECTRICO: return "Eléctrico";
                 default: return "Desconocido";
             }
         }
@@ -358,10 +358,10 @@ namespace DRCars.Controls
         {
             switch (status)
             {
-                case VehicleStatus.InStock: return "En Stock";
-                case VehicleStatus.InGarage: return "En Garaje";
-                case VehicleStatus.ForSale: return "En Venta";
-                case VehicleStatus.Sold: return "Vendido";
+                case VehicleStatus.STOCK: return "En Stock";
+                case VehicleStatus.GARAJE: return "En Garaje";
+                case VehicleStatus.VENTA: return "En Venta";
+                case VehicleStatus.VENDIDO: return "Vendido";
                 default: return "Desconocido";
             }
         }
@@ -370,10 +370,10 @@ namespace DRCars.Controls
         {
             switch (status)
             {
-                case VehicleStatus.InStock: return Color.FromArgb(209, 231, 221);
-                case VehicleStatus.InGarage: return Color.FromArgb(207, 226, 255);
-                case VehicleStatus.ForSale: return Color.FromArgb(255, 243, 205);
-                case VehicleStatus.Sold: return Color.FromArgb(248, 215, 218);
+                case VehicleStatus.STOCK: return Color.FromArgb(209, 231, 221);
+                case VehicleStatus.GARAJE: return Color.FromArgb(207, 226, 255);
+                case VehicleStatus.VENTA: return Color.FromArgb(255, 243, 205);
+                case VehicleStatus.VENDIDO: return Color.FromArgb(248, 215, 218);
                 default: return Color.FromArgb(240, 240, 240);
             }
         }
