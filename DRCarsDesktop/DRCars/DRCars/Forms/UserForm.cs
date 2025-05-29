@@ -143,9 +143,6 @@ namespace DRCars.Forms
             roleComboBox.Font = new Font("Segoe UI", 10F);
             roleComboBox.FlatStyle = FlatStyle.Flat;
             roleComboBox.Items.Add("Administrador");
-            roleComboBox.Items.Add("Gerente");
-            roleComboBox.Items.Add("Agente de Ventas");
-            roleComboBox.Items.Add("Visualizador");
             roleComboBox.Items.Add("Usuario");
             roleComboBox.SelectedIndex = 0;
 
@@ -214,19 +211,10 @@ namespace DRCars.Forms
                 switch (_user.Role)
                 {
                     case UserRole.ADMIN:
-                        roleComboBox.SelectedIndex = 0;
-                        break;
-                    case UserRole.MANAGER:
-                        roleComboBox.SelectedIndex = 1;
-                        break;
-                    case UserRole.SALESAGENT:
-                        roleComboBox.SelectedIndex = 2;
-                        break;
-                    case UserRole.VIEWER:
-                        roleComboBox.SelectedIndex = 3;
+                        roleComboBox.SelectedItem = "Administrador";
                         break;
                     case UserRole.USER:
-                        roleComboBox.SelectedIndex = 4;
+                        roleComboBox.SelectedItem = "Usuario";
                         break;
                 }
 
@@ -243,10 +231,12 @@ namespace DRCars.Forms
                 statusLabel.Visible = true;
                 return;
             }
+            bool nuevo = false;
 
             // Create or update user
             if (_user == null)
             {
+                nuevo = true;
                 _user = new User();
             }
 
@@ -266,22 +256,16 @@ namespace DRCars.Forms
                     _user.Role = UserRole.ADMIN;
                     break;
                 case 1:
-                    _user.Role = UserRole.MANAGER;
-                    break;
-                case 2:
-                    _user.Role = UserRole.SALESAGENT;
-                    break;
-                case 3:
-                    _user.Role = UserRole.VIEWER;
-                    break;
-                case 4:
                     _user.Role = UserRole.USER;
                     break;
             }
 
             _user.IsActive = isActiveCheckBox.Checked;
 
-            await apiClient.UpdateUserAsync(_user);
+            if (nuevo)
+                await apiClient.UpdateUserAsync(_user);
+            else
+                await apiClient.AddUserAsync(_user);
             this.DialogResult = DialogResult.OK;
 
             this.Close();

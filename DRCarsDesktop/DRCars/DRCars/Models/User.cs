@@ -7,9 +7,6 @@ namespace DRCars.Models
     public enum UserRole
     {
         ADMIN,
-        MANAGER,
-        SALESAGENT,
-        VIEWER,
         USER
     }
 

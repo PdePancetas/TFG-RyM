@@ -4,11 +4,11 @@ namespace DRCars.Models
 {
     public enum PaymentMethod
     {
-        Cash,
-        BankTransfer,
-        CreditCard,
-        Financing,
-        Other
+        EFECTIVO,
+        TRANSFERENCIA,
+        CREDITO,
+        FINANCIACION,
+        OTRO
     }
 
     public class Sale

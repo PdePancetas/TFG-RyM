@@ -206,12 +206,6 @@ namespace DRCars.Controls
             {
                 case UserRole.ADMIN:
                     return "Administrador";
-                case UserRole.MANAGER:
-                    return "Gerente";
-                case UserRole.SALESAGENT:
-                    return "Agente";
-                case UserRole.VIEWER:
-                    return "Visualizador";
                 case UserRole.USER:
                     return "Usuario";
                 default:

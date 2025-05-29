@@ -445,7 +445,7 @@ namespace DRCars.Controls
                     Location = new Point(15, 35),
                     Font = new Font("Segoe UI", 9F),
                     ForeColor = accentColor,
-                    Text = sale.Vehicle != null ? $"{sale.Vehicle.Brand} {sale.Vehicle.Model}" : $"Vehículo ID: {sale.VehicleId}",
+                    Text = sale.Vehicle != null ? $"{sale.Vehicle.Id} {sale.Vehicle.Brand} {sale.Vehicle.Model}" : "",
                     TextAlign = ContentAlignment.MiddleLeft
                 };
 
@@ -539,7 +539,7 @@ namespace DRCars.Controls
                     Location = new Point(15, 35),
                     Font = new Font("Segoe UI", 9F),
                     ForeColor = accentColor,
-                    Text = request.Vehicle != null ? $"{request.Vehicle.Brand} {request.Vehicle.Model}" : "",//$"Vehículo ID: {request.Vehicle.Id}",
+                    Text = request.Vehicle != null ? $"{request.Vehicle.Id} {request.Vehicle.Brand} {request.Vehicle.Model}" : "",
                     TextAlign = ContentAlignment.MiddleLeft
                 };
 

@@ -147,6 +147,24 @@ namespace DRCars.Utils
             return JsonConvert.DeserializeObject<User>(responseContent);
         }
 
+        /*
+         * Add
+         */
+
+        public async Task<User> AddUserAsync(User user)
+        {
+            var json = JsonConvert.SerializeObject(user, new StringEnumConverter());
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/users/crear", content);
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<User>(responseContent);
+        }
+
+        /* Delete
+        * 
+        */
+
         public async Task<List<SaleRequest>> GetSaleRequestsAsync()
         {
             var response = await _httpClient.GetAsync("/reservas");
