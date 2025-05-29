@@ -149,11 +149,11 @@ namespace DRCars.Controls
             this.Size = new Size(420, 180);
         }
 
-        private void UpdateCardInfo()
+        public void UpdateCardInfo()
         {
             if (_request != null)
             {
-                customerNameLabel.Text = _request.CustomerName;
+                customerNameLabel.Text = _request.cliente.Name+ " " + _request.cliente.Surname;
 
                 if (_request.Vehicle != null)
                 {
@@ -165,7 +165,7 @@ namespace DRCars.Controls
                 }
                 else
                 {
-                    vehicleLabel.Text = $"Vehículo ID: {_request.VehicleId}";
+                    vehicleLabel.Text = "Sin vehiculo asociado";
                 }
 
                 dateLabel.Text = $"Solicitud: {_request.RequestDate.ToShortDateString()}";

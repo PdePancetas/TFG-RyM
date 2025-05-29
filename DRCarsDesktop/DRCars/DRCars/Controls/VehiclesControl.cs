@@ -336,8 +336,7 @@ namespace DRCars.Controls
                                     (selectedStatus == "En Stock" && vehicle.Status == VehicleStatus.InStock) ||
                                     (selectedStatus == "En Garaje" && vehicle.Status == VehicleStatus.InGarage) ||
                                     (selectedStatus == "En Venta" && vehicle.Status == VehicleStatus.ForSale) ||
-                                    (selectedStatus == "Vendido" && vehicle.Status == VehicleStatus.Sold) ||
-                                    (selectedStatus == "En Reparación" && vehicle.Status == VehicleStatus.InRepair);
+                                    (selectedStatus == "Vendido" && vehicle.Status == VehicleStatus.Sold);
 
                 if (matchesSearch && matchesBrand && matchesModel && matchesYear && matchesStatus)
                 {

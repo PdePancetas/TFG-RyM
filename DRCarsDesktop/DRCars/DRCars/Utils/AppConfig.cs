@@ -57,6 +57,12 @@ namespace DRCars.Utils
             LoadConfig();
         }
 
+        public static void DeleteConfig()
+        {
+            if (File.Exists(_configFilePath))
+                File.Delete(_configFilePath);
+        }
+
         public static void LoadConfig()
         {
             try

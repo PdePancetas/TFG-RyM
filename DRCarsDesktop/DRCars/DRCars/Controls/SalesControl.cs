@@ -26,7 +26,7 @@ namespace DRCars.Controls
 
         private ApiClient apiClient;
         private List<SaleRequest> allRequests;
-        private List<Sale> allSales;
+        private List<Sale> allSales; 
 
         public SalesControl()
         {
@@ -206,11 +206,10 @@ namespace DRCars.Controls
             {
                 RequestCard card = new RequestCard
                 {
-                    Request = request,
                     Margin = new Padding(10),
                     Size = new Size(400, 250)
                 };
-
+                card.Request = request;
                 card.ScheduleClicked += RequestCard_ScheduleClicked;
                 card.CompleteClicked += RequestCard_CompleteClicked;
                 card.CancelClicked += RequestCard_CancelClicked;
@@ -320,9 +319,9 @@ namespace DRCars.Controls
             foreach (var request in allRequests)
             {
                 if (string.IsNullOrEmpty(searchText) ||
-                    request.CustomerName.ToLower().Contains(searchText) ||
-                    request.CustomerEmail.ToLower().Contains(searchText) ||
-                    request.CustomerPhone.ToLower().Contains(searchText) ||
+                    request.cliente.Name.ToLower().Contains(searchText) ||
+                    request.cliente.Name.ToLower().Contains(searchText) ||
+                    request.cliente.Name.ToLower().Contains(searchText) ||
                     request.DesiredBrand?.ToLower().Contains(searchText) == true ||
                     request.DesiredModel?.ToLower().Contains(searchText) == true)
                 {

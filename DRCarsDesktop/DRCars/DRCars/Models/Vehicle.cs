@@ -9,15 +9,13 @@ namespace DRCars.Models
         InStock,
         InGarage,
         ForSale,
-        Sold,
-        InRepair
+        Sold
     }
 
     public enum TransmissionType
     {
         Manual,
-        Automatic,
-        SemiAutomatic
+        Automatic
     }
 
     public enum FuelType
@@ -25,10 +23,7 @@ namespace DRCars.Models
         Gasoline,
         Diesel,
         Electric,
-        Hybrid,
-        PlugInHybrid,
-        LPG,
-        CNG
+        Hybrid
     }
 
     public class Vehicle
@@ -77,8 +72,6 @@ namespace DRCars.Models
                         return VehicleStatus.ForSale;
                     case "VENDIDO":
                         return VehicleStatus.Sold;
-                    case "REPARACION":
-                        return VehicleStatus.InRepair;
                     case "GARAJE":
                         return VehicleStatus.InGarage;
                     default:
@@ -94,9 +87,6 @@ namespace DRCars.Models
                         break;
                     case VehicleStatus.Sold:
                         StatusString = "VENDIDO";
-                        break;
-                    case VehicleStatus.InRepair:
-                        StatusString = "REPARACION";
                         break;
                     case VehicleStatus.InGarage:
                         StatusString = "GARAJE";
@@ -116,10 +106,88 @@ namespace DRCars.Models
         public decimal CostPrice { get; set; }
 
         [JsonProperty("transmision")]
-        public string Transmission { get; set; } = "Automática";
+        public string TransmissionString { get; set; }
+
+        public TransmissionType TransmissionType
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(TransmissionString))
+                    return TransmissionType.Manual;
+
+                switch (TransmissionString.ToUpper())
+                {
+                    case "MANUAL":
+                        return TransmissionType.Manual;
+                    case "AUTOMATICA":
+                        return TransmissionType.Automatic;
+                    default:
+                        return TransmissionType.Manual;
+                }
+            }
+            set
+            {
+                switch (value)
+                {
+                    case TransmissionType.Manual:
+                        TransmissionString = "MANUAL";
+                        break;
+                    case TransmissionType.Automatic:
+                        TransmissionString = "AUTOMATICA";
+                        break;
+                    default:
+                        TransmissionString = "MANUAL";
+                        break;
+                }
+            }
+        }
 
         [JsonProperty("combustible")]
-        public string FuelType { get; set; } = "Gasolina";
+        public string FuelTypeString { get; set; }
+
+        public FuelType FuelType
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(FuelTypeString))
+                    return FuelType.Gasoline;
+
+                switch (FuelTypeString.ToUpper())
+                {
+                    case "GASOLINA":
+                        return FuelType.Gasoline;
+                    case "DIESEL":
+                        return FuelType.Diesel;
+                    case "HIBRIDO":
+                        return FuelType.Hybrid;
+                    case "ELECTRICO":
+                        return FuelType.Electric;
+                    default:
+                        return FuelType.Gasoline;
+                }
+            }
+            set
+            {
+                switch (value)
+                {
+                    case FuelType.Gasoline:
+                        FuelTypeString = "GASOLINA";
+                        break;
+                    case FuelType.Diesel:
+                        FuelTypeString = "DIESEL";
+                        break;
+                    case FuelType.Hybrid:
+                        FuelTypeString = "HIBRIDO";
+                        break;
+                    case FuelType.Electric:
+                        FuelTypeString = "ELECTRICO";
+                        break;
+                    default:
+                        FuelTypeString = "MANUAL";
+                        break;
+                }
+            }
+        }
 
         [JsonIgnore]
         public string Category { get; set; } = "Estándar";

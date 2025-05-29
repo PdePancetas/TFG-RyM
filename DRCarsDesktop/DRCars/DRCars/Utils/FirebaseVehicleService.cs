@@ -62,7 +62,7 @@ namespace DRCars.Utils
                     estado = vehicle.StatusString,
                     categoria = vehicle.Category,
                     tipoCombustible = vehicle.FuelType,
-                    transmision = vehicle.Transmission,
+                    transmision = vehicle.TransmissionType,
                     imagenPrincipal = vehicle.ImageUrl,
                     imagenesAdicionales = vehicle.AdditionalImages,
                     fechaCreacion = vehicle.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ss"),
@@ -119,7 +119,7 @@ namespace DRCars.Utils
                         StatusString = vehicleData.estado,
                         Category = vehicleData.categoria,
                         FuelType = vehicleData.tipoCombustible,
-                        Transmission = vehicleData.transmision,
+                        TransmissionType = (TransmissionType) vehicleData.TransmissionType,
                         ImageUrl = vehicleData.imagenPrincipal,
                         AdditionalImages = vehicleData.imagenesAdicionales?.ToObject<List<string>>() ?? new List<string>(),
                         CreatedAt = DateTime.Parse(vehicleData.fechaCreacion.ToString())
@@ -154,7 +154,7 @@ namespace DRCars.Utils
                     estado = vehicle.StatusString,
                     categoria = vehicle.Category,
                     tipoCombustible = vehicle.FuelType,
-                    transmision = vehicle.Transmission,
+                    transmision = vehicle.TransmissionString,
                     fechaActualizacion = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")
                 };
 

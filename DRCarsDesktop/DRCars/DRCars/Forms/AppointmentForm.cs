@@ -75,7 +75,7 @@ namespace DRCars.Forms
             customerInfoLabel.Size = new Size(390, 60);
             customerInfoLabel.Location = new Point(30, 70);
             customerInfoLabel.Font = new Font("Segoe UI", 9F);
-            customerInfoLabel.Text = $"Cliente: {_request.CustomerName}\nEmail: {_request.CustomerEmail}\nTeléfono: {_request.CustomerPhone}";
+            customerInfoLabel.Text = $"Cliente: {_request.cliente.Name}\nEmail: {_request.cliente.Name}";//\nTeléfono: {_request.cliente.Name}";
 
             // Date Label
             dateLabel.AutoSize = true;

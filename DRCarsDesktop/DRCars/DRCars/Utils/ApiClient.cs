@@ -136,6 +136,16 @@ namespace DRCars.Utils
             return JsonConvert.DeserializeObject<List<User>>(content);
         }
 
+        public async Task<User> UpdateUserAsync(User user)
+        {
+            var json = JsonConvert.SerializeObject(user);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/users/act", content);
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<User>(responseContent);
+        }
+
         public async Task<List<SaleRequest>> GetSaleRequestsAsync()
         {
             var response = await _httpClient.GetAsync("/reservas");
@@ -226,7 +236,7 @@ namespace DRCars.Utils
                 return (false, "", "Error al procesar la solicitud de inicio de sesión.");
             }
         }
-
+        /*
         // Mock data methods
         private List<Vehicle> GetMockVehicles()
         {
@@ -241,7 +251,7 @@ namespace DRCars.Utils
                     Price = 125000,
                     Category = "Lujo",
                     FuelType = "Híbrido",
-                    Transmission = "Automática",
+                    TransmissionString = "Automática",
                     Kilometers = 5200,
                     Status = VehicleStatus.ForSale,
                     ImageUrl = "https://example.com/mercedes-s-class.jpg",
@@ -256,7 +266,7 @@ namespace DRCars.Utils
                     Price = 110000,
                     Category = "Lujo",
                     FuelType = "Híbrido",
-                    Transmission = "Automática",
+                    TransmissionString = "Automática",
                     Kilometers = 3800,
                     Status = VehicleStatus.InStock,
                     ImageUrl = "https://example.com/bmw-7-series.jpg",
@@ -271,7 +281,7 @@ namespace DRCars.Utils
                     Price = 105000,
                     Category = "Lujo",
                     FuelType = "Híbrido",
-                    Transmission = "Automática",
+                    TransmissionString = "Automática",
                     Kilometers = 4500,
                     Status = VehicleStatus.InGarage,
                     ImageUrl = "https://example.com/audi-a8.jpg",
@@ -286,7 +296,7 @@ namespace DRCars.Utils
                     Price = 145000,
                     Category = "Deportivo",
                     FuelType = "Gasolina",
-                    Transmission = "Automática",
+                    TransmissionString = "Automática",
                     Kilometers = 8500,
                     Status = VehicleStatus.ForSale,
                     ImageUrl = "https://example.com/porsche-911.jpg",
@@ -511,6 +521,6 @@ namespace DRCars.Utils
                     Notes = "Financiación a 3 años."
                 }
             };
-        }
+        }*/
     }
 }

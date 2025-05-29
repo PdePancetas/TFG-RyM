@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using DRCars.Models;
 using DRCars.Utils;
 
 namespace DRCars.Controls
@@ -182,9 +183,11 @@ namespace DRCars.Controls
                 ApiClient apiClient = new ApiClient();
 
                 // Try to get users to test connection
-                await apiClient.GetUsersAsync();
-
+                var users = await apiClient.GetUsersAsync();
+                if(users != null)
                 MessageBox.Show("Conexión exitosa a la API.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("Conexión fallida a la API.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {

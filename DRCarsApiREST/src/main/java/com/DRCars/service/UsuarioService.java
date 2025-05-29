@@ -19,5 +19,7 @@ public interface UsuarioService {
 	boolean verificarContraseña(String hashIngresado, String hashGuardado);
 
 	List<Usuario> obtenerUsuarios();
+
+	Usuario actualizarUsuario(Usuario u);
 	
 }

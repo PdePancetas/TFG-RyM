@@ -119,9 +119,9 @@ namespace DRCars.Controls
 
             // Add columns to DataGridView
             usersDataGridView.Columns.Add("Id", "ID");
-            usersDataGridView.Columns.Add("Name", "Nombre");
+            //usersDataGridView.Columns.Add("Name", "Nombre");
             usersDataGridView.Columns.Add("Email", "Email");
-            usersDataGridView.Columns.Add("Phone", "Teléfono");
+            //usersDataGridView.Columns.Add("Phone", "Teléfono");
             usersDataGridView.Columns.Add("Role", "Rol");
             usersDataGridView.Columns.Add("Status", "Estado");
             usersDataGridView.Columns.Add("CreatedAt", "Fecha de Creación");
@@ -129,9 +129,9 @@ namespace DRCars.Controls
 
             // Set column widths more uniformly
             usersDataGridView.Columns["Id"].Width = 60;
-            usersDataGridView.Columns["Name"].Width = 180;
+            //usersDataGridView.Columns["Name"].Width = 180;
             usersDataGridView.Columns["Email"].Width = 180;
-            usersDataGridView.Columns["Phone"].Width = 120;
+            //usersDataGridView.Columns["Phone"].Width = 120;
             usersDataGridView.Columns["Role"].Width = 120;
             usersDataGridView.Columns["Status"].Width = 100;
             usersDataGridView.Columns["CreatedAt"].Width = 120;
@@ -189,9 +189,9 @@ namespace DRCars.Controls
 
                 usersDataGridView.Rows.Add(
                     user.Id,
-                    user.Name,
+                    //user.Name,
                     user.Email,
-                    user.Phone,
+                    //user.Phone,
                     role,
                     status,
                     user.CreatedAt.ToString("dd/MM/yyyy"),
@@ -204,14 +204,16 @@ namespace DRCars.Controls
         {
             switch (role)
             {
-                case UserRole.Admin:
+                case UserRole.ADMIN:
                     return "Administrador";
-                case UserRole.Manager:
+                case UserRole.MANAGER:
                     return "Gerente";
-                case UserRole.SalesAgent:
+                case UserRole.SALESAGENT:
                     return "Agente";
-                case UserRole.Viewer:
+                case UserRole.VIEWER:
                     return "Visualizador";
+                case UserRole.USER:
+                    return "Usuario";
                 default:
                     return "Usuario";
             }
@@ -226,9 +228,9 @@ namespace DRCars.Controls
             foreach (var user in allUsers)
             {
                 if (string.IsNullOrEmpty(searchText) ||
-                    user.Name.ToLower().Contains(searchText) ||
+                    //user.Name.ToLower().Contains(searchText) ||
                     user.Email.ToLower().Contains(searchText) ||
-                    user.Phone?.ToLower().Contains(searchText) == true ||
+                    //user.Phone?.ToLower().Contains(searchText) == true ||
                     GetRoleText(user.Role).ToLower().Contains(searchText))
                 {
                     string status = user.IsActive ? "Activo" : "Inactivo";
@@ -237,9 +239,9 @@ namespace DRCars.Controls
 
                     usersDataGridView.Rows.Add(
                         user.Id,
-                        user.Name,
+                        //user.Name,
                         user.Email,
-                        user.Phone,
+                        //user.Phone,
                         role,
                         status,
                         user.CreatedAt.ToString("dd/MM/yyyy"),
@@ -254,7 +256,7 @@ namespace DRCars.Controls
             if (e.RowIndex >= 0)
             {
                 int userId = Convert.ToInt32(usersDataGridView.Rows[e.RowIndex].Cells["Id"].Value);
-                selectedUser = allUsers.Find(u => u.Id == userId);
+                selectedUser = allUsers.Find(u => u.Id.Equals(userId));
             }
         }
 
@@ -294,7 +296,7 @@ namespace DRCars.Controls
         {
             if (selectedUser != null)
             {
-                DialogResult result = MessageBox.Show($"¿Está seguro que desea eliminar al usuario {selectedUser.Name}?", "Eliminar Usuario",
+                DialogResult result = MessageBox.Show($"¿Está seguro que desea eliminar al usuario ?"/*{selectedUser.Name}?"*/, "Eliminar Usuario",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)

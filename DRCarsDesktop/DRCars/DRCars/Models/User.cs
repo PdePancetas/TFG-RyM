@@ -1,27 +1,40 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace DRCars.Models
 {
     public enum UserRole
     {
-        Admin,
-        Manager,
-        SalesAgent,
-        Viewer
+        ADMIN,
+        MANAGER,
+        SALESAGENT,
+        VIEWER,
+        USER
     }
 
     public class User
     {
-        public int Id { get; set; }
+        [JsonProperty("idUsuario")]
+        public long Id { get; set; }
+
         public string Name { get; set; }
+
+        [JsonProperty("usuario")]
         public string Email { get; set; }
+
+        [JsonProperty("contraseña")]
         public string Password { get; set; }
-        public string Phone { get; set; } // Añadido campo Phone
-        public UserRole Role { get; set; }
-        public bool IsActive { get; set; }
+
+        [JsonProperty("tipo_usuario")]
+        public UserRole Role {get; set;}
+
+        [JsonProperty("ultimo_acceso")]
         public DateTime? LastLogin { get; set; }
+
+        [JsonProperty("registro_cuenta")]
         public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+
+        public bool IsActive {get; set;}
 
         public User()
         {

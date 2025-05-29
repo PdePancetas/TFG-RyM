@@ -219,7 +219,7 @@ namespace DRCars.Forms
                         User user = new User
                         {
                             Email = email,
-                            Role = UserRole.Admin,
+                            Role = UserRole.ADMIN,
                             Name = "Administrador",
                             IsActive = true
                         };
@@ -229,7 +229,7 @@ namespace DRCars.Forms
                         Console.WriteLine($"  - API Login exitoso: {success}");
                         Console.WriteLine($"  - Firebase autenticado: {AppConfig.IsFirebaseAuthenticated()}");
                         Console.WriteLine($"  - Token disponible: {!string.IsNullOrEmpty(AppConfig.GetFirebaseAuthToken())}");
-                        Console.WriteLine($"  - Usuario: {user.Name} ({user.Email})");
+                        Console.WriteLine($"  - Usuario: "/*{user.Name}"*/+" ({user.Email})");
                         Console.WriteLine("=== INICIANDO APLICACIÓN PRINCIPAL ===");
                         // Abrir el formulario principal
                         MainForm mainForm = new MainForm(user);

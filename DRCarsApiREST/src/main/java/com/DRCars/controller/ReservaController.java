@@ -53,6 +53,7 @@ public class ReservaController {
     		reservaService.procesarReserva(reserva);
     		return ResponseEntity.ok("Reserva procesada con éxito");
     	} catch(Exception e) {
+    		e.printStackTrace();
     		 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la reserva");
     	}
     	

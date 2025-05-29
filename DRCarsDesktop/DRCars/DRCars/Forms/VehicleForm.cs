@@ -324,6 +324,49 @@ namespace DRCars.Forms
             this.Controls.Add(mainPanel);
         }
 
+        private string GetTransmission(TransmissionType transmissionType)
+        {
+            switch (transmissionType)
+            {
+                case TransmissionType.Manual: return "Manual";
+                case TransmissionType.Automatic: return "Automática";
+                default: return "Desconocido";
+            }
+        }
+
+        private string GetTransmission(String transmissionType)
+        {
+            switch (transmissionType)
+            {
+                case "Manual": return "MANUAL";
+                case "Automática": return "AUTOMATICA";
+                default: return "Desconocido";
+            }
+        }
+
+        private string GetFuel(FuelType fuelType)
+        {
+            switch (fuelType)
+            {
+                case FuelType.Gasoline: return "Gasolina";
+                case FuelType.Diesel: return "Diésel";
+                case FuelType.Hybrid: return "Híbrido";
+                case FuelType.Electric: return "Eléctrico";
+                default: return "Desconocido";
+            }
+        }
+        private string GetFuel(String fuelType)
+        {
+            switch (fuelType)
+            {
+                case "Gasolina": return "GASOLINA";
+                case "Diésel": return "DIESEL";
+                case "Híbrido": return "HIBRIDO";
+                case "Eléctrico": return "ELECTRICO";
+                default: return "Desconocido";
+            }
+        }
+
         private void LoadVehicleData()
         {
             if (_isEditMode && _vehicle != null)
@@ -333,8 +376,8 @@ namespace DRCars.Forms
                 yearTextBox.Texts = _vehicle.Year.ToString();
                 priceTextBox.Texts = _vehicle.Price.ToString();
                 categoryComboBox.SelectedItem = _vehicle.Category;
-                fuelTypeComboBox.SelectedItem = _vehicle.FuelType;
-                transmissionComboBox.SelectedItem = _vehicle.Transmission;
+                fuelTypeComboBox.SelectedItem = GetFuel(_vehicle.FuelType);
+                transmissionComboBox.SelectedItem = GetTransmission(_vehicle.TransmissionType);
                 kilometersTextBox.Texts = _vehicle.Kilometers.ToString();
                 statusComboBox.SelectedIndex = (int)_vehicle.Status;
 
@@ -669,12 +712,12 @@ namespace DRCars.Forms
                     _vehicle.Year = year;
                     _vehicle.Price = price;
                     _vehicle.Category = categoryComboBox.SelectedItem.ToString();
-                    _vehicle.FuelType = fuelTypeComboBox.SelectedItem.ToString();
-                    _vehicle.Transmission = transmissionComboBox.SelectedItem.ToString();
+                    _vehicle.FuelTypeString = GetFuel(fuelTypeComboBox.SelectedItem.ToString());
+                    _vehicle.TransmissionString = GetTransmission(transmissionComboBox.SelectedItem.ToString());
                     _vehicle.Kilometers = kilometers;
                     _vehicle.Status = (VehicleStatus)statusComboBox.SelectedIndex;
                     _vehicle.UpdatedAt = DateTime.Now;
-
+                    /*
                     switch (_vehicle.FuelType)
                     {
                         case "Diésel":
@@ -699,7 +742,7 @@ namespace DRCars.Forms
                         case "Manual":
                             _vehicle.Transmission = "MANUAL";
                             break;
-                    }
+                    }*/
 
                     // Ejecutar ambas acciones de forma síncrona
                     var updateVehicleTask = apiClient.UpdateVehicleAsync(_vehicle);
@@ -720,10 +763,10 @@ namespace DRCars.Forms
                         Year = year,
                         Price = price,
                         Category = categoryComboBox.SelectedItem.ToString(),
-                        FuelType = fuelTypeComboBox.SelectedItem.ToString(),
-                        Transmission = transmissionComboBox.SelectedItem.ToString(),
+                        FuelType = (FuelType)fuelTypeComboBox.SelectedIndex,
+                        TransmissionType = (TransmissionType)transmissionComboBox.SelectedIndex,
                         Kilometers = kilometers,
-                        Status = (VehicleStatus)statusComboBox.SelectedIndex,
+                        Status = (VehicleStatus) statusComboBox.SelectedIndex,
                         CreatedAt = DateTime.Now
                     };
 

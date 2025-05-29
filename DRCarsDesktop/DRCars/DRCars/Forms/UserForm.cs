@@ -145,6 +145,7 @@ namespace DRCars.Forms
             roleComboBox.Items.Add("Gerente");
             roleComboBox.Items.Add("Agente de Ventas");
             roleComboBox.Items.Add("Visualizador");
+            roleComboBox.Items.Add("Usuario");
             roleComboBox.SelectedIndex = 0;
 
             // Is Active CheckBox
@@ -211,17 +212,20 @@ namespace DRCars.Forms
 
                 switch (_user.Role)
                 {
-                    case UserRole.Admin:
+                    case UserRole.ADMIN:
                         roleComboBox.SelectedIndex = 0;
                         break;
-                    case UserRole.Manager:
+                    case UserRole.MANAGER:
                         roleComboBox.SelectedIndex = 1;
                         break;
-                    case UserRole.SalesAgent:
+                    case UserRole.SALESAGENT:
                         roleComboBox.SelectedIndex = 2;
                         break;
-                    case UserRole.Viewer:
+                    case UserRole.VIEWER:
                         roleComboBox.SelectedIndex = 3;
+                        break;
+                    case UserRole.USER:
+                        roleComboBox.SelectedIndex = 4;
                         break;
                 }
 
@@ -258,16 +262,19 @@ namespace DRCars.Forms
             switch (roleComboBox.SelectedIndex)
             {
                 case 0:
-                    _user.Role = UserRole.Admin;
+                    _user.Role = UserRole.ADMIN;
                     break;
                 case 1:
-                    _user.Role = UserRole.Manager;
+                    _user.Role = UserRole.MANAGER;
                     break;
                 case 2:
-                    _user.Role = UserRole.SalesAgent;
+                    _user.Role = UserRole.SALESAGENT;
                     break;
                 case 3:
-                    _user.Role = UserRole.Viewer;
+                    _user.Role = UserRole.VIEWER;
+                    break;
+                case 4:
+                    _user.Role = UserRole.USER;
                     break;
             }
 

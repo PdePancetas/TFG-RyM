@@ -323,11 +323,34 @@ namespace DRCars.Controls
                 brandModelLabel.Text = $"{_vehicle.Brand} {_vehicle.Model}";
                 yearLabel.Text = $"{_vehicle.Year}";
                 priceLabel.Text = $"{_vehicle.Price:N0} €";
-                detailsLabel.Text = $"{_vehicle.FuelType} • {_vehicle.Transmission} • {_vehicle.Kilometers:N0} km";
+                detailsLabel.Text = $"{GetFuel(_vehicle.FuelType)} • {GetTransmission(_vehicle.TransmissionType)} • {_vehicle.Kilometers:N0} km";
 
                 // Set status label
                 statusLabel.Text = GetStatusText(_vehicle.Status);
                 statusLabel.BackColor = GetStatusColor(_vehicle.Status);
+            }
+        }
+
+
+        private string GetTransmission(TransmissionType transmissionType)
+        {
+            switch (transmissionType)
+            {
+                case TransmissionType.Manual: return "Manual";
+                case TransmissionType.Automatic: return "Automática";
+                default: return "Desconocido";
+            }
+        }
+
+        private string GetFuel(FuelType fuelType)
+        {
+            switch (fuelType)
+            {
+                case FuelType.Gasoline: return "Gasolina";
+                case FuelType.Diesel: return "Diésel";
+                case FuelType.Hybrid: return "Híbrido";
+                case FuelType.Electric: return "Eléctrico";
+                default: return "Desconocido";
             }
         }
 
@@ -339,7 +362,6 @@ namespace DRCars.Controls
                 case VehicleStatus.InGarage: return "En Garaje";
                 case VehicleStatus.ForSale: return "En Venta";
                 case VehicleStatus.Sold: return "Vendido";
-                case VehicleStatus.InRepair: return "En Reparación";
                 default: return "Desconocido";
             }
         }
@@ -352,7 +374,6 @@ namespace DRCars.Controls
                 case VehicleStatus.InGarage: return Color.FromArgb(207, 226, 255);
                 case VehicleStatus.ForSale: return Color.FromArgb(255, 243, 205);
                 case VehicleStatus.Sold: return Color.FromArgb(248, 215, 218);
-                case VehicleStatus.InRepair: return Color.FromArgb(255, 228, 208);
                 default: return Color.FromArgb(240, 240, 240);
             }
         }
