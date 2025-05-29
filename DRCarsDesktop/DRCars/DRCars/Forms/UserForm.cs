@@ -281,10 +281,9 @@ namespace DRCars.Forms
 
             _user.IsActive = isActiveCheckBox.Checked;
 
-            // In a real app, you would save to API
             await apiClient.UpdateUserAsync(_user);
-            // For demo, just close with OK result
             this.DialogResult = DialogResult.OK;
+
             this.Close();
         }
 

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 
 namespace DRCars.Models
@@ -25,8 +26,9 @@ namespace DRCars.Models
         [JsonProperty("contraseña")]
         public string Password { get; set; }
 
-        [JsonProperty("tipo_usuario")]
-        public UserRole Role {get; set;}
+        [JsonProperty("tipoUsuario")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public UserRole Role { get; set; }
 
         [JsonProperty("ultimo_acceso")]
         public DateTime? LastLogin { get; set; }

@@ -123,9 +123,9 @@ namespace DRCars.Controls
             usersDataGridView.Columns.Add("Email", "Email");
             //usersDataGridView.Columns.Add("Phone", "Teléfono");
             usersDataGridView.Columns.Add("Role", "Rol");
-            usersDataGridView.Columns.Add("Status", "Estado");
-            usersDataGridView.Columns.Add("CreatedAt", "Fecha de Creación");
+            //usersDataGridView.Columns.Add("Status", "Estado");
             usersDataGridView.Columns.Add("LastLogin", "Último Acceso");
+            usersDataGridView.Columns.Add("CreatedAt", "Fecha de Creación");
 
             // Set column widths more uniformly
             usersDataGridView.Columns["Id"].Width = 60;
@@ -133,9 +133,9 @@ namespace DRCars.Controls
             usersDataGridView.Columns["Email"].Width = 180;
             //usersDataGridView.Columns["Phone"].Width = 120;
             usersDataGridView.Columns["Role"].Width = 120;
-            usersDataGridView.Columns["Status"].Width = 100;
-            usersDataGridView.Columns["CreatedAt"].Width = 120;
+            //usersDataGridView.Columns["Status"].Width = 100;
             usersDataGridView.Columns["LastLogin"].Width = 120;
+            usersDataGridView.Columns["CreatedAt"].Width = 120;
 
             // Add controls to panels
             headerPanel.Controls.Add(searchTextBox);
@@ -183,7 +183,7 @@ namespace DRCars.Controls
 
             foreach (var user in allUsers)
             {
-                string status = user.IsActive ? "Activo" : "Inactivo";
+                //string status = user.IsActive ? "Activo" : "Inactivo";
                 string role = GetRoleText(user.Role);
                 string lastLogin = user.LastLogin.HasValue ? user.LastLogin.Value.ToString("dd/MM/yyyy HH:mm") : "-";
 
@@ -193,9 +193,9 @@ namespace DRCars.Controls
                     user.Email,
                     //user.Phone,
                     role,
-                    status,
-                    user.CreatedAt.ToString("dd/MM/yyyy"),
-                    lastLogin
+                    //status,
+                    lastLogin,
+                    user.CreatedAt.ToString("dd/MM/yyyy")
                 );
             }
         }
@@ -233,7 +233,7 @@ namespace DRCars.Controls
                     //user.Phone?.ToLower().Contains(searchText) == true ||
                     GetRoleText(user.Role).ToLower().Contains(searchText))
                 {
-                    string status = user.IsActive ? "Activo" : "Inactivo";
+                    //string status = user.IsActive ? "Activo" : "Inactivo";
                     string role = GetRoleText(user.Role);
                     string lastLogin = user.LastLogin.HasValue ? user.LastLogin.Value.ToString("dd/MM/yyyy HH:mm") : "-";
 
@@ -243,9 +243,9 @@ namespace DRCars.Controls
                         user.Email,
                         //user.Phone,
                         role,
-                        status,
-                        user.CreatedAt.ToString("dd/MM/yyyy"),
-                        lastLogin
+                        //status,
+                        lastLogin,
+                        user.CreatedAt.ToString("dd/MM/yyyy")
                     );
                 }
             }

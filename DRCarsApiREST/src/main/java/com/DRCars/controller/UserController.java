@@ -1,6 +1,7 @@
 package com.DRCars.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,23 +21,29 @@ public class UserController {
 
 	@Autowired
 	UsuarioServiceImpl userService;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Usuario>> obtenerUsuarios() {
 		return ResponseEntity.ok(userService.obtenerUsuarios());
 	}
-	
+
 	@PostMapping("/act")
 	public ResponseEntity<Usuario> updtUsuario(@RequestBody Usuario u) {
-		Usuario usuario = null;
+		Optional<Usuario> usuario = null;
 		try {
-			usuario = userService.actualizarUsuario(u);
-			return ResponseEntity.ok(usuario);
+			usuario = userService.obtenerUsuarioPorId(u.getIdUsuario());
+			if (usuario.isEmpty())
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+			u.setUltimo_acceso(usuario.get().getUltimo_acceso());
+			u.setRegistro_cuenta(usuario.get().getRegistro_cuenta());
+			Usuario actualizado = userService.actualizarUsuario(u);
+			return ResponseEntity.ok(actualizado);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(usuario);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
-		
+
 	}
-	
+
 }

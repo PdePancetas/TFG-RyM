@@ -3,6 +3,10 @@ package com.DRCars.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import org.springframework.data.annotation.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,6 +15,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 
 @Entity
 @Table(name = "USUARIOS")
@@ -19,6 +24,7 @@ public class Usuario implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2626037672387601521L;
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +48,7 @@ public class Usuario implements Serializable {
 	private String registro_cuenta;
 
 	public enum TipoUsuario {
-		ADMIN, USER
+		ADMIN,MANAGER,SALESAGENT,VIEWER,USER
 	}
 
 	public Usuario() {

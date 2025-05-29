@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using DRCars.Models;
 
 namespace DRCars.Utils
@@ -138,7 +139,7 @@ namespace DRCars.Utils
 
         public async Task<User> UpdateUserAsync(User user)
         {
-            var json = JsonConvert.SerializeObject(user);
+            var json = JsonConvert.SerializeObject(user, new StringEnumConverter());
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("/users/act", content);
             response.EnsureSuccessStatusCode();
