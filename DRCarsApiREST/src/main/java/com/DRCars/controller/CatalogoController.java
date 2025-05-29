@@ -1,6 +1,7 @@
 package com.DRCars.controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,16 @@ public class CatalogoController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Vehiculo> getVehiculo(@PathVariable Long id) {
-		return ResponseEntity.of(vehiculoService.obtenerVehiculoPorId(id));
+	public ResponseEntity<VehiculoDTO> getVehiculo(@PathVariable Long id) {
+		 Optional<Vehiculo> v = vehiculoService.obtenerVehiculoPorId(id);
+		if(v.isPresent()) {
+			VehiculoDTO vdto = VehiculoMapper.INSTANCE.toDTO(vehiculoService.obtenerVehiculoPorId(id).get());
+			return ResponseEntity.ok(vdto);
+		}else {
+			VehiculoDTO vdto = VehiculoMapper.INSTANCE.toDTO(vehiculoService.obtenerVehiculoPorId(id).orElse(new Vehiculo()));
+			return ResponseEntity.status(404).body(vdto);
+		}
+			
 	}
 
 	@PostMapping("/act")
