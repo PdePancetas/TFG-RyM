@@ -238,7 +238,6 @@ namespace DRCars.Forms
             {
                 nuevo = true;
                 _user = new User();
-                _user.LastLogin = _user.CreatedAt;
             }
 
             _user.Name = nameTextBox.Texts;
