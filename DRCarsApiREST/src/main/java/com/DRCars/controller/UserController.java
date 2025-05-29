@@ -34,7 +34,7 @@ public class UserController {
 	public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario) {
 		Usuario u = null;
 		try {
-			u.setIdUsuario(null);
+			usuario.setIdUsuario(null);
 			u = userService.crearUsuario(usuario);
 			return ResponseEntity.ok(u);
 		} catch (Exception e) {
