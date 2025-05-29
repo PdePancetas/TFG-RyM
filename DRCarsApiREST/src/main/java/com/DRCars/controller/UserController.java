@@ -35,6 +35,9 @@ public class UserController {
 		Usuario u = null;
 		try {
 			usuario.setIdUsuario(null);
+			String date = LocalDateTime.now().toString();
+			usuario.setRegistro_cuenta(date);
+			usuario.setUltimo_acceso(date);
 			u = userService.crearUsuario(usuario);
 			return ResponseEntity.ok(u);
 		} catch (Exception e) {
