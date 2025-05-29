@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using DRCars.Controls;
 using DRCars.Models;
@@ -125,7 +127,6 @@ namespace DRCars.Forms
             passwordTextBox.Location = new Point(30, 255);
             passwordTextBox.BorderRadius = 4;
             passwordTextBox.PlaceholderText = "Contraseña";
-            passwordTextBox.PasswordChar = true;
             passwordTextBox.BorderColor = Color.FromArgb(206, 212, 218);
 
             // Role Label
@@ -163,7 +164,7 @@ namespace DRCars.Forms
             saveButton.BorderRadius = 4;
             saveButton.BackColor = primaryColor;
             saveButton.ForeColor = Color.White;
-            saveButton.Click += SaveButton_Click;
+            saveButton.Click += SaveButton_ClickAsync;
 
             // Cancel Button
             cancelButton.Text = "Cancelar";
@@ -208,8 +209,8 @@ namespace DRCars.Forms
             {
                 nameTextBox.Texts = _user.Name;
                 emailTextBox.Texts = _user.Email;
-                passwordTextBox.Texts = "••••••••"; // Placeholder for security
-
+                passwordTextBox.PlaceholderText = "*******"; // Placeholder for security
+                passwordTextBox.Texts = _user.Password;
                 switch (_user.Role)
                 {
                     case UserRole.ADMIN:
@@ -233,7 +234,7 @@ namespace DRCars.Forms
             }
         }
 
-        private void SaveButton_Click(object sender, EventArgs e)
+        private async void SaveButton_ClickAsync(object sender, EventArgs e)
         {
             // Validate inputs
             if (string.IsNullOrEmpty(nameTextBox.Texts) || string.IsNullOrEmpty(emailTextBox.Texts))
@@ -281,6 +282,7 @@ namespace DRCars.Forms
             _user.IsActive = isActiveCheckBox.Checked;
 
             // In a real app, you would save to API
+            await apiClient.UpdateUserAsync(_user);
             // For demo, just close with OK result
             this.DialogResult = DialogResult.OK;
             this.Close();
