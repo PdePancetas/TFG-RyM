@@ -10,7 +10,7 @@ public class VehiculoRequest {
 
 	private String marca;
 	private String modelo;
-	private Year anno_fabricacion;
+	private Year annoFabricacion;
 	private String color;
 	private Integer kilometraje;
 	private String matricula;
@@ -37,12 +37,12 @@ public class VehiculoRequest {
 		this.modelo = modelo;
 	}
 
-	public Year getAnno_fabricacion() {
-		return anno_fabricacion;
+	public Year getAnnoFabricacion() {
+		return annoFabricacion;
 	}
 
-	public void setAnno_fabricacion(Year anno_fabricacion) {
-		this.anno_fabricacion = anno_fabricacion;
+	public void setAnnoFabricacion(Year annoFabricacion) {
+		this.annoFabricacion = annoFabricacion;
 	}
 
 	public String getColor() {
