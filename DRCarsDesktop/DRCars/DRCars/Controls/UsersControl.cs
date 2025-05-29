@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using DRCars.Models;
 using DRCars.Utils;
 using DRCars.Forms;
+using System.Threading.Tasks;
 
 namespace DRCars.Controls
 {
@@ -286,7 +287,7 @@ namespace DRCars.Controls
             }
         }
 
-        private void DeleteUserButton_Click(object sender, EventArgs e)
+        private async void DeleteUserButton_Click(object sender, EventArgs e)
         {
             if (selectedUser != null)
             {
@@ -295,8 +296,7 @@ namespace DRCars.Controls
 
                 if (result == DialogResult.Yes)
                 {
-                    // Delete user logic would go here
-                    // For now, just refresh the list
+                    await apiClient.DeleteUserAsync(selectedUser);
                     LoadUsers();
                 }
             }

@@ -206,7 +206,7 @@ namespace DRCars.Forms
             {
                 nameTextBox.Texts = _user.Name;
                 emailTextBox.Texts = _user.Email;
-                passwordTextBox.PlaceholderText = "*******"; // Placeholder for security
+                passwordTextBox.PlaceholderText = "••••••••"; // Placeholder for security
                 passwordTextBox.Texts = _user.Password;
                 switch (_user.Role)
                 {
@@ -238,6 +238,7 @@ namespace DRCars.Forms
             {
                 nuevo = true;
                 _user = new User();
+                _user.LastLogin = _user.CreatedAt;
             }
 
             _user.Name = nameTextBox.Texts;
@@ -262,10 +263,11 @@ namespace DRCars.Forms
 
             _user.IsActive = isActiveCheckBox.Checked;
 
-            if (nuevo)
+            if (!nuevo)
                 await apiClient.UpdateUserAsync(_user);
             else
                 await apiClient.AddUserAsync(_user);
+
             this.DialogResult = DialogResult.OK;
 
             this.Close();

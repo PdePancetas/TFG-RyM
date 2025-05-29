@@ -165,6 +165,17 @@ namespace DRCars.Utils
         * 
         */
 
+        public async Task<User> DeleteUserAsync(User user)
+        {
+            var json = JsonConvert.SerializeObject(user, new StringEnumConverter());
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/users/delete", content);
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<User>(responseContent);
+        }
+
+
         public async Task<List<SaleRequest>> GetSaleRequestsAsync()
         {
             var response = await _httpClient.GetAsync("/reservas");

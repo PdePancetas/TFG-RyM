@@ -14,7 +14,7 @@ public interface UsuarioService {
 
 	Optional<Usuario> obtenerUsuarioPorNombre(String usuario);
 
-	void eliminarUsuario(Long id);
+	void eliminarUsuario(Usuario usuario);
 	
 	boolean verificarContraseña(String hashIngresado, String hashGuardado);
 
