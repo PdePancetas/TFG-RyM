@@ -11,7 +11,6 @@ public class ReservaDTO {
     private VehiculoDTOreserva vehiculo;
     private LocalDateTime fechaReserva;
     private BigDecimal precioReserva;
-    private Year annoFabricacion;
     private String descripcion;
 
     public ReservaDTO() {
@@ -56,14 +55,6 @@ public class ReservaDTO {
 
 	public void setPrecioReserva(BigDecimal precioReserva) {
 		this.precioReserva = precioReserva;
-	}
-
-	public Year getAnnoFabricacion() {
-		return annoFabricacion;
-	}
-
-	public void setAnnoFabricacion(Year annoFabricacion) {
-		this.annoFabricacion = annoFabricacion;
 	}
 
 	public String getDescripcion() {
