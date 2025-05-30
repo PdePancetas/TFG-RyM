@@ -146,11 +146,6 @@ namespace DRCars.Utils
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<User>(responseContent);
         }
-
-        /*
-         * Add
-         */
-
         public async Task<User> AddUserAsync(User user)
         {
             var json = JsonConvert.SerializeObject(user, new StringEnumConverter());
@@ -160,11 +155,6 @@ namespace DRCars.Utils
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<User>(responseContent);
         }
-
-        /* Delete
-        * 
-        */
-
         public async Task<User> DeleteUserAsync(User user)
         {
             var json = JsonConvert.SerializeObject(user, new StringEnumConverter());

@@ -2,6 +2,7 @@ package com.DRCars.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.Year;
 
 public class ReservaDTO {
 	
@@ -10,6 +11,7 @@ public class ReservaDTO {
     private VehiculoDTOreserva vehiculo;
     private LocalDateTime fechaReserva;
     private BigDecimal precioReserva;
+    private Year annoFabricacion;
     private String descripcion;
 
     public ReservaDTO() {
@@ -54,6 +56,14 @@ public class ReservaDTO {
 
 	public void setPrecioReserva(BigDecimal precioReserva) {
 		this.precioReserva = precioReserva;
+	}
+
+	public Year getAnnoFabricacion() {
+		return annoFabricacion;
+	}
+
+	public void setAnnoFabricacion(Year annoFabricacion) {
+		this.annoFabricacion = annoFabricacion;
 	}
 
 	public String getDescripcion() {
