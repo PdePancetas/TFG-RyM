@@ -168,7 +168,7 @@ namespace DRCars.Controls
                     vehicleLabel.Text = "Sin vehiculo asociado";
                 }
 
-                dateLabel.Text = $"Solicitud: {_request.RequestDate.ToShortDateString()}";
+                dateLabel.Text = $"Solicitud: {_request.RequestDate.ToShortDateString()} - Precio: {_request.Budget} €";
 
                 if (_request.ScheduledDate.HasValue)
                 {

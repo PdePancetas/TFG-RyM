@@ -434,7 +434,7 @@ namespace DRCars.Controls
                     Location = new Point(15, 10),
                     Font = new Font("Segoe UI Semibold", 10F),
                     ForeColor = textColor,
-                    Text = sale.CustomerName,
+                    Text = sale.cliente.Id,
                     TextAlign = ContentAlignment.MiddleLeft
                 };
 

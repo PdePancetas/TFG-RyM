@@ -1,11 +1,13 @@
-﻿using System;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.Text;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DRCars.Utils
 {
@@ -164,8 +166,10 @@ namespace DRCars.Utils
                 _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
 
                 // Añadir header de ngrok si es necesario
-                var random = new Random();
-                _httpClient.DefaultRequestHeaders.Add("ngrok-skip-browser-warning", random.Next(1000, 9999).ToString());
+                //var random = new Random();
+                //_httpClient.DefaultRequestHeaders.Add("ngrok-skip-browser-warning", random.Next(1000, 9999).ToString());
+                _httpClient.DefaultRequestHeaders.Authorization = 
+                    new AuthenticationHeaderValue("Bearer", AppConfig.GetFirebaseAuthToken());
 
                 Console.WriteLine("✅ Headers HTTP configurados");
             }
@@ -240,7 +244,7 @@ namespace DRCars.Utils
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 Console.WriteLine("📤 Enviando petición PUT...");
-                var response = await _httpClient.PutAsync(url, content);
+                var response = await _httpClient.PostAsync(url, content);
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 Console.WriteLine($"Status: {response.StatusCode}");
