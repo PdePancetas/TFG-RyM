@@ -246,7 +246,7 @@ namespace DRCars.Controls
 
                 Label vehicleLabel = new Label
                 {
-                    Text = $"Vehículo ID: {sale.Vehicle.Id}",
+                    Text = $"Vehículo: (Id: {sale.Vehicle.Id}) {sale.Vehicle.Brand} {sale.Vehicle.Model}",
                     Font = new Font("Segoe UI", 9F),
                     AutoSize = false,
                     Size = new Size(380, 25),

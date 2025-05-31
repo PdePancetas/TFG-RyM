@@ -2,6 +2,7 @@ package com.DRCars.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,26 +71,26 @@ public class ReservaServiceImpl implements ReservaService {
 
 	@Transactional
 	public void procesarReserva(ProcReservaRequest reserva) {
+		Optional<Reserva> res = null;
 		try {
-			if (reserva.isAceptada()) {
-				Reserva res = reservaRepo.getReferenceById(reserva.getIdReserva());
-				
-				if (res.getVehiculo().getIdVehiculo() != null) {
-					Venta venta = new Venta();
-					venta.setCliente(clienteRepo.getReferenceById(res.getCliente().getDniCliente()));
-					venta.setPrecioVenta(res.getPrecioReserva());
-					venta.setVehiculo(vehiculoRepo.getReferenceById(res.getVehiculo().getIdVehiculo()));
-
-					ventasRepo.save(venta);
+			res = reservaRepo.findById(reserva.getIdReserva());
+			if(res.isPresent()) {
+				if (reserva.isAceptada()) {
+					if (res.get().getVehiculo().getIdVehiculo() != null) {
+						Venta venta = new Venta();
+						venta.setCliente(clienteRepo.getReferenceById(res.get().getCliente().getDniCliente()));
+						venta.setPrecioVenta(res.get().getPrecioReserva());
+						venta.setVehiculo(vehiculoRepo.getReferenceById(res.get().getVehiculo().getIdVehiculo()));
+	
+						ventasRepo.save(venta);
+					}
 				}
-			}
-
+				reservaRepo.delete(res.get());
+			} else
+				throw new Exception();
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			reservaRepo.delete(reservaRepo.getReferenceById(reserva.getIdReserva()));
 		}
-
 	}
 
 }

@@ -165,7 +165,6 @@ namespace DRCars.Controls
             statusComboBox.Items.Add("En Garaje");
             statusComboBox.Items.Add("En Venta");
             statusComboBox.Items.Add("Vendido");
-            statusComboBox.Items.Add("En Reparación");
             statusComboBox.SelectedIndex = 0;
 
             // Apply Filters Button

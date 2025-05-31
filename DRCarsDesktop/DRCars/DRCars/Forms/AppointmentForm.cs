@@ -163,8 +163,8 @@ namespace DRCars.Forms
                 _request.AdditionalDetails = (_request.AdditionalDetails ?? "") + "\n\nNotas de la cita: " + notesTextBox.Text;
 
                 // Save changes
-                await apiClient.UpdateSaleRequestAsync(_request);
-
+                String estado = await apiClient.UpdateSaleRequestAsync(_request);
+                MessageBox.Show(estado);
                 DialogResult = DialogResult.OK;
                 Close();
             }
