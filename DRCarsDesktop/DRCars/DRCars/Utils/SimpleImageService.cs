@@ -13,7 +13,7 @@ namespace DRCars.Utils
         /// <summary>
         /// Convierte imagen a múltiples tamaños usando System.Drawing con manejo mejorado de memoria
         /// </summary>
-        public async Task<Dictionary<string, byte[]>> CreateImageVersionsAsync(Image originalImage)
+        public Dictionary<string, byte[]> CreateImageVersionsAsync(Image originalImage)
         {
             var results = new Dictionary<string, byte[]>();
 
