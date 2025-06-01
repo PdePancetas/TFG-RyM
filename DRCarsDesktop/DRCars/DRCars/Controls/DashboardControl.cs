@@ -170,6 +170,10 @@ namespace DRCars.Controls
             recentSalesFlow.Location = new Point(15, 45);
             recentSalesFlow.BackColor = Color.White;
             recentSalesFlow.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
+            recentSalesFlow.FlowDirection = FlowDirection.TopDown;
+            recentSalesFlow.WrapContents = false;
+            recentSalesFlow.Dock = DockStyle.Fill;
+            recentSalesFlow.Padding = new Padding(0, 30, 0, 0); // 10 píxeles de espacio arriba
 
             // Pending Requests Panel
             pendingRequestsPanel.BorderRadius = 8;
@@ -226,28 +230,47 @@ namespace DRCars.Controls
 
         private void DashboardControl_Resize(object sender, EventArgs e)
         {
+
+            int newWidth = Math.Max(0, salesChartPanel.Width - 30);
+            int newHeight = Math.Max(0, salesChartPanel.Height - 30);
+
             // Adjust panel positions and sizes when control is resized
             int halfWidth = (this.Width - 40 - 20) / 2; // 40 for padding, 20 for gap
+
+            statsPanel.Width = newWidth;
+
 
             salesChartPanel.Width = halfWidth;
             vehiclesChartPanel.Width = halfWidth;
             vehiclesChartPanel.Location = new Point(halfWidth + 40, 120);
 
-            salesChart.Size = new Size(salesChartPanel.Width - 30, salesChartPanel.Height - 30);
+            salesChart.Size = new Size(newWidth, newHeight);
+            //salesChart.Size = new Size(salesChartPanel.Width - 30, salesChartPanel.Height - 30);
             salesChart.Location = new Point(15, 15);
 
-            vehiclesChart.Size = new Size(vehiclesChartPanel.Width - 30, vehiclesChartPanel.Height - 30);
+            vehiclesChart.Size = new Size(newWidth, newHeight);
+            //vehiclesChart.Size = new Size(vehiclesChartPanel.Width - 30, vehiclesChartPanel.Height - 30);
             vehiclesChart.Location = new Point(15, 15);
 
             recentSalesPanel.Width = halfWidth;
+            
             pendingRequestsPanel.Width = halfWidth;
             pendingRequestsPanel.Location = new Point(halfWidth + 40, 440);
 
             recentSalesTitle.Width = recentSalesPanel.Width - 30;
             pendingRequestsTitle.Width = pendingRequestsPanel.Width - 30;
 
-            recentSalesFlow.Width = recentSalesPanel.Width - 30;
+            //recentSalesFlow.Width = recentSalesPanel.Width - 30;
+            //recentSalesFlow.Height = recentSalesPanel.Height - 60;
             pendingRequestsFlow.Width = pendingRequestsPanel.Width - 30;
+
+            // Limitar altura de recentSalesPanel para que no se salga de la ventana
+            int maxHeight = this.ClientSize.Height - recentSalesPanel.Location.Y - 20;
+            recentSalesPanel.Height = maxHeight-5;
+
+            // Ajustar recentSalesFlow para ocupar el área interna
+            recentSalesFlow.Width = recentSalesPanel.Width - recentSalesPanel.Padding.Left - recentSalesPanel.Padding.Right;
+            recentSalesFlow.Height = recentSalesPanel.Height;
         }
 
         public async void LoadData()
@@ -260,13 +283,12 @@ namespace DRCars.Controls
 
                 // Agrupar vehículos por mes
                 var monthlyVehicles = vehicles
-                    .GroupBy(v => new { v.CreatedAt.Year, v.CreatedAt.Month })
+                    .GroupBy(v => v.Brand )
                     .Select(g => new
                     {
-                        Month = new DateTime(g.Key.Year, g.Key.Month, 1),
+                        Brand = g.Key,
                         Count = g.Count()
                     })
-                    .OrderBy(g => g.Month)
                     .ToList();
 
                 // Graficar vehículos
@@ -278,7 +300,7 @@ namespace DRCars.Controls
                 };
                 foreach (var entry in monthlyVehicles)
                 {
-                    vehiclesSeries.Points.AddXY(entry.Month.ToString("MMM yyyy"), entry.Count);
+                    vehiclesSeries.Points.AddXY(entry.Brand, entry.Count);
                 }
                 vehiclesChart.Series.Add(vehiclesSeries);
 
@@ -301,9 +323,16 @@ namespace DRCars.Controls
                     .Select(g => new
                     {
                         Month = new DateTime(g.Key.Year, g.Key.Month, 1),
-                        Total = g.Sum(s => s.TotalPrice)
+                        Total = g.Sum(s => s.SalePrice)
                     })
                     .OrderBy(g => g.Month)
+                    .ToList();
+
+                // Obtener solo los últimos 3 meses
+                monthlySales = monthlySales
+                    .OrderByDescending(x => x.Month)
+                    .Take(3)
+                    .OrderBy(x => x.Month) // Ordenar de nuevo cronológicamente
                     .ToList();
 
                 // Graficar ventas
@@ -318,6 +347,7 @@ namespace DRCars.Controls
                     salesSeries.Points.AddXY(entry.Month.ToString("MMM yyyy"), entry.Total);
                 }
                 salesChart.Series.Add(salesSeries);
+
 
                 // Load sale requests
                 var requests = await apiClient.GetSaleRequestsAsync();

@@ -22,6 +22,7 @@ namespace DRCars.Models
         public int SalesAgentId { get; set; }
         public User SalesAgent { get; set; }
 
+        [JsonProperty("fechaVenta")]
         public DateTime SaleDate { get; set; }
         public string Notes { get; set; }
         public DateTime CreatedAt { get; set; }

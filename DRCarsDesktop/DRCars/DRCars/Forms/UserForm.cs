@@ -13,8 +13,8 @@ namespace DRCars.Forms
     {
         private RoundedPanel mainPanel;
         private Label titleLabel;
-        private Label nameLabel;
-        private RoundedTextBox nameTextBox;
+        //private Label nameLabel;
+        //private RoundedTextBox nameTextBox;
         private Label emailLabel;
         private RoundedTextBox emailTextBox;
         private Label passwordLabel;
@@ -47,8 +47,8 @@ namespace DRCars.Forms
         {
             mainPanel = new RoundedPanel();
             titleLabel = new Label();
-            nameLabel = new Label();
-            nameTextBox = new RoundedTextBox();
+            //nameLabel = new Label();
+            //nameTextBox = new RoundedTextBox();
             emailLabel = new Label();
             emailTextBox = new RoundedTextBox();
             passwordLabel = new Label();
@@ -88,7 +88,7 @@ namespace DRCars.Forms
             titleLabel.Text = _user == null ? "Añadir Nuevo Usuario" : "Editar Usuario";
 
             // Name Label
-            nameLabel.AutoSize = true;
+            /*nameLabel.AutoSize = true;
             nameLabel.Location = new Point(30, 80);
             nameLabel.Font = new Font("Segoe UI", 10F);
             nameLabel.ForeColor = textColor;
@@ -99,7 +99,7 @@ namespace DRCars.Forms
             nameTextBox.Location = new Point(30, 105);
             nameTextBox.BorderRadius = 4;
             nameTextBox.PlaceholderText = "Nombre completo";
-            nameTextBox.BorderColor = Color.FromArgb(206, 212, 218);
+            nameTextBox.BorderColor = Color.FromArgb(206, 212, 218);*/
 
             // Email Label
             emailLabel.AutoSize = true;
@@ -183,8 +183,8 @@ namespace DRCars.Forms
 
             // Add controls to panel
             mainPanel.Controls.Add(titleLabel);
-            mainPanel.Controls.Add(nameLabel);
-            mainPanel.Controls.Add(nameTextBox);
+            /*mainPanel.Controls.Add(nameLabel);
+            mainPanel.Controls.Add(nameTextBox);*/
             mainPanel.Controls.Add(emailLabel);
             mainPanel.Controls.Add(emailTextBox);
             mainPanel.Controls.Add(passwordLabel);
@@ -204,7 +204,7 @@ namespace DRCars.Forms
         {
             if (_user != null)
             {
-                nameTextBox.Texts = _user.Name;
+                //nameTextBox.Texts = _user.Name;
                 emailTextBox.Texts = _user.Email;
                 passwordTextBox.PlaceholderText = "••••••••"; // Placeholder for security
                 passwordTextBox.Texts = _user.Password;
@@ -225,7 +225,7 @@ namespace DRCars.Forms
         private async void SaveButton_ClickAsync(object sender, EventArgs e)
         {
             // Validate inputs
-            if (string.IsNullOrEmpty(nameTextBox.Texts) || string.IsNullOrEmpty(emailTextBox.Texts))
+            if (/*string.IsNullOrEmpty(nameTextBox.Texts) || */string.IsNullOrEmpty(emailTextBox.Texts))
             {
                 statusLabel.Text = "Por favor, complete todos los campos obligatorios.";
                 statusLabel.Visible = true;
@@ -240,7 +240,7 @@ namespace DRCars.Forms
                 _user = new User();
             }
 
-            _user.Name = nameTextBox.Texts;
+            //_user.Name = nameTextBox.Texts;
             _user.Email = emailTextBox.Texts;
 
             // Only update password if it's not the placeholder
