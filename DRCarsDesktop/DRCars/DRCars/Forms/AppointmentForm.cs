@@ -88,7 +88,7 @@ namespace DRCars.Forms
             datePicker.Location = new Point(30, 165);
             datePicker.Font = new Font("Segoe UI", 9F);
             datePicker.Format = DateTimePickerFormat.Short;
-            datePicker.MinDate = DateTime.Today;
+            datePicker.MinDate =_request.RequestDate;
 
             // Time Label
             timeLabel.AutoSize = true;
@@ -102,6 +102,7 @@ namespace DRCars.Forms
             timePicker.Font = new Font("Segoe UI", 9F);
             timePicker.Format = DateTimePickerFormat.Time;
             timePicker.ShowUpDown = true;
+            timePicker.Value = _request.RequestDate;
 
             // Notes Label
             notesLabel.AutoSize = true;
