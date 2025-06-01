@@ -284,7 +284,7 @@ namespace DRCars.Utils
                 var imageInfo = _imageProcessor.GetImageInfo(originalImage);
 
                 // Crear versiones optimizadas
-                var imageVersions = await _imageProcessor.CreateImageVersionsAsync(originalImage);
+                var imageVersions = _imageProcessor.CreateImageVersionsAsync(originalImage);
 
                 var imageData = new VehicleImageData
                 {

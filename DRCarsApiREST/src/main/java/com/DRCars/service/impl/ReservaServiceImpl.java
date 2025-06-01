@@ -11,6 +11,7 @@ import com.DRCars.dto.ProcReservaRequest;
 import com.DRCars.dto.ReservaRequest;
 import com.DRCars.model.Cliente;
 import com.DRCars.model.Reserva;
+import com.DRCars.model.Usuario;
 import com.DRCars.model.Venta;
 import com.DRCars.repository.ClienteRepository;
 import com.DRCars.repository.ReservaRepository;
@@ -40,6 +41,9 @@ public class ReservaServiceImpl implements ReservaService {
 
 		Cliente cliente = clienteRepo.findByDniCliente(reservaRequest.getDni()).orElseGet(() -> {
 			Cliente nuevoCliente = new Cliente();
+			Usuario u = new Usuario();
+			u.setUsuario(reservaRequest.getEmail());
+			nuevoCliente.setUsuario(u);
 			nuevoCliente.setDniCliente(reservaRequest.getDni());
 			nuevoCliente.setNombre(reservaRequest.getNombre());
 			nuevoCliente.setApellidos(reservaRequest.getApellidos());

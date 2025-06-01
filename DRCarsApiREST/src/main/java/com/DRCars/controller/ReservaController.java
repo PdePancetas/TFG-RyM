@@ -1,4 +1,5 @@
 package com.DRCars.controller;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -6,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,36 +28,55 @@ import com.DRCars.service.impl.ReservaServiceImpl;
 @RequestMapping("/reservas")
 public class ReservaController {
 
-    @Autowired
-    private ReservaServiceImpl reservaService;
-    
-    @GetMapping
-    public ResponseEntity<List<ReservaDTO>> obtenerReservas(){
-    	List<Reserva> reservas = reservaService.obtenerReservas();
-        List<ReservaDTO> reservasDTO = reservas.stream().map(ReservaMapper.INSTANCE::toDTO).collect(Collectors.toList());
-        return ResponseEntity.ok(reservasDTO);
-    }
-    
-    @PostMapping("/crear")
-    public ResponseEntity<String> solicitarReserva(@RequestBody ReservaRequest reserva) {
-        try {
-            reservaService.crearReserva(reserva);
-            return ResponseEntity.ok("Reserva realizada con éxito");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la reserva");
-        }
-    }
-    
-    @PostMapping("/procesar")
-    public ResponseEntity<String> procesarReserva(@RequestBody ProcReservaRequest reserva){
-    	
-    	try {
-    		reservaService.procesarReserva(reserva);
-    		return ResponseEntity.ok("Reserva procesada con éxito");
-    	} catch(Exception e) {
-    		e.printStackTrace();
-    		 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la reserva");
-    	}
-    	
-    }
+	@Autowired
+	private ReservaServiceImpl reservaService;
+
+	@GetMapping
+	public ResponseEntity<List<ReservaDTO>> obtenerReservas() {
+		List<Reserva> reservas = reservaService.obtenerReservas();
+		List<ReservaDTO> reservasDTO = reservas.stream().map(ReservaMapper.INSTANCE::toDTO)
+				.collect(Collectors.toList());
+		return ResponseEntity.ok(reservasDTO);
+	}
+
+	@PostMapping("/crear")
+	public ResponseEntity<String> solicitarReserva(@RequestBody ReservaRequest reserva) {
+		try {
+			reservaService.crearReserva(reserva);
+			return ResponseEntity.ok("Reserva realizada con éxito");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la reserva");
+		}
+	}
+
+	@PostMapping("/procesar")
+	public ResponseEntity<String> procesarReserva(@RequestBody ProcReservaRequest reserva) {
+
+		try {
+			reservaService.procesarReserva(reserva);
+			return ResponseEntity.ok("Reserva procesada con éxito");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la reserva");
+		}
+
+	}
+
+	@GetMapping("/{dni}")
+	public ResponseEntity<List<ReservaDTO>> obtenerReservasPorDni(@PathVariable String dni) {
+
+		List<Reserva> reservas = reservaService.obtenerReservas();
+
+		if (!reservas.isEmpty()) {
+			List<Reserva> reservasCliente = reservas.stream().filter(r -> r.getCliente().getDniCliente().equals(dni))
+					.collect(Collectors.toList());
+			if (!reservasCliente.isEmpty()) {
+				List<ReservaDTO> reservasDTO = reservasCliente.stream().map(ReservaMapper.INSTANCE::toDTO)
+						.collect(Collectors.toList());
+				return ResponseEntity.ok(reservasDTO);
+			}
+			return null;
+		}
+		return null;
+	}
 }
