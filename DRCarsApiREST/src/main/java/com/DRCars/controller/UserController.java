@@ -34,7 +34,10 @@ public class UserController {
 	public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario) {
 		Usuario u = null;
 		try {
-			usuario.setIdUsuario(null);
+			Optional<Usuario> existe = userService.obtenerUsuarioPorId(usuario.getUsuario());
+			if(existe.isPresent()) {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(u);
+			}
 			String date = LocalDateTime.now().toString();
 			usuario.setRegistro_cuenta(date);
 			usuario.setUltimo_acceso(date);
@@ -49,7 +52,7 @@ public class UserController {
 	public ResponseEntity<Usuario> deleteUsuario(@RequestBody Usuario usuario) {
 		Optional<Usuario> u = null;
 		try {
-			u = userService.obtenerUsuarioPorId(usuario.getIdUsuario());
+			u = userService.obtenerUsuarioPorId(usuario.getUsuario());
 			if (u.isEmpty())
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 
@@ -64,7 +67,7 @@ public class UserController {
 	public ResponseEntity<Usuario> updtUsuario(@RequestBody Usuario u) {
 		Optional<Usuario> usuario = null;
 		try {
-			usuario = userService.obtenerUsuarioPorId(u.getIdUsuario());
+			usuario = userService.obtenerUsuarioPorId(u.getUsuario());
 			if (usuario.isEmpty())
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 

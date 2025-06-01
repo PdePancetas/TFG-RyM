@@ -26,7 +26,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        Optional<Usuario> usuario = usuarioService.obtenerUsuarioPorNombre(request.getUsuario());
+        Optional<Usuario> usuario = usuarioService.obtenerUsuarioPorId(request.getUsuario());
         if (usuario.isPresent() && usuarioService.verificarContraseña(request.getContraseña(), usuario.get().getContraseña())) {
             usuario.get().setUltimo_acceso(request.getUltimo_acceso());
             usuarioService.crearUsuario(usuario.get());

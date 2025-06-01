@@ -15,6 +15,7 @@ import com.DRCars.model.Usuario;
 import com.DRCars.model.Venta;
 import com.DRCars.repository.ClienteRepository;
 import com.DRCars.repository.ReservaRepository;
+import com.DRCars.repository.UsuarioRepository;
 import com.DRCars.repository.VehiculoRepository;
 import com.DRCars.repository.VentaRepository;
 import com.DRCars.service.ReservaService;
@@ -35,19 +36,20 @@ public class ReservaServiceImpl implements ReservaService {
 
 	@Autowired
 	private VentaRepository ventasRepo;
+	
+	@Autowired
+	private UsuarioRepository userRepo;
 
 	@Transactional
 	public void crearReserva(ReservaRequest reservaRequest) {
 
-		Cliente cliente = clienteRepo.findByDniCliente(reservaRequest.getDni()).orElseGet(() -> {
+		Cliente cliente = clienteRepo.findById(reservaRequest.getEmail()).orElseGet(() -> {
 			Cliente nuevoCliente = new Cliente();
-			Usuario u = new Usuario();
-			u.setUsuario(reservaRequest.getEmail());
-			nuevoCliente.setUsuario(u);
+			Optional<Usuario> u = userRepo.findById(reservaRequest.getEmail());
+			nuevoCliente.setUsuario(u.get());
 			nuevoCliente.setDniCliente(reservaRequest.getDni());
 			nuevoCliente.setNombre(reservaRequest.getNombre());
 			nuevoCliente.setApellidos(reservaRequest.getApellidos());
-			nuevoCliente.setEmail(reservaRequest.getEmail());
 			return clienteRepo.save(nuevoCliente);
 		});
 
@@ -64,6 +66,8 @@ public class ReservaServiceImpl implements ReservaService {
 			reserva.setPrecioReserva(BigDecimal.valueOf(reservaRequest.getPrecio()));
 		else
 			reserva.setPrecioReserva(BigDecimal.ZERO);
+		
+		reserva.setMotivo(reservaRequest.getMotivo());
 		reserva.setDescripcion(reservaRequest.getDescripcion());
 
 		reservaRepo.save(reserva);

@@ -25,12 +25,7 @@ public class Usuario implements Serializable {
 	 */
 	private static final long serialVersionUID = -2626037672387601521L;
 	
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_usuario")
-	private Long idUsuario;
-
 	@Column(name = "usuario", nullable = false)
 	private String usuario;
 
@@ -55,14 +50,7 @@ public class Usuario implements Serializable {
 		super();
 	}
 
-	public Long getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
-	}
-
+	
 	public String getUsuario() {
 		return usuario;
 	}
@@ -105,7 +93,7 @@ public class Usuario implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(idUsuario);
+		return Objects.hash(usuario);
 	}
 
 	@Override
@@ -117,7 +105,7 @@ public class Usuario implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		return Objects.equals(idUsuario, other.idUsuario);
+		return Objects.equals(usuario, other.usuario);
 	}
 
 }

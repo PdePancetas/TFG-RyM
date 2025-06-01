@@ -70,11 +70,9 @@ public class CatalogoController {
 			
 			Vehiculo actualizado = vehiculoService.actualizarVehiculo(v);
 			return ResponseEntity.ok(VehiculoMapper.INSTANCE.toDTO(actualizado));
-//			return ResponseEntity.ok("El vehiculo con id "+v.getIdVehiculo()+" se ha actualizado correctamente");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(VehiculoMapper.INSTANCE.toDTO(vehiculo.get()));
-//			return ResponseEntity.ok("El vehiculo con id "+v.getIdVehiculo()+" no se pudo actualizar");
 		}
 		
 	}

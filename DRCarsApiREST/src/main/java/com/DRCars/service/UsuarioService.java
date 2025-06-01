@@ -10,9 +10,8 @@ import com.DRCars.model.Usuario;
 public interface UsuarioService {
 	Usuario crearUsuario(Usuario usuario);
 
-	Optional<Usuario> obtenerUsuarioPorId(Long id);
+	Optional<Usuario> obtenerUsuarioPorId(String usuario);
 
-	Optional<Usuario> obtenerUsuarioPorNombre(String usuario);
 
 	void eliminarUsuario(Usuario usuario);
 	

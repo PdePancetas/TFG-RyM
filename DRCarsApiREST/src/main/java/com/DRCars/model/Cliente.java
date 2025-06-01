@@ -25,11 +25,7 @@ public class Cliente implements Serializable {
 	@Id
 	@Column(name = "dni_cliente")
 	private String dniCliente;
-
-	@OneToOne
-	@JoinColumn(name = "id_usuario", nullable = true)
-	private Usuario usuario;
-
+	
 	@Column(name = "nombre", nullable = false)
 	private String nombre;
 
@@ -39,8 +35,9 @@ public class Cliente implements Serializable {
 	@Column(name = "telefono")
 	private String telefono;
 
-	@Column(name = "email")
-	private String email;
+	@OneToOne
+	@JoinColumn(name = "usuario", nullable = true)
+	private Usuario usuario;
 
 	@Column(name = "direccion")
 	private String direccion;
@@ -69,14 +66,6 @@ public class Cliente implements Serializable {
 		this.dniCliente = dniCliente;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -101,12 +90,12 @@ public class Cliente implements Serializable {
 		this.telefono = telefono;
 	}
 
-	public String getEmail() {
-		return email;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getDireccion() {
