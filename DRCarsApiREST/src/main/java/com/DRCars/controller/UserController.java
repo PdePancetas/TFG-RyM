@@ -1,5 +1,6 @@
 package com.DRCars.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.DRCars.mapper.VehiculoMapper;
 import com.DRCars.model.Usuario;
+import com.DRCars.model.Vehiculo;
 import com.DRCars.service.impl.UsuarioServiceImpl;
 
 @RestController
@@ -25,6 +28,36 @@ public class UserController {
 	@GetMapping
 	public ResponseEntity<List<Usuario>> obtenerUsuarios() {
 		return ResponseEntity.ok(userService.obtenerUsuarios());
+	}
+
+	@PostMapping("/crear")
+	public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario) {
+		Usuario u = null;
+		try {
+			usuario.setIdUsuario(null);
+			String date = LocalDateTime.now().toString();
+			usuario.setRegistro_cuenta(date);
+			usuario.setUltimo_acceso(date);
+			u = userService.crearUsuario(usuario);
+			return ResponseEntity.ok(u);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(u);
+		}
+	}
+
+	@PostMapping("/delete")
+	public ResponseEntity<Usuario> deleteUsuario(@RequestBody Usuario usuario) {
+		Optional<Usuario> u = null;
+		try {
+			u = userService.obtenerUsuarioPorId(usuario.getIdUsuario());
+			if (u.isEmpty())
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+			userService.eliminarUsuario(usuario);
+			return ResponseEntity.ok(u.get());
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
 	}
 
 	@PostMapping("/act")

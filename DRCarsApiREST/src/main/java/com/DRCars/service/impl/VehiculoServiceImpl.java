@@ -28,7 +28,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 		
 		v.setMarca(vehiculo.getMarca());
 		v.setModelo(vehiculo.getModelo());
-		v.setAnnoFabricacion(vehiculo.getAnno_fabricacion().getValue());
+		v.setAnnoFabricacion(vehiculo.getAnnoFabricacion());
 		v.setColor(vehiculo.getColor());
 		v.setKilometraje(vehiculo.getKilometraje());
 		v.setMatricula(vehiculo.getMatricula());

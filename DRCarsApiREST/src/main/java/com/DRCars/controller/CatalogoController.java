@@ -40,11 +40,9 @@ public class CatalogoController {
 		Vehiculo v = null;
 		try {
 			v = vehiculoService.anyadirVehiculo(vehiculo);
-			//return ResponseEntity.ok("Vehiculo añadido con éxito");
 			return ResponseEntity.ok(VehiculoMapper.INSTANCE.toDTO(v));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(VehiculoMapper.INSTANCE.toDTO(v));
-			//return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al añadir el vehiculo");
 		}
 	}
 

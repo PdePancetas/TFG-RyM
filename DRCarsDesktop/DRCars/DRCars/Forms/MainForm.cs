@@ -115,7 +115,7 @@ namespace DRCars.Forms
             this.userRoleLabel.Font = new Font("Segoe UI", 9F);
             this.userRoleLabel.ForeColor = accentColor;
             this.userRoleLabel.TextAlign = ContentAlignment.MiddleCenter;
-            this.userRoleLabel.Text = GetRoleText(currentUser?.Role ?? UserRole.VIEWER);
+            this.userRoleLabel.Text = GetRoleText(currentUser.Role);
 
             // Active Indicator
             this.activeIndicator.Size = new Size(4, 40);
@@ -233,12 +233,6 @@ namespace DRCars.Forms
             {
                 case UserRole.ADMIN:
                     return "Administrador";
-                case UserRole.MANAGER:
-                    return "Gerente";
-                case UserRole.SALESAGENT:
-                    return "Agente de Ventas";
-                case UserRole.VIEWER:
-                    return "Visualizador";
                 case UserRole.USER:
                     return "Usuario";
                 default:

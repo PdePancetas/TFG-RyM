@@ -246,7 +246,7 @@ namespace DRCars.Controls
 
                 Label vehicleLabel = new Label
                 {
-                    Text = $"Vehículo ID: {sale.VehicleId}",
+                    Text = $"Vehículo: (Id: {sale.Vehicle.Id}) {sale.Vehicle.Brand} {sale.Vehicle.Model}",
                     Font = new Font("Segoe UI", 9F),
                     AutoSize = false,
                     Size = new Size(380, 25),
@@ -255,7 +255,7 @@ namespace DRCars.Controls
 
                 Label customerLabel = new Label
                 {
-                    Text = $"Cliente ID: {sale.CustomerId}",
+                    Text = $"Cliente ID: {sale.cliente.Id}",
                     Font = new Font("Segoe UI", 9F),
                     AutoSize = false,
                     Size = new Size(380, 25),
@@ -280,21 +280,11 @@ namespace DRCars.Controls
                     Location = new Point(10, 120)
                 };
 
-                Label paymentLabel = new Label
-                {
-                    Text = $"Método de pago: {sale.PaymentMethod}",
-                    Font = new Font("Segoe UI", 9F),
-                    AutoSize = false,
-                    Size = new Size(380, 25),
-                    Location = new Point(10, 145)
-                };
-
                 saleCard.Controls.Add(saleIdLabel);
                 saleCard.Controls.Add(vehicleLabel);
                 saleCard.Controls.Add(customerLabel);
                 saleCard.Controls.Add(priceLabel);
                 saleCard.Controls.Add(dateLabel);
-                saleCard.Controls.Add(paymentLabel);
 
                 salesPanel.Controls.Add(saleCard);
             }

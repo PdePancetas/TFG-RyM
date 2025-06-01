@@ -1,11 +1,14 @@
 package com.DRCars.dto;
 
+import java.time.Year;
+
 public class VehiculoDTOreserva {
 
 	private Long idVehiculo;
 	private String marca;
 	private String modelo;
 	private String estado;
+	private Year annoFabricacion;
 	
 	public VehiculoDTOreserva() {
 		super();
@@ -41,6 +44,14 @@ public class VehiculoDTOreserva {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	public Year getAnnoFabricacion() {
+		return annoFabricacion;
+	}
+
+	public void setAnnoFabricacion(Year annoFabricacion) {
+		this.annoFabricacion = annoFabricacion;
 	}
 	
 	

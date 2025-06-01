@@ -37,6 +37,8 @@ namespace DRCars.Models
         // Campos adicionales para compatibilidad
         public string DesiredBrand { get; set; }
         public string DesiredModel { get; set; }
+
+        [JsonProperty("precioReserva")]
         public decimal? Budget { get; set; }
         public string DeliveryTimeframe { get; set; }
         public string AdditionalDetails { get; set; }

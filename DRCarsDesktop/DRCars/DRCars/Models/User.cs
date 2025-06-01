@@ -7,9 +7,6 @@ namespace DRCars.Models
     public enum UserRole
     {
         ADMIN,
-        MANAGER,
-        SALESAGENT,
-        VIEWER,
         USER
     }
 
@@ -40,7 +37,16 @@ namespace DRCars.Models
 
         public User()
         {
-            CreatedAt = DateTime.Now;
+            DateTime original = DateTime.Now;
+            DateTime truncated = new DateTime(
+                original.Year,
+                original.Month,
+                original.Day,
+                original.Hour,
+                original.Minute,
+                original.Second
+            );
+            CreatedAt = truncated;
             IsActive = true;
         }
     }

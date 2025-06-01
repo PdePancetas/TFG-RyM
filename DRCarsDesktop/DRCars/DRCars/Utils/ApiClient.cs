@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using DRCars.Models;
+using System.IO;
 
 namespace DRCars.Utils
 {
@@ -146,6 +147,25 @@ namespace DRCars.Utils
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<User>(responseContent);
         }
+        public async Task<User> AddUserAsync(User user)
+        {
+            var json = JsonConvert.SerializeObject(user, new StringEnumConverter());
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/users/crear", content);
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<User>(responseContent);
+        }
+        public async Task<User> DeleteUserAsync(User user)
+        {
+            var json = JsonConvert.SerializeObject(user, new StringEnumConverter());
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/users/delete", content);
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<User>(responseContent);
+        }
+
 
         public async Task<List<SaleRequest>> GetSaleRequestsAsync()
         {
@@ -157,7 +177,12 @@ namespace DRCars.Utils
 
         public async Task<String> UpdateSaleRequestAsync(SaleRequest request)
         {
-            var json = JsonConvert.SerializeObject(request);
+            var respuesta = new
+            {
+                idReserva = request.Id,
+                aceptada = request.Vehicle!=null
+            };
+            var json = JsonConvert.SerializeObject(respuesta);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync($"/reservas/procesar", content);
             response.EnsureSuccessStatusCode();

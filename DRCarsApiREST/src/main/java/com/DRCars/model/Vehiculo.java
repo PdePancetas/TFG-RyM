@@ -2,6 +2,7 @@ package com.DRCars.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.Year;
 import java.util.Objects;
 import java.util.Set;
 
@@ -37,7 +38,7 @@ public class Vehiculo implements Serializable {
 	private String modelo;
 
 	@Column(name = "anno_fabricacion")
-	private Integer annoFabricacion;
+	private Year annoFabricacion;
 
 	@Column(name = "color")
 	private String color;
@@ -119,11 +120,11 @@ public class Vehiculo implements Serializable {
 		this.modelo = modelo;
 	}
 
-	public Integer getAnnoFabricacion() {
+	public Year getAnnoFabricacion() {
 		return annoFabricacion;
 	}
 
-	public void setAnnoFabricacion(Integer annoFabricacion) {
+	public void setAnnoFabricacion(Year annoFabricacion) {
 		this.annoFabricacion = annoFabricacion;
 	}
 

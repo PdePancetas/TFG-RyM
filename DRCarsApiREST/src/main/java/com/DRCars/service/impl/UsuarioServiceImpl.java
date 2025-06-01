@@ -37,8 +37,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	@Transactional
-	public void eliminarUsuario(Long id) {
-		usuarioRepository.deleteById(id);
+	public void eliminarUsuario(Usuario usuario) {
+		usuarioRepository.deleteById(usuario.getIdUsuario());
 	}
 
 	@Override

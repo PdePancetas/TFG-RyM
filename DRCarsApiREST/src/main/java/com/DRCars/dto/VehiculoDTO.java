@@ -1,13 +1,14 @@
 package com.DRCars.dto;
 
 import java.math.BigDecimal;
+import java.time.Year;
 
 public class VehiculoDTO {
 	
 	private Long idVehiculo;
 	private String marca;
 	private String modelo;
-	private int annoFabricacion;
+	private Year annoFabricacion;
 	private String color;
 	private int kilometraje;
 	private String matricula;
@@ -42,11 +43,11 @@ public class VehiculoDTO {
 		this.modelo = modelo;
 	}
 
-	public int getAnnoFabricacion() {
+	public Year getAnnoFabricacion() {
 		return annoFabricacion;
 	}
 
-	public void setAnnoFabricacion(int annoFabricacion) {
+	public void setAnnoFabricacion(Year annoFabricacion) {
 		this.annoFabricacion = annoFabricacion;
 	}
 
