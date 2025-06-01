@@ -34,7 +34,7 @@ namespace DRCars.Utils
                 var imageInfo = _imageProcessor.GetImageInfo(originalImage);
 
                 // 2. Crear versiones optimizadas
-                var imageVersions = await _imageProcessor.CreateImageVersionsAsync(originalImage);
+                var imageVersions = _imageProcessor.CreateImageVersionsAsync(originalImage);
 
                 // 3. Subir todas las versiones a Firebase
                 var imageUrls = new VehicleImageUrls();

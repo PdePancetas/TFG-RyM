@@ -88,7 +88,7 @@ namespace DRCars.Forms
             datePicker.Location = new Point(30, 165);
             datePicker.Font = new Font("Segoe UI", 9F);
             datePicker.Format = DateTimePickerFormat.Short;
-            datePicker.MinDate =_request.RequestDate;
+            datePicker.MinDate = _request.RequestDate;
 
             // Time Label
             timeLabel.AutoSize = true;
@@ -168,6 +168,7 @@ namespace DRCars.Forms
                 MessageBox.Show(estado);
                 DialogResult = DialogResult.OK;
                 Close();
+
             }
             catch (Exception ex)
             {

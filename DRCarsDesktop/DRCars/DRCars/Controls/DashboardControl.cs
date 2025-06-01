@@ -250,67 +250,6 @@ namespace DRCars.Controls
             pendingRequestsFlow.Width = pendingRequestsPanel.Width - 30;
         }
 
-        private async void LoadData2()
-        {
-            try
-            {
-                var sales = await apiClient.GetSalesAsync();           // List<Sale>
-                var vehicles = await apiClient.GetVehiclesAsync();     // List<Vehicle>
-
-                // Agrupar ventas por mes
-                var monthlySales = sales
-                    .GroupBy(s => new { s.SaleDate.Year, s.SaleDate.Month })
-                    .Select(g => new
-                    {
-                        Month = new DateTime(g.Key.Year, g.Key.Month, 1),
-                        Total = g.Sum(s => s.TotalPrice)
-                    })
-                    .OrderBy(g => g.Month)
-                    .ToList();
-
-                // Graficar ventas
-                salesChart.Series.Clear();
-                var salesSeries = new Series("Ventas")
-                {
-                    ChartType = SeriesChartType.Column,
-                    Color = Color.FromArgb(100, 149, 237) // Primary color
-                };
-                foreach (var entry in monthlySales)
-                {
-                    salesSeries.Points.AddXY(entry.Month.ToString("MMM yyyy"), entry.Total);
-                }
-                salesChart.Series.Add(salesSeries);
-
-                // Agrupar vehículos por mes
-                var monthlyVehicles = vehicles
-                    .GroupBy(v => new { v.CreatedAt.Year, v.CreatedAt.Month })
-                    .Select(g => new
-                    {
-                        Month = new DateTime(g.Key.Year, g.Key.Month, 1),
-                        Count = g.Count()
-                    })
-                    .OrderBy(g => g.Month)
-                    .ToList();
-
-                // Graficar vehículos
-                vehiclesChart.Series.Clear();
-                var vehiclesSeries = new Series("Vehículos")
-                {
-                    ChartType = SeriesChartType.Column,
-                    Color = Color.FromArgb(72, 201, 176)
-                };
-                foreach (var entry in monthlyVehicles)
-                {
-                    vehiclesSeries.Points.AddXY(entry.Month.ToString("MMM yyyy"), entry.Count);
-                }
-                vehiclesChart.Series.Add(vehiclesSeries);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cargar datos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         public async void LoadData()
         {
             try

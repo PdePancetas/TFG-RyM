@@ -591,7 +591,7 @@ namespace DRCars.Forms
             {
                 // Usar SimpleImageService en lugar de ImageSharp
                 var imageService = new SimpleImageService();
-                var imageVersions = imageService.CreateImageVersionsAsync(originalImage).Result;
+                var imageVersions = imageService.CreateImageVersionsAsync(originalImage);
 
                 // Crear directorio de imágenes si no existe
                 string imagesDir = Path.Combine(Application.StartupPath, "Images", "Vehicles");
