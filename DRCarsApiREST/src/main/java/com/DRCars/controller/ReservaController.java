@@ -62,7 +62,7 @@ public class ReservaController {
 
 	}
 
-	@GetMapping("/{dni}")
+	@GetMapping("?={dni}")
 	public ResponseEntity<List<ReservaDTO>> obtenerReservasPorDni(@PathVariable String dni) {
 
 		List<Reserva> reservas = reservaService.obtenerReservas();
