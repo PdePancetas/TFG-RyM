@@ -45,4 +45,8 @@ public class ClienteServiceImpl implements ClienteService {
 	public void eliminarCliente(String dni) {
 		clienteRepository.deleteById(dni);
 	}
+
+	public Optional<Cliente> obtenerClientePorEmail(String usuario) {
+		return clienteRepository.findByUsuario_Usuario(usuario);
+	}
 }
