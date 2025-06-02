@@ -118,8 +118,6 @@ namespace DRCars.Controls
             usersDataGridView.DefaultCellStyle.Padding = new Padding(5);
             usersDataGridView.CellClick += UsersDataGridView_CellClick;
 
-            // Add columns to DataGridView
-            usersDataGridView.Columns.Add("Id", "ID");
             //usersDataGridView.Columns.Add("Name", "Nombre");
             usersDataGridView.Columns.Add("Email", "Email");
             //usersDataGridView.Columns.Add("Phone", "Teléfono");
@@ -128,8 +126,6 @@ namespace DRCars.Controls
             usersDataGridView.Columns.Add("LastLogin", "Último Acceso");
             usersDataGridView.Columns.Add("CreatedAt", "Fecha de Creación");
 
-            // Set column widths more uniformly
-            usersDataGridView.Columns["Id"].Width = 60;
             //usersDataGridView.Columns["Name"].Width = 180;
             usersDataGridView.Columns["Email"].Width = 180;
             //usersDataGridView.Columns["Phone"].Width = 120;
@@ -189,7 +185,6 @@ namespace DRCars.Controls
                 string lastLogin = user.LastLogin.HasValue ? user.LastLogin.Value.ToString("dd/MM/yyyy HH:mm") : "-";
 
                 usersDataGridView.Rows.Add(
-                    user.Id,
                     //user.Name,
                     user.Email,
                     //user.Phone,
@@ -233,7 +228,6 @@ namespace DRCars.Controls
                     string lastLogin = user.LastLogin.HasValue ? user.LastLogin.Value.ToString("dd/MM/yyyy HH:mm") : "-";
 
                     usersDataGridView.Rows.Add(
-                        user.Id,
                         //user.Name,
                         user.Email,
                         //user.Phone,
@@ -250,8 +244,8 @@ namespace DRCars.Controls
         {
             if (e.RowIndex >= 0)
             {
-                int userId = Convert.ToInt32(usersDataGridView.Rows[e.RowIndex].Cells["Id"].Value);
-                selectedUser = allUsers.Find(u => u.Id.Equals(userId));
+                String userEmail = usersDataGridView.Rows[e.RowIndex].Cells["Email"].Value.ToString();
+                selectedUser = allUsers.Find(u => u.Email.Equals(userEmail));
             }
         }
 

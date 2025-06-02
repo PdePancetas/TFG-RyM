@@ -39,7 +39,7 @@ namespace DRCars.Controls
         {
             apiClient = new ApiClient();
             InitializeComponent();
-            // Eliminamos la carga automática: LoadData();
+           //LoadData();
         }
         protected override void OnLoad(EventArgs e)
         {
@@ -162,7 +162,7 @@ namespace DRCars.Controls
             recentSalesTitle.Font = new Font("Segoe UI Semibold", 12F);
             recentSalesTitle.Text = "Ventas Recientes";
             recentSalesTitle.TextAlign = ContentAlignment.MiddleLeft;
-            recentSalesTitle.ForeColor = textColor;
+           // recentSalesTitle.ForeColor = textColor;
 
             // Recent Sales Flow
             recentSalesFlow.AutoScroll = true;
@@ -192,7 +192,7 @@ namespace DRCars.Controls
             pendingRequestsTitle.Font = new Font("Segoe UI Semibold", 12F);
             pendingRequestsTitle.Text = "Solicitudes Pendientes";
             pendingRequestsTitle.TextAlign = ContentAlignment.MiddleLeft;
-            pendingRequestsTitle.ForeColor = textColor;
+            //pendingRequestsTitle.ForeColor = textColor;
 
             // Pending Requests Flow
             pendingRequestsFlow.AutoScroll = true;
@@ -221,7 +221,7 @@ namespace DRCars.Controls
             this.Controls.Add(pendingRequestsPanel);
 
             this.Dock = DockStyle.Fill;
-            this.BackColor = secondaryColor;
+            //this.BackColor = secondaryColor;
             this.Padding = new Padding(20);
 
             // Handle resize event

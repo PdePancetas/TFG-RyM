@@ -248,7 +248,7 @@ namespace DRCars.Forms
             currentSection = "Dashboard";
             SetActiveButton(currentSection);
             activeControl = dashboardControl;
-            // No cargamos datos automáticamente en el dashboard
+            dashboardControl.LoadData();
         }
 
         private void ShowVehicles()

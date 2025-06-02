@@ -12,9 +12,7 @@ namespace DRCars.Models
 
     public class User
     {
-        [JsonProperty("idUsuario")]
-        public long Id { get; set; }
-
+       
         public string Name { get; set; }
 
         [JsonProperty("usuario")]
