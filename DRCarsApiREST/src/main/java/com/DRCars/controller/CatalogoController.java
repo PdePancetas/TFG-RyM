@@ -50,11 +50,10 @@ public class CatalogoController {
 	public ResponseEntity<VehiculoDTO> getVehiculo(@PathVariable Long id) {
 		 Optional<Vehiculo> v = vehiculoService.obtenerVehiculoPorId(id);
 		if(v.isPresent()) {
-			VehiculoDTO vdto = VehiculoMapper.INSTANCE.toDTO(vehiculoService.obtenerVehiculoPorId(id).get());
+			VehiculoDTO vdto = VehiculoMapper.INSTANCE.toDTO(v.get());
 			return ResponseEntity.ok(vdto);
 		}else {
-			VehiculoDTO vdto = VehiculoMapper.INSTANCE.toDTO(vehiculoService.obtenerVehiculoPorId(id).orElse(new Vehiculo()));
-			return ResponseEntity.status(404).body(vdto);
+			return ResponseEntity.notFound().build();
 		}
 			
 	}
