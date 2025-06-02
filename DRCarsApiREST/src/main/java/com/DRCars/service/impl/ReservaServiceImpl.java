@@ -43,7 +43,7 @@ public class ReservaServiceImpl implements ReservaService {
 	@Transactional
 	public void crearReserva(ReservaRequest reservaRequest) {
 
-		Cliente cliente = clienteRepo.findById(reservaRequest.getEmail()).orElseGet(() -> {
+		Cliente cliente = clienteRepo.findById(reservaRequest.getDni()).orElseGet(() -> {
 			Cliente nuevoCliente = new Cliente();
 			Optional<Usuario> u = userRepo.findById(reservaRequest.getEmail());
 			nuevoCliente.setUsuario(u.get());
