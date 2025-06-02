@@ -1,12 +1,12 @@
 package com.DRCars.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class ProcReservaRequest {
 
 	private Long idReserva;
 	private boolean aceptada;
-	private LocalDateTime fechaVenta;
+	private LocalDate fechaVenta;
 	private double precioVenta;
 
 	public Long getIdReserva() {
@@ -25,11 +25,11 @@ public class ProcReservaRequest {
 		this.aceptada = aceptada;
 	}
 
-	public LocalDateTime getFechaVenta() {
+	public LocalDate getFechaVenta() {
 		return fechaVenta;
 	}
 
-	public void setFechaVenta(LocalDateTime fechaVenta) {
+	public void setFechaVenta(LocalDate fechaVenta) {
 		this.fechaVenta = fechaVenta;
 	}
 
