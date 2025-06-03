@@ -70,7 +70,7 @@ namespace DRCars.Controls
             customerNameLabel.Size = new Size(270, 30);
             customerNameLabel.Location = new Point(15, 15);
             customerNameLabel.Font = new Font("Segoe UI Semibold", 12F);
-            customerNameLabel.ForeColor = textColor;
+            //customerNameLabel.ForeColor = textColor;
             customerNameLabel.TextAlign = ContentAlignment.MiddleLeft;
 
             // Vehicle Label
@@ -78,7 +78,7 @@ namespace DRCars.Controls
             vehicleLabel.Size = new Size(270, 20);
             vehicleLabel.Location = new Point(15, 45);
             vehicleLabel.Font = new Font("Segoe UI", 9F);
-            vehicleLabel.ForeColor = accentColor;
+            //vehicleLabel.ForeColor = accentColor;
             vehicleLabel.TextAlign = ContentAlignment.MiddleLeft;
 
             // Date Label
@@ -86,7 +86,7 @@ namespace DRCars.Controls
             dateLabel.Size = new Size(270, 20);
             dateLabel.Location = new Point(15, 65);
             dateLabel.Font = new Font("Segoe UI", 9F);
-            dateLabel.ForeColor = accentColor;
+            //dateLabel.ForeColor = accentColor;
             dateLabel.TextAlign = ContentAlignment.MiddleLeft;
 
             // Status Label
@@ -112,7 +112,7 @@ namespace DRCars.Controls
             scheduleButton.Size = new Size(90, 35);
             scheduleButton.Location = new Point(115, 130);
             scheduleButton.BorderRadius = 4;
-            scheduleButton.BackColor = primaryColor;
+            //scheduleButton.BackColor = primaryColor;
             scheduleButton.ForeColor = Color.White;
             scheduleButton.Click += ScheduleButton_Click;
 

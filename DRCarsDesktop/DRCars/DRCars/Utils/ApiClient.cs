@@ -32,7 +32,7 @@ namespace DRCars.Utils
         {
             try
             {
-                var response = await _httpClient.GetAsync("/catalogo");
+                var response = await _httpClient.GetAsync("/catalogo/app");
                 response.EnsureSuccessStatusCode();
                 var content = await response.Content.ReadAsStringAsync();
 
@@ -96,40 +96,6 @@ namespace DRCars.Utils
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Vehicle>(responseContent);
         }
-
-        /*public async Task<Vehicle> UpdateVehicleToApiAsync(Vehicle vehicle)
-        {
-            try
-            {
-                // Crear objeto del vehículo sin imágenes para la API
-                var vehicleData = new
-                {
-                    idVehiculo = vehicle.Id,
-                    marca = vehicle.Brand,
-                    modelo = vehicle.Model,
-                    annoFabricacion = vehicle.Year,
-                    color = vehicle.Color,
-                    kilometraje = vehicle.Kilometers,
-                    precioCompra = vehicle.Price,
-                    matricula = vehicle.LicensePlate,
-                    numeroChasis = vehicle.VIN,
-                    estado = vehicle.Status,
-                    proveedor = vehicle.Supplier
-                };
-
-                var json = JsonConvert.SerializeObject(vehicleData, new StringEnumConverter());
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.PostAsync("/catalogo/act", content);
-                response.EnsureSuccessStatusCode();
-
-                return vehicle;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error al actualizar vehículo en la API: {ex.Message}", ex);
-            }
-        }*/
 
         public async Task<List<User>> GetUsersAsync()
         {

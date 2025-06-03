@@ -2,7 +2,7 @@ package com.DRCars.dto;
 
 import java.time.LocalDateTime;
 
-public class ReservaRequest {
+public class SolicitudRequest {
 
 	private String dni;
 	private String nombre;

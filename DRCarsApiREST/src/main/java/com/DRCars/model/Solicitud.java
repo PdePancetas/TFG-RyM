@@ -15,8 +15,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "RESERVAS")
-public class Reserva implements Serializable {
+@Table(name = "SOLICITUDES")
+public class Solicitud implements Serializable {
 	/**
 	 * 
 	 */
@@ -24,8 +24,8 @@ public class Reserva implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_reserva")
-	private Long idReserva;
+	@Column(name = "id_solicitud")
+	private Long idSolicitud;
 
 	@ManyToOne
 	@JoinColumn(name = "dni_cliente", nullable = false)
@@ -35,11 +35,11 @@ public class Reserva implements Serializable {
 	@JoinColumn(name = "id_vehiculo", nullable = true)
 	private Vehiculo vehiculo;
 
-	@Column(name = "fecha_reserva", nullable = false)
-	private LocalDateTime fechaReserva;
+	@Column(name = "fecha_solicitud", nullable = false)
+	private LocalDateTime fechaSolicitud;
 
-	@Column(name = "precio_reserva", nullable = false)
-	private BigDecimal precioReserva;
+	@Column(name = "precio_solicitud", nullable = false)
+	private BigDecimal precioSolicitud;
 	
 	@Column(name = "motivo", nullable = false)
 	private String motivo;
@@ -47,16 +47,16 @@ public class Reserva implements Serializable {
 	@Column(name = "descripcion", nullable = true)
 	private String descripcion;
 
-	public Reserva() {
+	public Solicitud() {
 		super();
 	}
 
-	public Long getIdReserva() {
-		return idReserva;
+	public Long getIdSolicitud() {
+		return idSolicitud;
 	}
 
-	public void setIdReserva(Long idReserva) {
-		this.idReserva = idReserva;
+	public void setIdSolicitud(Long idSolicitud) {
+		this.idSolicitud = idSolicitud;
 	}
 
 	public Cliente getCliente() {
@@ -75,20 +75,20 @@ public class Reserva implements Serializable {
 		this.vehiculo = vehiculo;
 	}
 
-	public LocalDateTime getFechaReserva() {
-		return fechaReserva;
+	public LocalDateTime getFechaSolicitud() {
+		return fechaSolicitud;
 	}
 
-	public void setFechaReserva(LocalDateTime fechaReserva) {
-		this.fechaReserva = fechaReserva;
+	public void setFechaSolicitud(LocalDateTime fechaSolicitud) {
+		this.fechaSolicitud = fechaSolicitud;
 	}
 
-	public BigDecimal getPrecioReserva() {
-		return precioReserva;
+	public BigDecimal getPrecioSolicitud() {
+		return precioSolicitud;
 	}
 
-	public void setPrecioReserva(BigDecimal precioReserva) {
-		this.precioReserva = precioReserva;
+	public void setPrecioSolicitud(BigDecimal precioSolicitud) {
+		this.precioSolicitud = precioSolicitud;
 	}
 
 	public String getMotivo() {
@@ -109,7 +109,7 @@ public class Reserva implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(idReserva);
+		return Objects.hash(idSolicitud);
 	}
 
 	@Override
@@ -120,8 +120,8 @@ public class Reserva implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Reserva other = (Reserva) obj;
-		return Objects.equals(idReserva, other.idReserva);
+		Solicitud other = (Solicitud) obj;
+		return Objects.equals(idSolicitud, other.idSolicitud);
 	}
 
 }
