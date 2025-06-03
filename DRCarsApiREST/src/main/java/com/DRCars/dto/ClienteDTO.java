@@ -5,13 +5,13 @@ public class ClienteDTO {
     private String dniCliente;
     private String nombre;
     private String apellidos;
-    private String usuario;
+    private UsuarioDTO usuario;
 
     public ClienteDTO() {
     	super();
     }
 
-    public ClienteDTO(String dniCliente, String nombre, String apellidos, String usuario) {
+    public ClienteDTO(String dniCliente, String nombre, String apellidos, UsuarioDTO usuario) {
         this.dniCliente = dniCliente;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -42,11 +42,11 @@ public class ClienteDTO {
         this.apellidos = apellidos;
     }
 
-    public String getUsuario() {
+    public UsuarioDTO getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(String usuario) {
+    public void setUsuario(UsuarioDTO usuario) {
         this.usuario = usuario;
     }
 }
