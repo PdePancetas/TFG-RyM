@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.DRCars.dto.ProcReservaRequest;
 import com.DRCars.dto.ReservaDTO;
 import com.DRCars.dto.ReservaRequest;
+import com.DRCars.dto.ReservasClienteRequest;
 import com.DRCars.dto.VehiculoDTO;
 import com.DRCars.mapper.ReservaMapper;
 import com.DRCars.mapper.VehiculoMapper;
@@ -64,7 +65,7 @@ public class ReservaController {
 	}
 
 	@GetMapping("/cliente")
-	public ResponseEntity<List<ReservaDTO>> obtenerReservasPorDni(@RequestParam String id) {
+	public ResponseEntity<List<ReservaDTO>> obtenerReservasPorDni(@RequestBody ReservasClienteRequest id) {
 
 		List<Reserva> reservas = reservaService.obtenerReservas();
 
