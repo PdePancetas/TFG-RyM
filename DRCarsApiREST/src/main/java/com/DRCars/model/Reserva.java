@@ -15,7 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "VENTAS")
+@Table(name = "RESERVAS")
 public class Reserva implements Serializable {
 	/**
 	 * 
@@ -35,11 +35,11 @@ public class Reserva implements Serializable {
 	@JoinColumn(name = "id_vehiculo", nullable = false)
 	private Vehiculo vehiculo;
 
-	@ManyToOne
+	/*@ManyToOne
 	@JoinColumn(name = "id_trabajador")
-	private Trabajador trabajador;
+	private Trabajador trabajador;*/
 
-	@Column(name = "fecha_reserva", nullable = true)
+	@Column(name = "fecha_programada", nullable = true)
 	private LocalDate fechaReserva;
 
 	@Column(name = "precio_reserva", nullable = true)
@@ -73,13 +73,13 @@ public class Reserva implements Serializable {
 		this.vehiculo = vehiculo;
 	}
 
-	public Trabajador getTrabajador() {
-		return trabajador;
-	}
-
-	public void setTrabajador(Trabajador trabajador) {
-		this.trabajador = trabajador;
-	}
+//	public Trabajador getTrabajador() {
+//		return trabajador;
+//	}
+//
+//	public void setTrabajador(Trabajador trabajador) {
+//		this.trabajador = trabajador;
+//	}
 
 	public LocalDate getFechaReserva() {
 		return fechaReserva;
