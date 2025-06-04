@@ -20,14 +20,14 @@ import com.DRCars.model.Solicitud;
 import com.DRCars.service.impl.SolicitudServiceImpl;
 
 @RestController
-@RequestMapping("/reservas")
+@RequestMapping("/solicitudes")
 public class SolicitudController {
 
 	@Autowired
 	private SolicitudServiceImpl solicitudService;
 
 	@GetMapping
-	public ResponseEntity<List<SolicitudDTO>> obtenerReservas() {
+	public ResponseEntity<List<SolicitudDTO>> obtenerSolicitudes() {
 		List<Solicitud> solicitudes = solicitudService.obtenerSolicitudes();
 		List<SolicitudDTO> solicitudesDTO = solicitudes.stream().map(SolicitudMapper.INSTANCE::toDTO)
 				.collect(Collectors.toList());
@@ -49,7 +49,7 @@ public class SolicitudController {
 
 		try {
 			solicitudService.procesarSolicitud(solicitud);
-			return ResponseEntity.ok("Reserva procesada con éxito");
+			return ResponseEntity.ok("Solicitud procesada con éxito");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la solicitud");

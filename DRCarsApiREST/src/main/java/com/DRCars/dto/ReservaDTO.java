@@ -13,6 +13,8 @@ public class ReservaDTO {
 	private LocalDate fechaReserva;
 	private BigDecimal precioReserva;
 	private Trabajador trabajador;
+	
+	
 	public Long getIdReserva() {
 		return idReserva;
 	}
