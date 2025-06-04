@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.DRCars.dto.ReservaDTO;
 import com.DRCars.dto.ReservasClienteRequest;
@@ -14,6 +16,8 @@ import com.DRCars.mapper.ReservaMapper;
 import com.DRCars.model.Reserva;
 import com.DRCars.service.impl.ReservaServiceImpl;
 
+@RestController
+@RequestMapping("/reservas")
 public class ReservaController {
 
 	@Autowired
