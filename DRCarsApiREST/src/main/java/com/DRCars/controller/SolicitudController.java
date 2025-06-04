@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.DRCars.dto.ProcSolicitudRequest;
 import com.DRCars.dto.SolicitudDTO;
 import com.DRCars.dto.SolicitudRequest;
 import com.DRCars.mapper.SolicitudMapper;
@@ -37,42 +38,23 @@ public class SolicitudController {
 	public ResponseEntity<String> solicitarSolicitud(@RequestBody SolicitudRequest solicitud) {
 		try {
 			solicitudService.crearSolicitud(solicitud);
-			return ResponseEntity.ok("Reserva realizada con éxito");
+			return ResponseEntity.ok("Solicitud realizada con éxito");
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la reserva");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la solicitud");
 		}
 	}
-/*
-	//Mover a reservas
+
 	@PostMapping("/procesar")
-	public ResponseEntity<String> procesarReserva(@RequestBody ProcReservaRequest reserva) {
+	public ResponseEntity<String> procesarsolicitud(@RequestBody ProcSolicitudRequest solicitud) {
 
 		try {
-			solicitudService.procesarReserva(reserva);
+			solicitudService.procesarSolicitud(solicitud);
 			return ResponseEntity.ok("Reserva procesada con éxito");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la reserva");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la solicitud");
 		}
 
 	}
-
-	//mover a reservas
-	@GetMapping("/cliente")
-	public ResponseEntity<List<SolicitudDTO>> obtenerReservasPorDni(@RequestBody ReservasClienteRequest id) {
-
-		List<Reserva> reservas = solicitudService.obtenerReservas();
-
-		if (!reservas.isEmpty()) {
-			List<Reserva> reservasCliente = reservas.stream().filter(r -> r.getCliente().getDniCliente().equals(id))
-					.collect(Collectors.toList());
-			if (!reservasCliente.isEmpty()) {
-				List<SolicitudDTO> reservasDTO = reservasCliente.stream().map(ReservaMapper.INSTANCE::toDTO)
-						.collect(Collectors.toList());
-				return ResponseEntity.ok(reservasDTO);
-			}
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.notFound().build();
-	}*/
+	
 }

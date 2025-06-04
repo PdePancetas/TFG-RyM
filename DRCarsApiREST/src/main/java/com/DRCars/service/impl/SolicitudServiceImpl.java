@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.DRCars.dto.ProcReservaRequest;
+import com.DRCars.dto.ProcSolicitudRequest;
 import com.DRCars.dto.SolicitudRequest;
 import com.DRCars.model.Cliente;
 import com.DRCars.model.Solicitud;
@@ -79,17 +79,17 @@ public class SolicitudServiceImpl implements SolicitudService {
 
 	//Mover a reservas
 	@Transactional
-	public void procesarSolicitud(ProcReservaRequest solicitud) {
+	public void procesarSolicitud(ProcSolicitudRequest solicitud) {
 		Optional<Solicitud> res = null;
 		try {
-			res = solicitudRepo.findById(solicitud.getIdReserva());
+			res = solicitudRepo.findById(solicitud.getIdSolicitud());
 			if(res.isPresent()) {
 				if (solicitud.isAceptada()) {
 					if (res.get().getVehiculo().getIdVehiculo() != null) {
 						Venta venta = new Venta();
 						venta.setCliente(clienteRepo.getReferenceById(res.get().getCliente().getDniCliente()));
 						venta.setPrecioVenta(res.get().getPrecioSolicitud());
-						venta.setFechaVenta(solicitud.getFechaVenta());
+						venta.setFechaVenta(solicitud.getFechaSolicitud());
 						venta.setVehiculo(vehiculoRepo.getReferenceById(res.get().getVehiculo().getIdVehiculo()));
 	
 						ventasRepo.save(venta);
