@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.DRCars.mapper.VehiculoMapper;
 import com.DRCars.model.Usuario;
-import com.DRCars.model.Vehiculo;
 import com.DRCars.service.impl.UsuarioServiceImpl;
 
 @RestController
