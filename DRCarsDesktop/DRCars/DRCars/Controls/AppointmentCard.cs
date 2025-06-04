@@ -5,16 +5,14 @@ using DRCars.Models;
 
 namespace DRCars.Controls
 {
-    public class RequestCard : UserControl
+    public class AppointmentCard : UserControl
     {
-        private Request _request;
+        private Appointment _appointment;
         private RoundedPanel mainPanel;
         private Label customerNameLabel;
         private Label vehicleLabel;
         private Label dateLabel;
         private Label statusLabel;
-        private RoundedButton viewDetailsButton;
-        private RoundedButton scheduleButton;
         private RoundedButton completeButton;
         private RoundedButton cancelButton;
 
@@ -24,23 +22,23 @@ namespace DRCars.Controls
         private Color textColor = Color.FromArgb(51, 51, 51); // Texto oscuro
         private Color accentColor = Color.FromArgb(108, 117, 125); // Gris para detalles
 
-        public event EventHandler<Request> ViewDetailsClicked;
-        public event EventHandler<Request> ScheduleClicked;
-        public event EventHandler<Request> CompleteClicked;
-        public event EventHandler<Request> CancelClicked;
-        public event EventHandler<Request> ProcessClicked;
+        public event EventHandler<Appointment> ViewDetailsClicked;
+        public event EventHandler<Appointment> ScheduleClicked;
+        public event EventHandler<Appointment> CompleteClicked;
+        public event EventHandler<Appointment> CancelClicked;
+        public event EventHandler<Appointment> ProcessClicked;
 
-        public Request Request
+        public Appointment Appointment
         {
-            get { return _request; }
+            get { return _appointment; }
             set
             {
-                _request = value;
+                _appointment = value;
                 UpdateCardInfo();
             }
         }
 
-        public RequestCard()
+        public AppointmentCard()
         {
             InitializeComponent();
         }
@@ -52,8 +50,6 @@ namespace DRCars.Controls
             vehicleLabel = new Label();
             dateLabel = new Label();
             statusLabel = new Label();
-            viewDetailsButton = new RoundedButton();
-            scheduleButton = new RoundedButton();
             completeButton = new RoundedButton();
             cancelButton = new RoundedButton();
 
@@ -98,24 +94,6 @@ namespace DRCars.Controls
             statusLabel.BackColor = Color.FromArgb(240, 240, 240);
             statusLabel.BorderStyle = BorderStyle.None;
 
-            // View Details Button
-            viewDetailsButton.Text = "Ver Detalles";
-            viewDetailsButton.Size = new Size(90, 35);
-            viewDetailsButton.Location = new Point(15, 130);
-            viewDetailsButton.BorderRadius = 4;
-            viewDetailsButton.BackColor = Color.FromArgb(108, 117, 125);
-            viewDetailsButton.ForeColor = Color.White;
-            viewDetailsButton.Click += ViewDetailsButton_Click;
-
-            // Schedule Button
-            scheduleButton.Text = "Programar";
-            scheduleButton.Size = new Size(90, 35);
-            scheduleButton.Location = new Point(115, 130);
-            scheduleButton.BorderRadius = 4;
-            //scheduleButton.BackColor = primaryColor;
-            scheduleButton.ForeColor = Color.White;
-            scheduleButton.Click += ScheduleButton_Click;
-
             // Complete Button
             completeButton.Text = "Completar";
             completeButton.Size = new Size(90, 35);
@@ -139,8 +117,6 @@ namespace DRCars.Controls
             mainPanel.Controls.Add(vehicleLabel);
             mainPanel.Controls.Add(dateLabel);
             mainPanel.Controls.Add(statusLabel);
-            mainPanel.Controls.Add(viewDetailsButton);
-            mainPanel.Controls.Add(scheduleButton);
             mainPanel.Controls.Add(completeButton);
             mainPanel.Controls.Add(cancelButton);
 
@@ -151,108 +127,63 @@ namespace DRCars.Controls
 
         public void UpdateCardInfo()
         {
-            if (_request != null)
+            if (_appointment != null)
             {
-                customerNameLabel.Text = _request.cliente.Name+ " " + _request.cliente.Surname;
+                customerNameLabel.Text = _appointment.client.Name+ " " + _appointment.client.Surname;
 
-                if (_request.Vehicle != null)
+                if (_appointment.Vehicle != null)
                 {
-                    vehicleLabel.Text = $"{_request.Vehicle.Brand} {_request.Vehicle.Model} ({_request.Vehicle.Year})";
-                }
-                else if (!string.IsNullOrEmpty(_request.DesiredBrand) || !string.IsNullOrEmpty(_request.DesiredModel))
-                {
-                    vehicleLabel.Text = $"Deseado: {_request.DesiredBrand} {_request.DesiredModel}";
+                    vehicleLabel.Text = $"{_appointment.Vehicle.Brand} {_appointment.Vehicle.Model} ({_appointment.Vehicle.Year})";
                 }
                 else
                 {
                     vehicleLabel.Text = "Sin vehiculo asociado";
                 }
 
-                dateLabel.Text = $"Solicitud: {_request.RequestDate.ToShortDateString()} - Precio: {_request.Budget} €";
+                dateLabel.Text = $"Reserva: {_appointment.AppointmentDate.ToShortDateString()} - Precio: {_appointment.AppointmentPrice} €";
                 /*
-                if (_request.ScheduledDate.HasValue)
+                if (_appointment.ScheduledDate.HasValue)
                 {
-                    dateLabel.Text += $" | Cita: {_request.ScheduledDate.Value.ToShortDateString()}";
+                    dateLabel.Text += $" | Cita: {_appointment.ScheduledDate.Value.ToShortDateString()}";
                 }
-                else if (_request.ScheduledDate.HasValue)
+                else if (_appointment.AppointmentDate.HasValue)
                 {
-                    dateLabel.Text += $" | Cita: {_request.AppointmentDate.Value.ToShortDateString()}";
-                }*/
-                
-                // Set status label
-                statusLabel.Text = GetStatusText(_request.Status);
-                statusLabel.BackColor = GetStatusColor(_request.Status);
+                    dateLabel.Text += $" | Cita: {_appointment.AppointmentDate.Value.ToShortDateString()}";
+                */
 
-                // Enable/disable buttons based on status
-                scheduleButton.Visible = _request.Status == RequestStatus.Pending;
-                completeButton.Visible = _request.Status == RequestStatus.Scheduled;
-                cancelButton.Visible = _request.Status != RequestStatus.Completed && _request.Status != RequestStatus.Cancelled;
             }
         }
 
-        private string GetStatusText(RequestStatus status)
-        {
-            switch (status)
-            {
-                case RequestStatus.Pending:
-                    return "Pendiente";
-                case RequestStatus.Scheduled:
-                    return "Programada";
-                case RequestStatus.Completed:
-                    return "Completada";
-                case RequestStatus.Cancelled:
-                    return "Cancelada";
-                default:
-                    return "Desconocido";
-            }
-        }
-
-        private Color GetStatusColor(RequestStatus status)
-        {
-            switch (status)
-            {
-                case RequestStatus.Pending:
-                    return Color.FromArgb(255, 243, 205); // Amarillo claro
-                case RequestStatus.Scheduled:
-                    return Color.FromArgb(207, 226, 255); // Azul claro
-                case RequestStatus.Completed:
-                    return Color.FromArgb(209, 231, 221); // Verde claro
-                case RequestStatus.Cancelled:
-                    return Color.FromArgb(248, 215, 218); // Rojo claro
-                default:
-                    return Color.FromArgb(240, 240, 240); // Gris claro
-            }
-        }
-
+        
         private void ViewDetailsButton_Click(object sender, EventArgs e)
         {
-            if (_request != null && ViewDetailsClicked != null)
+            if (_appointment != null && ViewDetailsClicked != null)
             {
-                ViewDetailsClicked(this, _request);
+                ViewDetailsClicked(this, _appointment);
             }
         }
 
         private void ScheduleButton_Click(object sender, EventArgs e)
         {
-            if (_request != null && ScheduleClicked != null)
+            if (_appointment != null && ScheduleClicked != null)
             {
-                ScheduleClicked(this, _request);
+                ScheduleClicked(this, _appointment);
             }
         }
 
         private void CompleteButton_Click(object sender, EventArgs e)
         {
-            if (_request != null && CompleteClicked != null)
+            if (_appointment != null && CompleteClicked != null)
             {
-                CompleteClicked(this, _request);
+                CompleteClicked(this, _appointment);
             }
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            if (_request != null && CancelClicked != null)
+            if (_appointment != null && CancelClicked != null)
             {
-                CancelClicked(this, _request);
+                CancelClicked(this, _appointment);
             }
         }
     }

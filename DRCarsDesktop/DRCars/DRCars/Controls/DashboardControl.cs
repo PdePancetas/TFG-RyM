@@ -22,9 +22,9 @@ namespace DRCars.Controls
         private Label totalSalesLabel;
         private Label pendingRequestsLabel;
         private Label averagePriceLabel;
-        private Label recentSalesTitle;
+        private Label recentAppointmentsTitle;
         private Label pendingRequestsTitle;
-        private FlowLayoutPanel recentSalesFlow;
+        private FlowLayoutPanel recentAppointmentsFlow;
         private FlowLayoutPanel pendingRequestsFlow;
 
         private ApiClient apiClient;
@@ -44,7 +44,7 @@ namespace DRCars.Controls
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            LoadData(); // Llama al método asíncrono
+            LoadData(); 
         }
 
         private void InitializeComponent()
@@ -60,9 +60,9 @@ namespace DRCars.Controls
             totalSalesLabel = new Label();
             pendingRequestsLabel = new Label();
             averagePriceLabel = new Label();
-            recentSalesTitle = new Label();
+            recentAppointmentsTitle = new Label();
             pendingRequestsTitle = new Label();
-            recentSalesFlow = new FlowLayoutPanel();
+            recentAppointmentsFlow = new FlowLayoutPanel();
             pendingRequestsFlow = new FlowLayoutPanel();
 
             //Sales Chart
@@ -74,6 +74,7 @@ namespace DRCars.Controls
             salesChart.ChartAreas.Add(new ChartArea());
             salesChart.ChartAreas[0].AxisY.Minimum = Double.NaN;
             salesChart.ChartAreas[0].AxisY.Maximum = Double.NaN;
+            salesChart.Titles.Add(new Title("Ventas", Docking.Top, new Font("Segoe UI Semibold", 12F), Color.FromArgb(51, 51, 51)));
             salesChartPanel.Controls.Add(salesChart);
 
             // Vehicles Chart
@@ -158,23 +159,23 @@ namespace DRCars.Controls
             recentSalesPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
 
             // Recent Sales Title
-            recentSalesTitle.AutoSize = false;
-            recentSalesTitle.Size = new Size(420, 30);
-            recentSalesTitle.Location = new Point(15, 15);
-            recentSalesTitle.Font = new Font("Segoe UI Semibold", 12F);
-            recentSalesTitle.Text = "Ventas Recientes";
-            recentSalesTitle.TextAlign = ContentAlignment.MiddleLeft;
+            recentAppointmentsTitle.AutoSize = false;
+            recentAppointmentsTitle.Size = new Size(420, 30);
+            recentAppointmentsTitle.Location = new Point(15, 15);
+            recentAppointmentsTitle.Font = new Font("Segoe UI Semibold", 12F);
+            recentAppointmentsTitle.Text = "Reservas Realizadas";
+            recentAppointmentsTitle.TextAlign = ContentAlignment.MiddleLeft;
 
             // Recent Sales Flow
-            recentSalesFlow.AutoScroll = true;
-            recentSalesFlow.Size = new Size(420, 240);
-            recentSalesFlow.Location = new Point(15, 45);
-            recentSalesFlow.BackColor = Color.White;
-            recentSalesFlow.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
-            recentSalesFlow.FlowDirection = FlowDirection.TopDown;
-            recentSalesFlow.WrapContents = false;
-            recentSalesFlow.Dock = DockStyle.Fill;
-            recentSalesFlow.Padding = new Padding(0, 30, 0, 0); // 10 píxeles de espacio arriba
+            recentAppointmentsFlow.AutoScroll = true;
+            recentAppointmentsFlow.Size = new Size(420, 240);
+            recentAppointmentsFlow.Location = new Point(15, 45);
+            recentAppointmentsFlow.BackColor = Color.White;
+            recentAppointmentsFlow.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
+            recentAppointmentsFlow.FlowDirection = FlowDirection.TopDown;
+            recentAppointmentsFlow.WrapContents = false;
+            recentAppointmentsFlow.Dock = DockStyle.Fill;
+            recentAppointmentsFlow.Padding = new Padding(0, 30, 0, 0); // 10 píxeles de espacio arriba
 
             // Pending Requests Panel
             pendingRequestsPanel.BorderRadius = 8;
@@ -207,8 +208,8 @@ namespace DRCars.Controls
             statsPanel.Controls.Add(pendingRequestsLabel);
             statsPanel.Controls.Add(averagePriceLabel);
 
-            recentSalesPanel.Controls.Add(recentSalesTitle);
-            recentSalesPanel.Controls.Add(recentSalesFlow);
+            recentSalesPanel.Controls.Add(recentAppointmentsTitle);
+            recentSalesPanel.Controls.Add(recentAppointmentsFlow);
 
             pendingRequestsPanel.Controls.Add(pendingRequestsTitle);
             pendingRequestsPanel.Controls.Add(pendingRequestsFlow);
@@ -255,7 +256,7 @@ namespace DRCars.Controls
             pendingRequestsPanel.Width = halfWidth;
             pendingRequestsPanel.Location = new Point(halfWidth + 40, 440);
 
-            recentSalesTitle.Width = recentSalesPanel.Width - 30;
+            recentAppointmentsTitle.Width = recentSalesPanel.Width - 30;
             pendingRequestsTitle.Width = pendingRequestsPanel.Width - 30;
 
             //recentSalesFlow.Width = recentSalesPanel.Width - 30;
@@ -267,8 +268,8 @@ namespace DRCars.Controls
             recentSalesPanel.Height = maxHeight-5;
 
             // Ajustar recentSalesFlow para ocupar el área interna
-            recentSalesFlow.Width = recentSalesPanel.Width - recentSalesPanel.Padding.Left - recentSalesPanel.Padding.Right;
-            recentSalesFlow.Height = recentSalesPanel.Height;
+            recentAppointmentsFlow.Width = recentSalesPanel.Width - recentSalesPanel.Padding.Left - recentSalesPanel.Padding.Right;
+            recentAppointmentsFlow.Height = recentSalesPanel.Height;
         }
 
         public async void LoadData()
@@ -309,7 +310,7 @@ namespace DRCars.Controls
                     totalPrice += vehicle.Price;
                 }
                 decimal averagePrice = vehicles.Count > 0 ? totalPrice / vehicles.Count : 0;
-                averagePriceLabel.Text = $"Precio Medio\n{averagePrice:N0} €";
+                averagePriceLabel.Text = $"Precio Medio Vehículos\n{averagePrice:N0} €";
 
                 // Load sales
                 var sales = await apiClient.GetSalesAsync();
@@ -340,30 +341,33 @@ namespace DRCars.Controls
                     ChartType = SeriesChartType.Column,
                     Color = Color.FromArgb(100, 149, 237) // Primary color
                 };
+                decimal totalSales = 0;
                 foreach (var entry in monthlySales)
                 {
                     salesSeries.Points.AddXY(entry.Month.ToString("MMM yyyy"), entry.Total);
+                    totalSales += entry.Total;
                 }
                 salesChart.Series.Add(salesSeries);
+                salesChart.Titles.Clear();
+                salesChart.Titles.Add(new Title($"Ventas \n Beneficio: {totalSales} €", Docking.Top, new Font("Segoe UI Semibold", 12F), Color.FromArgb(51, 51, 51)));
 
 
-                // Load sale requests
-                var requests = await apiClient.GetSaleRequestsAsync();
+                // Load sale requests and appointments
+                var appointments = await apiClient.GetAppointmentsAsync();
+                var requests = await apiClient.GetRequestsAsync();
                 int pendingRequests = 0;
-                foreach (var request in requests)
-                {
-                    if (request.Status == RequestStatus.Pending || request.Status == RequestStatus.Scheduled)
-                    {
-                        pendingRequests++;
-                    }
-                }
-                pendingRequestsLabel.Text = $"Solicitudes Pendientes\n{pendingRequests}";
+                foreach (var request in requests) { pendingRequests++; }
 
-                // Populate recent sales
-                PopulateRecentSales(sales);
+
+                pendingRequestsLabel.Text = $"Solicitudes Pendientes\n{pendingRequests}";
 
                 // Populate pending requests
                 PopulatePendingRequests(requests);
+
+                // Populate recent sales
+                PopulateRecentAppointments(appointments);
+
+                
             }
             catch (Exception ex)
             {
@@ -371,22 +375,22 @@ namespace DRCars.Controls
             }
         }
 
-        private void PopulateRecentSales(List<Sale> sales)
+        private void PopulateRecentAppointments(List<Appointment> appointments)
         {
-            recentSalesFlow.Controls.Clear();
+            recentAppointmentsFlow.Controls.Clear();
 
             // Sort sales by date (newest first)
-            sales.Sort((a, b) => b.SaleDate.CompareTo(a.SaleDate));
+            appointments.Sort((a, b) => b.AppointmentDate.CompareTo(a.AppointmentDate));
 
             // Take only the 5 most recent sales
-            int count = Math.Min(sales.Count, 5);
+            int count = Math.Min(appointments.Count, 5);
             for (int i = 0; i < count; i++)
             {
-                var sale = sales[i];
+                var sale = appointments[i];
 
                 RoundedPanel salePanel = new RoundedPanel
                 {
-                    Size = new Size(recentSalesFlow.Width - 20, 80),
+                    Size = new Size(recentAppointmentsFlow.Width - 20, 80),
                     BorderRadius = 4,
                     BorderColor = Color.FromArgb(230, 230, 230),
                     BorderSize = 1,
@@ -401,7 +405,7 @@ namespace DRCars.Controls
                     Location = new Point(15, 10),
                     Font = new Font("Segoe UI Semibold", 10F),
                     ForeColor = textColor,
-                    Text = sale.cliente.Id,
+                    Text = sale.client.Id,
                     TextAlign = ContentAlignment.MiddleLeft
                 };
 
@@ -423,7 +427,7 @@ namespace DRCars.Controls
                     Location = new Point(salePanel.Width - 115, 10),
                     Font = new Font("Segoe UI Semibold", 10F),
                     ForeColor = primaryColor,
-                    Text = $"{sale.SalePrice:N0} €",
+                    Text = $"{sale.AppointmentPrice:N0} €",
                     TextAlign = ContentAlignment.MiddleRight
                 };
 
@@ -434,7 +438,7 @@ namespace DRCars.Controls
                     Location = new Point(salePanel.Width - 115, 35),
                     Font = new Font("Segoe UI", 9F),
                     ForeColor = accentColor,
-                    Text = sale.SaleDate.ToShortDateString(),
+                    Text = sale.AppointmentDate.ToShortDateString(),
                     TextAlign = ContentAlignment.MiddleRight
                 };
 
@@ -443,7 +447,7 @@ namespace DRCars.Controls
                 salePanel.Controls.Add(priceLabel);
                 salePanel.Controls.Add(dateLabel);
 
-                recentSalesFlow.Controls.Add(salePanel);
+                recentAppointmentsFlow.Controls.Add(salePanel);
             }
 
             if (count == 0)
@@ -451,18 +455,18 @@ namespace DRCars.Controls
                 Label noSalesLabel = new Label
                 {
                     AutoSize = false,
-                    Size = new Size(recentSalesFlow.Width - 20, 80),
+                    Size = new Size(recentAppointmentsFlow.Width - 20, 80),
                     Font = new Font("Segoe UI", 10F),
                     ForeColor = accentColor,
                     Text = "No hay ventas recientes",
                     TextAlign = ContentAlignment.MiddleCenter
                 };
 
-                recentSalesFlow.Controls.Add(noSalesLabel);
+                recentAppointmentsFlow.Controls.Add(noSalesLabel);
             }
         }
 
-        private void PopulatePendingRequests(List<SaleRequest> requests)
+        private void PopulatePendingRequests(List<Request> requests)
         {
             pendingRequestsFlow.Controls.Clear();
 
@@ -530,9 +534,7 @@ namespace DRCars.Controls
                     Location = new Point(requestPanel.Width - 115, 45),
                     Font = new Font("Segoe UI", 9F),
                     ForeColor = accentColor,
-                    Text = request.ScheduledDate.HasValue ?
-                        request.ScheduledDate.Value.ToShortDateString() :
-                        request.RequestDate.ToShortDateString(),
+                    Text = request.RequestDate.ToShortDateString(),
                     TextAlign = ContentAlignment.MiddleRight
                 };
 

@@ -13,20 +13,33 @@ namespace DRCars.Controls
         private TabControl salesTabControl;
         private TabPage requestsTabPage;
         private TabPage salesTabPage;
+        private TabPage appointmentsTabPage;
+
         private FlowLayoutPanel requestsPanel;
+        private FlowLayoutPanel appointmentsPanel;
         private FlowLayoutPanel salesPanel;
+
         private RoundedPanel requestsHeaderPanel;
+        private RoundedPanel appointmentsHeaderPanel;
         private RoundedPanel salesHeaderPanel;
+
         private RoundedButton refreshRequestsButton;
+        private RoundedButton refreshAppointmentsButton;
         private RoundedButton refreshSalesButton;
+
         private RoundedTextBox searchRequestsTextBox;
+        private RoundedTextBox searchAppointmentsTextBox;
         private RoundedTextBox searchSalesTextBox;
+
         private Label requestsCountLabel;
+        private Label appointmentsCountLabel;
         private Label salesCountLabel;
 
         private ApiClient apiClient;
-        private List<SaleRequest> allRequests;
-        private List<Sale> allSales; 
+
+        private List<Request> allRequests;
+        private List<Appointment> allAppointments;
+        private List<Sale> allSales;
 
         public SalesControl()
         {
@@ -40,14 +53,19 @@ namespace DRCars.Controls
             try
             {
                 // Load sale requests
-                allRequests = await apiClient.GetSaleRequestsAsync();
+                allRequests = await apiClient.GetRequestsAsync();
                 requestsCountLabel.Text = $"Solicitudes: {allRequests.Count}";
                 PopulateRequestCards();
 
                 // Load sales
+                allAppointments = await apiClient.GetAppointmentsAsync();
+                appointmentsCountLabel.Text = $"Reservas: {allAppointments.Count}";
+                PopulateAppointmentCards();
+
+                // Load appointments
                 allSales = await apiClient.GetSalesAsync();
                 salesCountLabel.Text = $"Ventas: {allSales.Count}";
-                PopulateSalesCards();
+                PopulateSalesCards(); // If you want to display appointments in a similar way
             }
             catch (Exception ex)
             {
@@ -60,15 +78,26 @@ namespace DRCars.Controls
             salesTabControl = new TabControl();
             requestsTabPage = new TabPage();
             salesTabPage = new TabPage();
+            appointmentsTabPage = new TabPage();
+
             requestsPanel = new FlowLayoutPanel();
+            appointmentsPanel = new FlowLayoutPanel();
             salesPanel = new FlowLayoutPanel();
+
             requestsHeaderPanel = new RoundedPanel();
+            appointmentsHeaderPanel = new RoundedPanel();
             salesHeaderPanel = new RoundedPanel();
+
             refreshRequestsButton = new RoundedButton();
+            refreshAppointmentsButton = new RoundedButton();
             refreshSalesButton = new RoundedButton();
+
             searchRequestsTextBox = new RoundedTextBox();
+            searchAppointmentsTextBox = new RoundedTextBox();
             searchSalesTextBox = new RoundedTextBox();
+
             requestsCountLabel = new Label();
+            appointmentsCountLabel = new Label();
             salesCountLabel = new Label();
 
             // Sales Tab Control
@@ -79,9 +108,14 @@ namespace DRCars.Controls
             requestsTabPage.Text = "Solicitudes";
             requestsTabPage.Padding = new Padding(10);
 
+            // Appointments Tab Page
+            appointmentsTabPage.Text = "Reservas";
+            appointmentsTabPage.Padding = new Padding(10);
+
             // Sales Tab Page
             salesTabPage.Text = "Ventas";
             salesTabPage.Padding = new Padding(10);
+
 
             // Requests Header Panel
             requestsHeaderPanel.BorderRadius = 15;
@@ -120,6 +154,44 @@ namespace DRCars.Controls
             requestsPanel.Dock = DockStyle.Fill;
             requestsPanel.AutoScroll = true;
             requestsPanel.Padding = new Padding(10);
+
+            // Appointments Header Panel
+            appointmentsHeaderPanel.BorderRadius = 15;
+            appointmentsHeaderPanel.BorderColor = Color.FromArgb(220, 220, 220);
+            appointmentsHeaderPanel.BorderSize = 1;
+            appointmentsHeaderPanel.Dock = DockStyle.Top;
+            appointmentsHeaderPanel.Height = 70;
+            appointmentsHeaderPanel.Padding = new Padding(15);
+            appointmentsHeaderPanel.Margin = new Padding(0, 0, 0, 10);
+
+            // Search Appointments TextBox
+            searchAppointmentsTextBox.PlaceholderText = "Buscar reservas...";
+            searchAppointmentsTextBox.Size = new Size(300, 40);
+            searchAppointmentsTextBox.Location = new Point(15, 15);
+            searchAppointmentsTextBox.BorderRadius = 10;
+            searchAppointmentsTextBox.TextChanged += SearchAppointmentsTextBox_TextChanged;
+
+            // Appointments Count Label
+            appointmentsCountLabel.AutoSize = false;
+            appointmentsCountLabel.Size = new Size(200, 40);
+            appointmentsCountLabel.Location = new Point(330, 15);
+            appointmentsCountLabel.Font = new Font("Segoe UI", 10F);
+            appointmentsCountLabel.TextAlign = ContentAlignment.MiddleLeft;
+            appointmentsCountLabel.Text = "Reservas: 0";
+
+            // Refresh Appointments Button
+            refreshAppointmentsButton.Text = "Actualizar";
+            refreshAppointmentsButton.Size = new Size(120, 40);
+            refreshAppointmentsButton.Location = new Point(appointmentsHeaderPanel.Width - 150, 15);
+            refreshAppointmentsButton.BorderRadius = 10;
+            refreshAppointmentsButton.BackColor = Color.FromArgb(50, 50, 50);
+            refreshAppointmentsButton.ForeColor = Color.White;
+            refreshAppointmentsButton.Click += RefreshAppointmentsButton_Click;
+
+            // Appointments Panel
+            appointmentsPanel.Dock = DockStyle.Fill;
+            appointmentsPanel.AutoScroll = true;
+            appointmentsPanel.Padding = new Padding(10);
 
             // Sales Header Panel
             salesHeaderPanel.BorderRadius = 15;
@@ -168,6 +240,10 @@ namespace DRCars.Controls
             salesHeaderPanel.Controls.Add(salesCountLabel);
             salesHeaderPanel.Controls.Add(refreshSalesButton);
 
+            appointmentsHeaderPanel.Controls.Add(searchAppointmentsTextBox);
+            appointmentsHeaderPanel.Controls.Add(appointmentsCountLabel);
+            appointmentsHeaderPanel.Controls.Add(refreshAppointmentsButton);
+
             // Add panels to tab pages
             requestsTabPage.Controls.Add(requestsPanel);
             requestsTabPage.Controls.Add(requestsHeaderPanel);
@@ -175,8 +251,12 @@ namespace DRCars.Controls
             salesTabPage.Controls.Add(salesPanel);
             salesTabPage.Controls.Add(salesHeaderPanel);
 
+            appointmentsTabPage.Controls.Add(appointmentsPanel);
+            appointmentsTabPage.Controls.Add(appointmentsHeaderPanel);
+
             // Add tab pages to tab control
             salesTabControl.TabPages.Add(requestsTabPage);
+            salesTabControl.TabPages.Add(appointmentsTabPage);
             salesTabControl.TabPages.Add(salesTabPage);
 
             // Add tab control to user control
@@ -193,10 +273,15 @@ namespace DRCars.Controls
         {
             // Reposition buttons when control is resized
             refreshRequestsButton.Location = new Point(requestsHeaderPanel.Width - 150, 15);
+            refreshAppointmentsButton.Location = new Point(appointmentsHeaderPanel.Width - 150, 15);
             refreshSalesButton.Location = new Point(salesHeaderPanel.Width - 150, 15);
         }
 
 
+        private void PopulateSalesCards()
+        {
+            
+        }
 
         private void PopulateRequestCards()
         {
@@ -218,15 +303,15 @@ namespace DRCars.Controls
             }
         }
 
-        private void PopulateSalesCards()
+        private void PopulateAppointmentCards()
         {
-            salesPanel.Controls.Clear();
+            appointmentsPanel.Controls.Clear();
 
             // Here you would create and add sale cards
             // This is a placeholder for future implementation
-            foreach (var sale in allSales)
+            foreach (var appointment in allAppointments)
             {
-                RoundedPanel saleCard = new RoundedPanel
+                RoundedPanel appointmentCard = new RoundedPanel
                 {
                     BorderRadius = 15,
                     BorderColor = Color.FromArgb(220, 220, 220),
@@ -235,9 +320,9 @@ namespace DRCars.Controls
                     Margin = new Padding(10)
                 };
 
-                Label saleIdLabel = new Label
+                Label appointmentIdLabel = new Label
                 {
-                    Text = $"Venta #{sale.Id}",
+                    Text = $"Reserva #{appointment.Id}",
                     Font = new Font("Segoe UI", 12F, FontStyle.Bold),
                     AutoSize = false,
                     Size = new Size(380, 30),
@@ -246,7 +331,7 @@ namespace DRCars.Controls
 
                 Label vehicleLabel = new Label
                 {
-                    Text = $"Vehículo: (Id: {sale.Vehicle.Id}) {sale.Vehicle.Brand} {sale.Vehicle.Model}",
+                    Text = $"Vehículo: (Id: {appointment.Vehicle.Id}) {appointment.Vehicle.Brand} {appointment.Vehicle.Model}",
                     Font = new Font("Segoe UI", 9F),
                     AutoSize = false,
                     Size = new Size(380, 25),
@@ -255,7 +340,7 @@ namespace DRCars.Controls
 
                 Label customerLabel = new Label
                 {
-                    Text = $"Cliente ID: {sale.cliente.Id}",
+                    Text = $"Cliente ID: {appointment.client.Id}",
                     Font = new Font("Segoe UI", 9F),
                     AutoSize = false,
                     Size = new Size(380, 25),
@@ -264,7 +349,7 @@ namespace DRCars.Controls
 
                 Label priceLabel = new Label
                 {
-                    Text = $"Precio: {sale.SalePrice:N0} €",
+                    Text = $"Precio: {appointment.AppointmentPrice:N0} €",
                     Font = new Font("Segoe UI", 10F, FontStyle.Bold),
                     AutoSize = false,
                     Size = new Size(380, 25),
@@ -273,20 +358,20 @@ namespace DRCars.Controls
 
                 Label dateLabel = new Label
                 {
-                    Text = $"Fecha: {sale.SaleDate:dd/MM/yyyy}",
+                    Text = $"Fecha: {appointment.AppointmentDate:dd/MM/yyyy}",
                     Font = new Font("Segoe UI", 9F),
                     AutoSize = false,
                     Size = new Size(380, 25),
                     Location = new Point(10, 120)
                 };
 
-                saleCard.Controls.Add(saleIdLabel);
-                saleCard.Controls.Add(vehicleLabel);
-                saleCard.Controls.Add(customerLabel);
-                saleCard.Controls.Add(priceLabel);
-                saleCard.Controls.Add(dateLabel);
+                appointmentCard.Controls.Add(appointmentIdLabel);
+                appointmentCard.Controls.Add(vehicleLabel);
+                appointmentCard.Controls.Add(customerLabel);
+                appointmentCard.Controls.Add(priceLabel);
+                appointmentCard.Controls.Add(dateLabel);
 
-                salesPanel.Controls.Add(saleCard);
+                appointmentsPanel.Controls.Add(appointmentCard);
             }
         }
 
@@ -295,9 +380,43 @@ namespace DRCars.Controls
             FilterRequests();
         }
 
+        private void SearchAppointmentsTextBox_TextChanged(object sender, EventArgs e)
+        {
+            FilterAppointments();
+        }
         private void SearchSalesTextBox_TextChanged(object sender, EventArgs e)
         {
             FilterSales();
+        }
+
+        private void FilterAppointments()
+        {
+            string searchText = searchAppointmentsTextBox.Texts.ToLower();
+
+            appointmentsPanel.Controls.Clear();
+
+            foreach (var appointment in allAppointments)
+            {
+                if (string.IsNullOrEmpty(searchText) ||
+                    appointment.client.Name.ToLower().Contains(searchText) ||
+                    appointment.client.Name.ToLower().Contains(searchText) ||
+                    appointment.client.Name.ToLower().Contains(searchText) ||
+                    appointment.Vehicle.Brand?.ToLower().Contains(searchText) == true ||
+                    appointment.Vehicle.Model?.ToLower().Contains(searchText) == true)
+                {
+                    AppointmentCard card = new AppointmentCard
+                    {
+                        Appointment = appointment,
+                        Margin = new Padding(10),
+                        Size = new Size(400, 250)
+                    };
+
+                    card.CompleteClicked += AppointmentCard_CompleteClicked;
+                    card.CancelClicked += AppointmentCard_CancelClicked;
+
+                    appointmentsPanel.Controls.Add(card);
+                }
+            }
         }
 
         private void FilterRequests()
@@ -333,8 +452,7 @@ namespace DRCars.Controls
 
         private void FilterSales()
         {
-            // This is a placeholder for future implementation
-            // Would filter sales based on search text
+            
         }
 
         private void RefreshRequestsButton_Click(object sender, EventArgs e)
@@ -346,12 +464,16 @@ namespace DRCars.Controls
         {
             LoadData();
         }
+        private void RefreshAppointmentsButton_Click(object sender, EventArgs e)
+        {
+            LoadData();
+        }
 
-        private async void RequestCard_ScheduleClicked(object sender, SaleRequest request)
+        private async void RequestCard_ScheduleClicked(object sender, Request request)
         {
             // Open appointment scheduling form
-            AppointmentForm appointmentForm = new AppointmentForm(request);
-            if (appointmentForm.ShowDialog() == DialogResult.OK)
+            RequestForm requestForm = new RequestForm(request);
+            if (requestForm.ShowDialog() == DialogResult.OK)
             {
                 // Update request status
                 request.Status = RequestStatus.Scheduled;
@@ -360,7 +482,7 @@ namespace DRCars.Controls
             }
         }
 
-        private async void RequestCard_CompleteClicked(object sender, SaleRequest request)
+        private async void RequestCard_CompleteClicked(object sender, Request request)
         {
             // Mark request as completed
             request.Status = RequestStatus.Completed;
@@ -368,7 +490,7 @@ namespace DRCars.Controls
             LoadData();
         }
 
-        private async void RequestCard_CancelClicked(object sender, SaleRequest request)
+        private async void RequestCard_CancelClicked(object sender, Request request)
         {
             DialogResult result = MessageBox.Show("¿Está seguro que desea cancelar esta solicitud?", "Cancelar Solicitud",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -378,6 +500,24 @@ namespace DRCars.Controls
                 // Cancel request
                 request.Status = RequestStatus.Cancelled;
                 await apiClient.UpdateSaleRequestAsync(request);
+                LoadData();
+            }
+        }
+
+        private async void AppointmentCard_CompleteClicked(object sender, Appointment appointment)
+        {
+            await apiClient.completeAppointmentAsync(appointment);
+            LoadData();
+        }
+
+        private async void AppointmentCard_CancelClicked(object sender, Appointment appointment)
+        {
+            DialogResult result = MessageBox.Show("¿Está seguro que desea cancelar esta reserva?", "Cancelar reserva",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                await apiClient.deleteAppointmentAsync(appointment);
                 LoadData();
             }
         }

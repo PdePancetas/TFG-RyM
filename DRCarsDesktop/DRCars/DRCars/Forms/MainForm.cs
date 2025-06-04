@@ -120,7 +120,7 @@ namespace DRCars.Forms
             // Active Indicator
             this.activeIndicator.Size = new Size(4, 40);
             this.activeIndicator.BackColor = primaryColor;
-            this.activeIndicator.Visible = false;
+            this.activeIndicator.Visible = true;
 
             // Content Panel
             this.contentPanel.Dock = DockStyle.Fill;
@@ -144,7 +144,7 @@ namespace DRCars.Forms
             // Create menu items
             CreateMenuItem("Dashboard", "dashboard", DashboardButton_Click);
             CreateMenuItem("Vehículos", "vehicles", VehiclesButton_Click);
-            CreateMenuItem("Ventas", "sales", SalesButton_Click);
+            CreateMenuItem("Tramitación", "sales", SalesButton_Click);
             CreateMenuItem("Usuarios", "users", UsersButton_Click);
             CreateMenuItem("Configuración", "settings", SettingsButton_Click);
             CreateMenuItem("Cerrar Sesión", "logout", LogoutButton_Click, true);
@@ -267,8 +267,8 @@ namespace DRCars.Forms
         {
             contentPanel.Controls.Clear();
             contentPanel.Controls.Add(salesControl);
-            titleLabel.Text = "Gestión de Ventas";
-            currentSection = "Ventas";
+            titleLabel.Text = "Pipeline comercial";
+            currentSection = "Tramitación";
             SetActiveButton(currentSection);
             activeControl = salesControl;
             // Cargamos los datos de ventas cuando se muestra esta sección

@@ -7,7 +7,7 @@ using DRCars.Utils;
 
 namespace DRCars.Forms
 {
-    public partial class AppointmentForm : Form
+    public partial class RequestForm : Form
     {
         private RoundedPanel mainPanel;
         private Label titleLabel;
@@ -21,10 +21,10 @@ namespace DRCars.Forms
         private RoundedButton saveButton;
         private RoundedButton cancelButton;
 
-        private SaleRequest _request;
+        private Request _request;
         private ApiClient apiClient;
 
-        public AppointmentForm(SaleRequest request)
+        public RequestForm(Request request)
         {
             _request = request;
             apiClient = new ApiClient();
@@ -155,13 +155,11 @@ namespace DRCars.Forms
             try
             {
                 // Combine date and time
-                DateTime appointmentDate = datePicker.Value.Date.Add(timePicker.Value.TimeOfDay);
+                DateTime requestDate = datePicker.Value.Date.Add(timePicker.Value.TimeOfDay);
 
                 // Update request with appointment date
-                _request.ScheduledDate = appointmentDate;
-                _request.AppointmentDate = appointmentDate;
+                _request.RequestDate = requestDate;
                 _request.Status = RequestStatus.Scheduled;
-                _request.AdditionalDetails = (_request.AdditionalDetails ?? "") + "\n\nNotas de la cita: " + notesTextBox.Text;
 
                 // Save changes
                 String estado = await apiClient.UpdateSaleRequestAsync(_request);
