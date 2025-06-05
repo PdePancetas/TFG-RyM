@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import com.DRCars.dto.ProcSolicitudRequest;
 import com.DRCars.dto.SolicitudRequest;
 import com.DRCars.model.Cliente;
+import com.DRCars.model.Reserva;
 import com.DRCars.model.Solicitud;
 import com.DRCars.model.Usuario;
 import com.DRCars.model.Venta;
 import com.DRCars.repository.ClienteRepository;
+import com.DRCars.repository.ReservaRepository;
 import com.DRCars.repository.SolicitudRepository;
 import com.DRCars.repository.UsuarioRepository;
 import com.DRCars.repository.VehiculoRepository;
@@ -35,7 +37,7 @@ public class SolicitudServiceImpl implements SolicitudService {
 	private VehiculoRepository vehiculoRepo;
 
 	@Autowired
-	private VentaRepository ventasRepo;
+	private ReservaRepository reservaRepo;
 
 	@Autowired
 	private UsuarioRepository userRepo;
@@ -86,13 +88,13 @@ public class SolicitudServiceImpl implements SolicitudService {
 			if (res.isPresent()) {
 				if (solicitud.isAceptada()) {
 					if (res.get().getVehiculo().getIdVehiculo() != null) {
-						Venta venta = new Venta();
-						venta.setCliente(clienteRepo.getReferenceById(res.get().getCliente().getDniCliente()));
-						venta.setPrecioVenta(res.get().getPrecioSolicitud());
-						venta.setFechaVenta(solicitud.getFechaSolicitud());
-						venta.setVehiculo(vehiculoRepo.getReferenceById(res.get().getVehiculo().getIdVehiculo()));
+						Reserva reserva = new Reserva();
+						reserva.setCliente(clienteRepo.getReferenceById(res.get().getCliente().getDniCliente()));
+						reserva.setPrecioReserva(res.get().getPrecioSolicitud());
+						reserva.setFechaReserva(solicitud.getFechaSolicitud());
+						reserva.setVehiculo(vehiculoRepo.getReferenceById(res.get().getVehiculo().getIdVehiculo()));
 
-						ventasRepo.save(venta);
+						reservaRepo.save(reserva);
 					}
 				}
 				solicitudRepo.delete(res.get());
