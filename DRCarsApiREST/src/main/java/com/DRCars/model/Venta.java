@@ -44,7 +44,10 @@ public class Venta implements Serializable {
 
 	@Column(name = "precio_venta", nullable = true)
 	private BigDecimal precioVenta;
-
+	
+	@Column(name = "notas_adicionales", nullable = true)
+	private String notas;
+	
 	public Venta() {
 		super();
 	}
@@ -95,6 +98,14 @@ public class Venta implements Serializable {
 
 	public void setPrecioVenta(BigDecimal precioVenta) {
 		this.precioVenta = precioVenta;
+	}
+
+	public String getNotas() {
+		return notas;
+	}
+
+	public void setNotas(String notas) {
+		this.notas = notas;
 	}
 
 	@Override
