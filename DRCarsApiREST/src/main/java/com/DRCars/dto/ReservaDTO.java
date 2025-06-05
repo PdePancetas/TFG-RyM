@@ -13,6 +13,7 @@ public class ReservaDTO {
 	private LocalDate fechaReserva;
 	private BigDecimal precioReserva;
 	private Trabajador trabajador;
+	private String notas;
 	
 	
 	public Long getIdReserva() {
@@ -51,6 +52,14 @@ public class ReservaDTO {
 	public void setTrabajador(Trabajador trabajador) {
 		this.trabajador = trabajador;
 	}
+	
+	public String getNotas() {
+		return notas;
+	}
+	public void setNotas(String notas) {
+		this.notas = notas;
+	}
+	
 	
 	
 }

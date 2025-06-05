@@ -13,7 +13,6 @@ public class VentaDTO {
 	private LocalDate fechaVenta;
 	private BigDecimal precioVenta;
 	private Trabajador trabajador;
-	private String notas;
 	
 	public Long getIdVenta() {
 		return idVenta;
@@ -50,12 +49,6 @@ public class VentaDTO {
 	}
 	public void setTrabajador(Trabajador trabajador) {
 		this.trabajador = trabajador;
-	}
-	public String getNotas() {
-		return notas;
-	}
-	public void setNotas(String notas) {
-		this.notas = notas;
 	}
 	
 	
