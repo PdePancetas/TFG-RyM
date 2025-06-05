@@ -86,7 +86,6 @@ public class SolicitudServiceImpl implements SolicitudService {
 		try {
 			res = solicitudRepo.findById(solicitud.getIdSolicitud());
 			if (res.isPresent()) {
-				if (solicitud.isAceptada()) {
 						Reserva reserva = new Reserva();
 						reserva.setCliente(clienteRepo.getReferenceById(res.get().getCliente().getDniCliente()));
 						reserva.setPrecioReserva(res.get().getPrecioSolicitud());
@@ -95,7 +94,6 @@ public class SolicitudServiceImpl implements SolicitudService {
 						reserva.setVehiculo((res.get().getVehiculo()!=null)?vehiculoRepo.getReferenceById(res.get().getVehiculo().getIdVehiculo()):null);
 
 						reservaRepo.save(reserva);
-					}
 				}
 				solicitudRepo.delete(res.get());
 		} catch (Exception e) {
