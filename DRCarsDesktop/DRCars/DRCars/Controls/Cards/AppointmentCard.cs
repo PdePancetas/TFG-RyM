@@ -47,6 +47,7 @@ namespace DRCars.Controls
             customerNameLabel = new Label();
             vehicleLabel = new Label();
             dateLabel = new Label();
+            notesLabel = new Label();
             completeButton = new RoundedButton();
             cancelButton = new RoundedButton();
 
@@ -85,7 +86,7 @@ namespace DRCars.Controls
             // Notes Label
             notesLabel.AutoSize = false;
             notesLabel.Size = new Size(270, 20);
-            notesLabel.Location = new Point(15, 85);
+            notesLabel.Location = new Point(15, 95);
             notesLabel.Font = new Font("Segoe UI", 9F);
             notesLabel.ForeColor = accentColor;
             notesLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -137,7 +138,7 @@ namespace DRCars.Controls
                 }
 
                 dateLabel.Text = $"Reserva: {_appointment.AppointmentDate.ToShortDateString()} - Precio: {_appointment.AppointmentPrice} €";
-                notesLabel.Text = $"Notas: { _appointment.AppointmentNotes}";
+                notesLabel.Text = "Notas: "+(string.IsNullOrEmpty(_appointment.AppointmentNotes)?"Sin notas adicionales": _appointment.AppointmentNotes);
 
             }
         }

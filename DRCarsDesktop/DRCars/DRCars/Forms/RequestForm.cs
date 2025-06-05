@@ -161,14 +161,10 @@ namespace DRCars.Forms
                 _request.RequestDate = requestDate;
                 _request.Status = RequestStatus.Scheduled;
 
-                var requestDto = new
-                {
-                    request = _request,
-                    notes = notesTextBox.Text.Trim()
-                };
+                RequestDTO requestDto = new RequestDTO(_request, notesTextBox.Text.Trim());
 
                 // Save changes
-                String estado = await apiClient.UpdateRequestAsync(requestDto);
+                String estado = await apiClient.UpdateRequestAsync(requestDto, true);
                 MessageBox.Show(estado);
                 DialogResult = DialogResult.OK;
                 Close();

@@ -320,10 +320,20 @@ namespace DRCars.Forms
                 activePanel.BackColor = Color.FromArgb(240, 240, 240);
 
                 // Posicionar el indicador activo
-                activeIndicator.Location = new Point(0, activePanel.Location.Y);
+                /*activeIndicator.Location = new Point(0, activePanel.Location.Y);
+                activeIndicator.Height = activePanel.Height;
+                activeIndicator.Visible = true;
+                activeIndicator.BringToFront();*/
+
+                Point absoluteLocation = activePanel.Parent.PointToScreen(activePanel.Location);
+                Point relativeLocation = activeIndicator.Parent.PointToClient(absoluteLocation);
+
+                // Posicionar el indicador en la ubicación correcta
+                activeIndicator.Location = new Point(0, relativeLocation.Y);
                 activeIndicator.Height = activePanel.Height;
                 activeIndicator.Visible = true;
                 activeIndicator.BringToFront();
+
             }
         }
 
@@ -371,7 +381,10 @@ namespace DRCars.Forms
                 AppConfig.FirebaseAuth?.ClearToken();
 
                 AppConfig.DeleteConfig();
-                Application.Exit();
+                LoginForm loginForm = new LoginForm();
+                this.Hide();
+                loginForm.ShowDialog();
+                this.Close();
             }
         }
     }

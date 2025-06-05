@@ -1,5 +1,4 @@
-﻿using DRCars.Controls.Cards;
-using DRCars.Forms;
+﻿using DRCars.Forms;
 using DRCars.Models;
 using DRCars.Utils;
 using System;
@@ -494,7 +493,8 @@ namespace DRCars.Controls
             {
                 // Update request status
                 request.Status = RequestStatus.Scheduled;
-                await apiClient.UpdateRequestAsync(request);
+                RequestDTO requestDto = new RequestDTO(request, "");
+                await apiClient.UpdateRequestAsync(requestDto, true);
                 LoadData();
             }
         }
@@ -503,7 +503,8 @@ namespace DRCars.Controls
         {
             // Mark request as completed
             request.Status = RequestStatus.Completed;
-            await apiClient.UpdateRequestAsync(request);
+            RequestDTO requestDto = new RequestDTO(request, "");
+            await apiClient.UpdateRequestAsync(requestDto, true);
             LoadData();
         }
 

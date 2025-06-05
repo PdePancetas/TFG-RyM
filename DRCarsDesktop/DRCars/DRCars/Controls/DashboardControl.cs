@@ -348,18 +348,22 @@ namespace DRCars.Controls
                     ChartType = SeriesChartType.Column,
                     Color = Color.FromArgb(100, 149, 237) // Primary color
                 };
+
+                //Calculo los beneficios totales
                 decimal totalSales = 0;
-                foreach (var entry in monthlySales)
+                foreach (var sale in monthlySales)
                 {
-                    salesSeries.Points.AddXY(entry.Month.ToString("MMM yyyy"), entry.Total);
-                    totalSales += entry.Total;
+                    salesSeries.Points.AddXY(sale.Month.ToString("MMM yyyy"), sale.Total);
+                    totalSales += sale.Total;
                 }
+
+                salesChart.Series.Clear();
                 salesChart.Series.Add(salesSeries);
                 salesChart.Titles.Clear();
                 salesChart.Titles.Add(new Title($"Ventas \n Beneficio: {totalSales} €", Docking.Top, new Font("Segoe UI Semibold", 12F), Color.FromArgb(51, 51, 51)));
 
 
-                // Load sale requests and appointments
+                // Load requests
                 var appointments = await apiClient.GetAppointmentsAsync();
                 var requests = await apiClient.GetRequestsAsync();
                 int pendingRequests = 0;

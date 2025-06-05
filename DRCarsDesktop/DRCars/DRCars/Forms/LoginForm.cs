@@ -18,6 +18,7 @@ namespace DRCars.Forms
         private Label passwordLabel;
         private RoundedTextBox passwordTextBox;
         private RoundedButton loginButton;
+        private RoundedButton exitButton;
         private CheckBox rememberCheckBox;
         private LinkLabel forgotPasswordLink;
         private Label statusLabel;
@@ -44,6 +45,7 @@ namespace DRCars.Forms
             passwordLabel = new Label();
             passwordTextBox = new RoundedTextBox();
             loginButton = new RoundedButton();
+            exitButton = new RoundedButton();
             rememberCheckBox = new CheckBox();
             forgotPasswordLink = new LinkLabel();
             statusLabel = new Label();
@@ -58,10 +60,10 @@ namespace DRCars.Forms
             this.MaximizeBox = false;
 
             // Logo Box
-            logoBox.Size = new Size(200, 80);
-            logoBox.Location = new Point(350, 40);
+            /*logoBox.Size = new Size(200, 80);
+            logoBox.Location = new Point(350, 00);
             logoBox.BackColor = Color.Transparent;
-            logoBox.SizeMode = PictureBoxSizeMode.Zoom;
+            logoBox.SizeMode = PictureBoxSizeMode.Zoom;*/
             // Set a placeholder logo or load from resources
 
             // Login Panel
@@ -69,7 +71,7 @@ namespace DRCars.Forms
             loginPanel.BorderColor = Color.FromArgb(230, 230, 230);
             loginPanel.BorderSize = 1;
             loginPanel.Size = new Size(400, 450);
-            loginPanel.Location = new Point((this.ClientSize.Width - 400) / 2, 140);
+            loginPanel.Location = new Point((this.ClientSize.Width - 400) / 2, 40);
             loginPanel.BackColor = Color.White;
             loginPanel.Padding = new Padding(30);
 
@@ -144,6 +146,15 @@ namespace DRCars.Forms
             loginButton.ForeColor = Color.White;
             loginButton.Click += LoginButton_Click;
 
+            // Exit Button
+            exitButton.Text = "Salir";
+            exitButton.Size = new Size(340, 45);
+            exitButton.Location = new Point(/*((this.ClientSize.Width - 400) / 2)+30*/loginPanel.Location.X+loginButton.Location.X, loginPanel.Height + 50);
+            exitButton.BorderRadius = 4;
+            exitButton.BackColor = Color.FromArgb(224, 76, 84);
+            exitButton.ForeColor = Color.White;
+            exitButton.Click += ExitButton_Click;
+
             // Status Label
             statusLabel.AutoSize = false;
             statusLabel.Size = new Size(340, 30);
@@ -166,7 +177,8 @@ namespace DRCars.Forms
             loginPanel.Controls.Add(statusLabel);
 
             // Add controls to form
-            this.Controls.Add(logoBox);
+            //this.Controls.Add(logoBox);
+            this.Controls.Add(exitButton);
             this.Controls.Add(loginPanel);
         }
 
@@ -265,6 +277,10 @@ namespace DRCars.Forms
             }
         }
 
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
         private void ForgotPasswordLink_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Funcionalidad de recuperación de contraseña no implementada en esta versión de demostración.",

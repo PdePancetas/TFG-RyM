@@ -8,8 +8,15 @@ namespace DRCars.Models
 {
     public class RequestDTO
     {
+       
         public Request Request { get; set; }
         public String notes { get; set; }
+
+        public RequestDTO(Request request, string notes)
+        {
+            this.Request = request;
+            this.notes = notes;
+        }
 
     }
 }

@@ -142,14 +142,14 @@ namespace DRCars.Utils
             return JsonConvert.DeserializeObject<List<Request>>(content);
         }
 
-        public async Task<String> UpdateRequestAsync(RequestDTO request)
+        public async Task<String> UpdateRequestAsync(RequestDTO request, bool aceptada)
         {
             var respuesta = new
             {
                 idSolicitud = request.Request.Id,
-                aceptada = request.Request.Vehicle != null,
+                aceptada = aceptada,
                 fechaSolicitud = request.Request.RequestDate.ToString("yyyy-MM-ddTHH:mm:ss"),
-                precioSolicitud = request.Request.Budget,
+                precioSolicitud = (request.Request.Vehicle!=null) ? request.Request.Budget : 0,
                 notas = request.notes,
             };
             var json = JsonConvert.SerializeObject(respuesta);
@@ -217,9 +217,9 @@ namespace DRCars.Utils
                     }
                 }
                 // Si la respuesta es 401 Unauthorized
-                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                else if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
                 {
-                    return (false, "", "Credenciales incorrectas");
+                    return (false, "", "No tienes los permisos necesarios para iniciar sesión");
                 }
                 // Cualquier otro error
                 else
@@ -241,7 +241,7 @@ namespace DRCars.Utils
 
         public async Task<String> completeAppointmentAsync(Appointment appointment)
         {
-
+            appointment.AppointmentPrice += appointment.Vehicle.Price;
             var json = JsonConvert.SerializeObject(appointment, new StringEnumConverter());
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("/reservas/procesar", content);

@@ -19,10 +19,10 @@ namespace DRCars.Models
         public DateTime AppointmentDate { get; set; }
 
         [JsonProperty("precioReserva")]
-        public decimal AppointmentPrice { get; set; }
+        public Decimal AppointmentPrice { get; set; }
 
         [JsonProperty("notas")]
-        public string AppointmentNotes { get; set; }
+        public String AppointmentNotes { get; set; }
 
 
         public Appointment()
