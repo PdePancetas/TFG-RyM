@@ -21,6 +21,9 @@ namespace DRCars.Models
         [JsonProperty("precioReserva")]
         public decimal AppointmentPrice { get; set; }
 
+        [JsonProperty("notas")]
+        public string AppointmentNotes { get; set; }
+
 
         public Appointment()
         {

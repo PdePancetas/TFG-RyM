@@ -13,6 +13,8 @@ namespace DRCars.Controls
         public Label vehicleLabel;
         private Label dateLabel;
         private Label statusLabel;
+        private Label reasonLabel;
+        private Label descriptionLabel;
         private RoundedButton scheduleButton;
         private RoundedButton completeButton;
         private RoundedButton cancelButton;
@@ -26,7 +28,6 @@ namespace DRCars.Controls
         public event EventHandler<Request> ScheduleClicked;
         public event EventHandler<Request> CompleteClicked;
         public event EventHandler<Request> CancelClicked;
-        public event EventHandler<Request> ProcessClicked;
 
         public Request Request
         {
@@ -50,6 +51,8 @@ namespace DRCars.Controls
             this.vehicleLabel = new System.Windows.Forms.Label();
             this.dateLabel = new System.Windows.Forms.Label();
             this.statusLabel = new System.Windows.Forms.Label();
+            this.reasonLabel = new Label();
+            this.descriptionLabel = new Label();
             this.scheduleButton = new DRCars.Controls.RoundedButton();
             this.completeButton = new DRCars.Controls.RoundedButton();
             this.cancelButton = new DRCars.Controls.RoundedButton();
@@ -66,6 +69,8 @@ namespace DRCars.Controls
             this.mainPanel.Controls.Add(this.vehicleLabel);
             this.mainPanel.Controls.Add(this.dateLabel);
             this.mainPanel.Controls.Add(this.statusLabel);
+            this.mainPanel.Controls.Add(this.reasonLabel);
+            this.mainPanel.Controls.Add(this.descriptionLabel);
             this.mainPanel.Controls.Add(this.scheduleButton);
             this.mainPanel.Controls.Add(this.completeButton);
             this.mainPanel.Controls.Add(this.cancelButton);
@@ -112,6 +117,26 @@ namespace DRCars.Controls
             this.statusLabel.Size = new System.Drawing.Size(100, 25);
             this.statusLabel.TabIndex = 3;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // motiveLabel
+            // 
+            this.reasonLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.reasonLabel.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.reasonLabel.Location = new System.Drawing.Point(15, 180);
+            this.reasonLabel.Name = "reasonLabel";
+            this.reasonLabel.Size = new System.Drawing.Size(200, 25);
+            this.reasonLabel.TabIndex = 3;
+            this.reasonLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // descriptionLabel
+            // 
+            this.descriptionLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.descriptionLabel.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.descriptionLabel.Location = new System.Drawing.Point(15, 210);
+            this.descriptionLabel.Name = "descriptionLabel";
+            this.descriptionLabel.Size = new System.Drawing.Size(200, 25);
+            this.descriptionLabel.TabIndex = 3;
+            this.descriptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // scheduleButton
             // 
@@ -197,6 +222,9 @@ namespace DRCars.Controls
                 // Set status label
                 statusLabel.Text = GetStatusText(_request.Status);
                 statusLabel.BackColor = GetStatusColor(_request.Status);
+
+                reasonLabel.Text = _request.RequestReason;
+                descriptionLabel.Text = _request.RequestDescription;
 
                 // Enable/disable buttons based on status
                 scheduleButton.Visible = _request.Status == RequestStatus.Pending;

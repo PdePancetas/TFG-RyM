@@ -12,6 +12,7 @@ namespace DRCars.Controls
         public Label customerNameLabel;
         public Label vehicleLabel;
         private Label dateLabel;
+        private Label notesLabel;
         private RoundedButton completeButton;
         private RoundedButton cancelButton;
 
@@ -24,7 +25,6 @@ namespace DRCars.Controls
         
         public event EventHandler<Appointment> CompleteClicked;
         public event EventHandler<Appointment> CancelClicked;
-        public event EventHandler<Appointment> ProcessClicked;
 
         public Appointment Appointment
         {
@@ -82,6 +82,14 @@ namespace DRCars.Controls
             dateLabel.ForeColor = accentColor;
             dateLabel.TextAlign = ContentAlignment.MiddleLeft;
 
+            // Notes Label
+            notesLabel.AutoSize = false;
+            notesLabel.Size = new Size(270, 20);
+            notesLabel.Location = new Point(15, 85);
+            notesLabel.Font = new Font("Segoe UI", 9F);
+            notesLabel.ForeColor = accentColor;
+            notesLabel.TextAlign = ContentAlignment.MiddleLeft;
+
             // Complete Button
             completeButton.Text = "Completar";
             completeButton.Size = new Size(90, 35);
@@ -106,6 +114,7 @@ namespace DRCars.Controls
             mainPanel.Controls.Add(dateLabel);
             mainPanel.Controls.Add(completeButton);
             mainPanel.Controls.Add(cancelButton);
+            mainPanel.Controls.Add(notesLabel);
 
             // Add panel to control
             this.Controls.Add(mainPanel);
@@ -128,7 +137,7 @@ namespace DRCars.Controls
                 }
 
                 dateLabel.Text = $"Reserva: {_appointment.AppointmentDate.ToShortDateString()} - Precio: {_appointment.AppointmentPrice} €";
-                
+                notesLabel.Text = $"Notas: { _appointment.AppointmentNotes}";
 
             }
         }

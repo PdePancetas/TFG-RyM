@@ -156,13 +156,19 @@ namespace DRCars.Forms
             {
                 // Combine date and time
                 DateTime requestDate = datePicker.Value.Date.Add(timePicker.Value.TimeOfDay);
-
+               
                 // Update request with appointment date
                 _request.RequestDate = requestDate;
                 _request.Status = RequestStatus.Scheduled;
 
+                var requestDto = new
+                {
+                    request = _request,
+                    notes = notesTextBox.Text.Trim()
+                };
+
                 // Save changes
-                String estado = await apiClient.UpdateRequestAsync(_request);
+                String estado = await apiClient.UpdateRequestAsync(requestDto);
                 MessageBox.Show(estado);
                 DialogResult = DialogResult.OK;
                 Close();

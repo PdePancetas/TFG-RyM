@@ -142,14 +142,15 @@ namespace DRCars.Utils
             return JsonConvert.DeserializeObject<List<Request>>(content);
         }
 
-        public async Task<String> UpdateRequestAsync(Request request)
+        public async Task<String> UpdateRequestAsync(RequestDTO request)
         {
             var respuesta = new
             {
-                idSolicitud = request.Id,
-                aceptada = request.Vehicle!=null,
-                fechaSolicitud = request.RequestDate.ToString("yyyy-MM-ddTHH:mm:ss"),
-                precioSolicitud = request.Budget
+                idSolicitud = request.Request.Id,
+                aceptada = request.Request.Vehicle != null,
+                fechaSolicitud = request.Request.RequestDate.ToString("yyyy-MM-ddTHH:mm:ss"),
+                precioSolicitud = request.Request.Budget,
+                notas = request.notes,
             };
             var json = JsonConvert.SerializeObject(respuesta);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

@@ -290,9 +290,10 @@ namespace DRCars.Controls
                 AppointmentCard card = new AppointmentCard
                 {
                     Margin = new Padding(10),
-                    Size = new Size(400, 250)
+                    Size = new Size(400, 250),
+                    Appointment = appointment
                 };
-                card.Appointment = appointment;
+
                 card.CompleteClicked += AppointmentCard_CompleteClicked;
                 card.CancelClicked += AppointmentCard_CancelClicked;
 
@@ -309,9 +310,10 @@ namespace DRCars.Controls
                 RequestCard card = new RequestCard
                 {
                     Margin = new Padding(10),
-                    Size = new Size(400, 250)
+                    Size = new Size(400, 250),
+                    Request = request
                 };
-                card.Request = request;
+                 
                 card.ScheduleClicked += RequestCard_ScheduleClicked;
                 card.CompleteClicked += RequestCard_CompleteClicked;
                 card.CancelClicked += RequestCard_CancelClicked;
@@ -327,69 +329,74 @@ namespace DRCars.Controls
 
             foreach (var sale in allSales)
             {
-                RoundedPanel saleCard = new RoundedPanel
-                {
-                    BorderRadius = 15,
-                    BorderColor = Color.FromArgb(220, 220, 220),
-                    BorderSize = 1,
-                    Size = new Size(400, 200),
-                    Margin = new Padding(10),
-                    Tag = sale
-                };
-
-                Label saleIdLabel = new Label
-                {
-                    Text = $"Reserva #{sale.Id}",
-                    Font = new Font("Segoe UI", 12F, FontStyle.Bold),
-                    AutoSize = false,
-                    Size = new Size(380, 30),
-                    Location = new Point(10, 10)
-                };
-
-                Label vehicleLabel = new Label
-                {
-                    Text = $"Vehículo: (Id: {sale.Vehicle.Id}) {sale.Vehicle.Brand} {sale.Vehicle.Model}",
-                    Font = new Font("Segoe UI", 9F),
-                    AutoSize = false,
-                    Size = new Size(380, 25),
-                    Location = new Point(10, 45)
-                };
-
-                Label customerLabel = new Label
-                {
-                    Text = $"Cliente: {sale.client.Name} {sale.client.Surname}",
-                    Font = new Font("Segoe UI", 9F),
-                    AutoSize = false,
-                    Size = new Size(380, 25),
-                    Location = new Point(10, 70)
-                };
-
-                Label priceLabel = new Label
-                {
-                    Text = $"Precio: {sale.SalePrice:N0} €",
-                    Font = new Font("Segoe UI", 10F, FontStyle.Bold),
-                    AutoSize = false,
-                    Size = new Size(380, 25),
-                    Location = new Point(10, 95)
-                };
-
-                Label dateLabel = new Label
-                {
-                    Text = $"Fecha: {sale.SaleDate:dd/MM/yyyy}",
-                    Font = new Font("Segoe UI", 9F),
-                    AutoSize = false,
-                    Size = new Size(380, 25),
-                    Location = new Point(10, 120)
-                };
-
-                saleCard.Controls.Add(saleIdLabel);
-                saleCard.Controls.Add(vehicleLabel);
-                saleCard.Controls.Add(customerLabel);
-                saleCard.Controls.Add(priceLabel);
-                saleCard.Controls.Add(dateLabel);
-
-                salesPanel.Controls.Add(saleCard);
+                CreateSaleCard(sale);
             }
+        }
+
+        private void CreateSaleCard(Sale sale)
+        {
+            RoundedPanel saleCard = new RoundedPanel
+            {
+                BorderRadius = 15,
+                BorderColor = Color.FromArgb(220, 220, 220),
+                BorderSize = 1,
+                Size = new Size(400, 200),
+                Margin = new Padding(10),
+                Tag = sale
+            };
+
+            Label saleIdLabel = new Label
+            {
+                Text = $"Venta #{sale.Id}",
+                Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                AutoSize = false,
+                Size = new Size(380, 30),
+                Location = new Point(10, 10)
+            };
+
+            Label vehicleLabel = new Label
+            {
+                Text = $"Vehículo: (Id: {sale.Vehicle.Id}) {sale.Vehicle.Brand} {sale.Vehicle.Model}",
+                Font = new Font("Segoe UI", 9F),
+                AutoSize = false,
+                Size = new Size(380, 25),
+                Location = new Point(10, 45)
+            };
+
+            Label customerLabel = new Label
+            {
+                Text = $"Cliente: {sale.client.Name} {sale.client.Surname}",
+                Font = new Font("Segoe UI", 9F),
+                AutoSize = false,
+                Size = new Size(380, 25),
+                Location = new Point(10, 70)
+            };
+
+            Label priceLabel = new Label
+            {
+                Text = $"Precio: {sale.SalePrice:N0} €",
+                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                AutoSize = false,
+                Size = new Size(380, 25),
+                Location = new Point(10, 95)
+            };
+
+            Label dateLabel = new Label
+            {
+                Text = $"Fecha: {sale.SaleDate:dd/MM/yyyy}",
+                Font = new Font("Segoe UI", 9F),
+                AutoSize = false,
+                Size = new Size(380, 25),
+                Location = new Point(10, 120)
+            };
+
+            saleCard.Controls.Add(saleIdLabel);
+            saleCard.Controls.Add(vehicleLabel);
+            saleCard.Controls.Add(customerLabel);
+            saleCard.Controls.Add(priceLabel);
+            saleCard.Controls.Add(dateLabel);
+
+            salesPanel.Controls.Add(saleCard);
         }
 
         private void SearchRequestsTextBox_TextChanged(object sender, EventArgs e)
