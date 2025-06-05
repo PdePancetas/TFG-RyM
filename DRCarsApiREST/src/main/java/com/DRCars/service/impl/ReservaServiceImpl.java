@@ -71,7 +71,7 @@ public class ReservaServiceImpl implements ReservaService {
 		return reservaRepository.findAll();
 	}
 
-	//Mover a ventas
+	
 	@Transactional
 	public void procesarReserva(Reserva r) {
 		if(r.getVehiculo()!=null) {
