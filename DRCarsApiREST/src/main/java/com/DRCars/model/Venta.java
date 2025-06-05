@@ -97,14 +97,6 @@ public class Venta implements Serializable {
 		this.precioVenta = precioVenta;
 	}
 
-	public String getNotas() {
-		return notas;
-	}
-
-	public void setNotas(String notas) {
-		this.notas = notas;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(idVenta);

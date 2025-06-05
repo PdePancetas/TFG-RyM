@@ -8,6 +8,7 @@ public class ProcSolicitudRequest {
 	private boolean aceptada;
 	private LocalDate fechaSolicitud;
 	private double precioSolicitud;
+	private String notas;
 
 	public Long getIdSolicitud() {
 		return idSolicitud;
@@ -39,6 +40,14 @@ public class ProcSolicitudRequest {
 
 	public void setPrecioSolicitud(double precioSolicitud) {
 		this.precioSolicitud = precioSolicitud;
+	}
+
+	public String getNotas() {
+		return notas;
+	}
+
+	public void setNotas(String notas) {
+		this.notas = notas;
 	}
 
 }

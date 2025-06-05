@@ -91,6 +91,7 @@ public class SolicitudServiceImpl implements SolicitudService {
 						reserva.setCliente(clienteRepo.getReferenceById(res.get().getCliente().getDniCliente()));
 						reserva.setPrecioReserva(res.get().getPrecioSolicitud());
 						reserva.setFechaReserva(solicitud.getFechaSolicitud());
+						reserva.setNotas(solicitud.getNotas());
 						reserva.setVehiculo((res.get().getVehiculo()!=null)?vehiculoRepo.getReferenceById(res.get().getVehiculo().getIdVehiculo()):null);
 
 						reservaRepo.save(reserva);
