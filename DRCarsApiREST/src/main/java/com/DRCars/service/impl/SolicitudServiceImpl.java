@@ -105,4 +105,12 @@ public class SolicitudServiceImpl implements SolicitudService {
 		}
 	}
 
+	public void eliminarSolicitud(Long idSolicitud) {
+		solicitudRepo.deleteById(idSolicitud);
+	}
+
+	public Optional<Solicitud> obtenerSolicitudPorId(Long idSolicitud) {
+		return solicitudRepo.findById(idSolicitud);
+	}
+
 }

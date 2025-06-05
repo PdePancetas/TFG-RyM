@@ -1,6 +1,7 @@
 package com.DRCars.controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.DRCars.dto.ProcSolicitudRequest;
 import com.DRCars.dto.SolicitudDTO;
 import com.DRCars.dto.SolicitudRequest;
 import com.DRCars.mapper.SolicitudMapper;
+import com.DRCars.model.Reserva;
 import com.DRCars.model.Solicitud;
 import com.DRCars.service.impl.SolicitudServiceImpl;
 
@@ -43,9 +45,21 @@ public class SolicitudController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la solicitud");
 		}
 	}
+	
+	@PostMapping("/delete")
+	public ResponseEntity<String> eliminarSolicitud(@RequestBody Solicitud r) {
+		Optional<Solicitud> reserva = solicitudService.obtenerSolicitudPorId(r.getIdSolicitud());
+
+		if (!reserva.isEmpty()) {
+			solicitudService.eliminarSolicitud(r.getIdSolicitud());
+			return ResponseEntity.ok("La reserva se ha eliminado correctamente");
+		}
+		return ResponseEntity.notFound().build();
+
+	}
 
 	@PostMapping("/procesar")
-	public ResponseEntity<String> procesarsolicitud(@RequestBody ProcSolicitudRequest solicitud) {
+	public ResponseEntity<String> procesarSolicitud(@RequestBody ProcSolicitudRequest solicitud) {
 
 		try {
 			solicitudService.procesarSolicitud(solicitud);

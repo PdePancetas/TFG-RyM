@@ -70,7 +70,7 @@ public class ReservaController {
 
 		if (!reserva.isEmpty()) {
 			reservaService.eliminarReserva(r.getIdReserva());
-			return ResponseEntity.ok("La reserva se ha ");
+			return ResponseEntity.ok("La reserva se ha eliminado correctamente");
 		}
 		return ResponseEntity.notFound().build();
 
