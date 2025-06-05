@@ -51,13 +51,13 @@ public class ReservaController {
 		return ResponseEntity.notFound().build();
 	}
 
-	@PostMapping("/convertir")
+	@PostMapping("/procesar")
 	public ResponseEntity<String> completarReserva(@RequestBody Reserva r) {
 		Optional<Reserva> reserva = reservaService.obtenerReservaPorId(r.getIdReserva());
 
 		if (!reserva.isEmpty()) {
-			reservaService.crearVenta(r);
-			return ResponseEntity.ok("La reserva se ha ");
+			reservaService.procesarReserva(r);
+			return ResponseEntity.ok("La reserva se ha procesado con éxito");
 		}
 
 		return ResponseEntity.notFound().build();

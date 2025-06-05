@@ -73,13 +73,15 @@ public class ReservaServiceImpl implements ReservaService {
 
 	//Mover a ventas
 	@Transactional
-	public void crearVenta(Reserva r) {
-		Venta v = new Venta();
-		v.setCliente(r.getCliente());
-		v.setVehiculo(r.getVehiculo());
-		v.setFechaVenta(r.getFechaReserva());
-		v.setPrecioVenta(r.getPrecioReserva());
-		ventaRepository.save(v);
+	public void procesarReserva(Reserva r) {
+		if(r.getVehiculo()!=null) {
+			Venta v = new Venta();
+			v.setCliente(r.getCliente());
+			v.setVehiculo(r.getVehiculo());
+			v.setFechaVenta(r.getFechaReserva());
+			v.setPrecioVenta(r.getPrecioReserva());
+			ventaRepository.save(v);
+		}
 		reservaRepository.delete(r);
 	}
 }

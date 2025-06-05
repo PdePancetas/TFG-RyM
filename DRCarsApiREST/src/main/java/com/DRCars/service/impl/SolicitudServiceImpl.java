@@ -87,19 +87,16 @@ public class SolicitudServiceImpl implements SolicitudService {
 			res = solicitudRepo.findById(solicitud.getIdSolicitud());
 			if (res.isPresent()) {
 				if (solicitud.isAceptada()) {
-					if (res.get().getVehiculo().getIdVehiculo() != null) {
 						Reserva reserva = new Reserva();
 						reserva.setCliente(clienteRepo.getReferenceById(res.get().getCliente().getDniCliente()));
 						reserva.setPrecioReserva(res.get().getPrecioSolicitud());
 						reserva.setFechaReserva(solicitud.getFechaSolicitud());
-						reserva.setVehiculo(vehiculoRepo.getReferenceById(res.get().getVehiculo().getIdVehiculo()));
+						reserva.setVehiculo((res.get().getVehiculo()!=null)?vehiculoRepo.getReferenceById(res.get().getVehiculo().getIdVehiculo()):null);
 
 						reservaRepo.save(reserva);
 					}
 				}
 				solicitudRepo.delete(res.get());
-			} else
-				throw new ClassNotFoundException();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

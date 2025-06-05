@@ -17,7 +17,6 @@ import com.DRCars.dto.ProcSolicitudRequest;
 import com.DRCars.dto.SolicitudDTO;
 import com.DRCars.dto.SolicitudRequest;
 import com.DRCars.mapper.SolicitudMapper;
-import com.DRCars.model.Reserva;
 import com.DRCars.model.Solicitud;
 import com.DRCars.service.impl.SolicitudServiceImpl;
 
