@@ -88,6 +88,7 @@ public class ReservaServiceImpl implements ReservaService {
 						Venta venta = new Venta();
 						venta.setCliente(clienteRepo.getReferenceById(res.get().getCliente().getDniCliente()));
 						venta.setPrecioVenta(res.get().getPrecioReserva());
+						venta.setFechaVenta(reserva.getFechaVenta());
 						venta.setVehiculo(vehiculoRepo.getReferenceById(res.get().getVehiculo().getIdVehiculo()));
 	
 						ventasRepo.save(venta);

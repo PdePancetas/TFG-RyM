@@ -18,6 +18,7 @@ import com.DRCars.dto.VehiculoDTO;
 import com.DRCars.dto.VehiculoRequest;
 import com.DRCars.mapper.VehiculoMapper;
 import com.DRCars.model.Vehiculo;
+import com.DRCars.model.Vehiculo.Estado;
 import com.DRCars.service.impl.VehiculoServiceImpl;
 
 @RestController
@@ -27,13 +28,24 @@ public class CatalogoController {
 	@Autowired
 	private VehiculoServiceImpl vehiculoService;
 
-	@GetMapping
+	@GetMapping("/app")
 	public ResponseEntity<List<VehiculoDTO>> obtenerCatalogo() {
 		List<Vehiculo> vehiculos = vehiculoService.obtenerVehiculos();
 		List<VehiculoDTO> vehiculosDTO = vehiculos.stream().map(VehiculoMapper.INSTANCE::toDTO)
 				.collect(Collectors.toList());
 		return ResponseEntity.ok(vehiculosDTO);
 	}
+	
+	@GetMapping("/web")
+	public ResponseEntity<List<VehiculoDTO>> obtenerCatalogoDisponibles() {
+		List<Vehiculo> vehiculos = vehiculoService.obtenerVehiculos();
+		List<VehiculoDTO> vehiculosDTO = vehiculos.stream()
+				.filter(v -> v.getEstado()!=Estado.VENDIDO)
+				.map(VehiculoMapper.INSTANCE::toDTO)
+				.collect(Collectors.toList());
+		return ResponseEntity.ok(vehiculosDTO);
+	}
+
 
 	@PostMapping("/crear")
 	public ResponseEntity<VehiculoDTO> addVehiculo(@RequestBody VehiculoRequest vehiculo) {
@@ -50,11 +62,10 @@ public class CatalogoController {
 	public ResponseEntity<VehiculoDTO> getVehiculo(@PathVariable Long id) {
 		 Optional<Vehiculo> v = vehiculoService.obtenerVehiculoPorId(id);
 		if(v.isPresent()) {
-			VehiculoDTO vdto = VehiculoMapper.INSTANCE.toDTO(vehiculoService.obtenerVehiculoPorId(id).get());
+			VehiculoDTO vdto = VehiculoMapper.INSTANCE.toDTO(v.get());
 			return ResponseEntity.ok(vdto);
 		}else {
-			VehiculoDTO vdto = VehiculoMapper.INSTANCE.toDTO(vehiculoService.obtenerVehiculoPorId(id).orElse(new Vehiculo()));
-			return ResponseEntity.status(404).body(vdto);
+			return ResponseEntity.notFound().build();
 		}
 			
 	}

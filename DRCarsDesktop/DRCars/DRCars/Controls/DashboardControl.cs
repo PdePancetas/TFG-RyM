@@ -72,6 +72,8 @@ namespace DRCars.Controls
             salesChart.BackColor = Color.White;
             salesChart.Dock = DockStyle.Fill;
             salesChart.ChartAreas.Add(new ChartArea());
+            salesChart.ChartAreas[0].AxisY.Minimum = Double.NaN;
+            salesChart.ChartAreas[0].AxisY.Maximum = Double.NaN;
             salesChartPanel.Controls.Add(salesChart);
 
             // Vehicles Chart
@@ -162,7 +164,6 @@ namespace DRCars.Controls
             recentSalesTitle.Font = new Font("Segoe UI Semibold", 12F);
             recentSalesTitle.Text = "Ventas Recientes";
             recentSalesTitle.TextAlign = ContentAlignment.MiddleLeft;
-           // recentSalesTitle.ForeColor = textColor;
 
             // Recent Sales Flow
             recentSalesFlow.AutoScroll = true;
@@ -192,7 +193,6 @@ namespace DRCars.Controls
             pendingRequestsTitle.Font = new Font("Segoe UI Semibold", 12F);
             pendingRequestsTitle.Text = "Solicitudes Pendientes";
             pendingRequestsTitle.TextAlign = ContentAlignment.MiddleLeft;
-            //pendingRequestsTitle.ForeColor = textColor;
 
             // Pending Requests Flow
             pendingRequestsFlow.AutoScroll = true;
@@ -234,8 +234,7 @@ namespace DRCars.Controls
             int newWidth = Math.Max(0, salesChartPanel.Width - 30);
             int newHeight = Math.Max(0, salesChartPanel.Height - 30);
 
-            // Adjust panel positions and sizes when control is resized
-            int halfWidth = (this.Width - 40 - 20) / 2; // 40 for padding, 20 for gap
+            int halfWidth = (this.Width - 40 - 20) / 2;
 
             statsPanel.Width = newWidth;
 
@@ -245,11 +244,10 @@ namespace DRCars.Controls
             vehiclesChartPanel.Location = new Point(halfWidth + 40, 120);
 
             salesChart.Size = new Size(newWidth, newHeight);
-            //salesChart.Size = new Size(salesChartPanel.Width - 30, salesChartPanel.Height - 30);
             salesChart.Location = new Point(15, 15);
 
             vehiclesChart.Size = new Size(newWidth, newHeight);
-            //vehiclesChart.Size = new Size(vehiclesChartPanel.Width - 30, vehiclesChartPanel.Height - 30);
+            
             vehiclesChart.Location = new Point(15, 15);
 
             recentSalesPanel.Width = halfWidth;
@@ -425,7 +423,7 @@ namespace DRCars.Controls
                     Location = new Point(salePanel.Width - 115, 10),
                     Font = new Font("Segoe UI Semibold", 10F),
                     ForeColor = primaryColor,
-                    Text = $"{sale.TotalPrice:N0} €",
+                    Text = $"{sale.SalePrice:N0} €",
                     TextAlign = ContentAlignment.MiddleRight
                 };
 

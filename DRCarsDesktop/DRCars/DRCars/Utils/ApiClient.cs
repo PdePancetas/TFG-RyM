@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using DRCars.Models;
 using System.IO;
+using System.IdentityModel.Protocols.WSTrust;
 
 namespace DRCars.Utils
 {
@@ -180,7 +181,9 @@ namespace DRCars.Utils
             var respuesta = new
             {
                 idReserva = request.Id,
-                aceptada = request.Vehicle!=null
+                aceptada = request.Vehicle!=null,
+                fechaVenta = request.RequestDate,
+                precioVenta = request.Budget
             };
             var json = JsonConvert.SerializeObject(respuesta);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.DRCars.dto.ProcReservaRequest;
 import com.DRCars.dto.ReservaDTO;
 import com.DRCars.dto.ReservaRequest;
+import com.DRCars.dto.ReservasClienteRequest;
 import com.DRCars.dto.VehiculoDTO;
 import com.DRCars.mapper.ReservaMapper;
 import com.DRCars.mapper.VehiculoMapper;
@@ -62,21 +64,21 @@ public class ReservaController {
 
 	}
 
-	@GetMapping("?={dni}")
-	public ResponseEntity<List<ReservaDTO>> obtenerReservasPorDni(@PathVariable String dni) {
+	@GetMapping("/cliente")
+	public ResponseEntity<List<ReservaDTO>> obtenerReservasPorDni(@RequestBody ReservasClienteRequest id) {
 
 		List<Reserva> reservas = reservaService.obtenerReservas();
 
 		if (!reservas.isEmpty()) {
-			List<Reserva> reservasCliente = reservas.stream().filter(r -> r.getCliente().getDniCliente().equals(dni))
+			List<Reserva> reservasCliente = reservas.stream().filter(r -> r.getCliente().getDniCliente().equals(id))
 					.collect(Collectors.toList());
 			if (!reservasCliente.isEmpty()) {
 				List<ReservaDTO> reservasDTO = reservasCliente.stream().map(ReservaMapper.INSTANCE::toDTO)
 						.collect(Collectors.toList());
 				return ResponseEntity.ok(reservasDTO);
 			}
-			return null;
+			return ResponseEntity.notFound().build();
 		}
-		return null;
+		return ResponseEntity.notFound().build();
 	}
 }
