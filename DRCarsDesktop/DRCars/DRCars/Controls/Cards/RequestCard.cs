@@ -9,11 +9,10 @@ namespace DRCars.Controls
     {
         private Request _request;
         private RoundedPanel mainPanel;
-        private Label customerNameLabel;
-        private Label vehicleLabel;
+        public Label customerNameLabel;
+        public Label vehicleLabel;
         private Label dateLabel;
         private Label statusLabel;
-        private RoundedButton viewDetailsButton;
         private RoundedButton scheduleButton;
         private RoundedButton completeButton;
         private RoundedButton cancelButton;
@@ -24,7 +23,6 @@ namespace DRCars.Controls
         private Color textColor = Color.FromArgb(51, 51, 51); // Texto oscuro
         private Color accentColor = Color.FromArgb(108, 117, 125); // Gris para detalles
 
-        public event EventHandler<Request> ViewDetailsClicked;
         public event EventHandler<Request> ScheduleClicked;
         public event EventHandler<Request> CompleteClicked;
         public event EventHandler<Request> CancelClicked;
@@ -52,7 +50,6 @@ namespace DRCars.Controls
             this.vehicleLabel = new System.Windows.Forms.Label();
             this.dateLabel = new System.Windows.Forms.Label();
             this.statusLabel = new System.Windows.Forms.Label();
-            this.viewDetailsButton = new DRCars.Controls.RoundedButton();
             this.scheduleButton = new DRCars.Controls.RoundedButton();
             this.completeButton = new DRCars.Controls.RoundedButton();
             this.cancelButton = new DRCars.Controls.RoundedButton();
@@ -69,7 +66,6 @@ namespace DRCars.Controls
             this.mainPanel.Controls.Add(this.vehicleLabel);
             this.mainPanel.Controls.Add(this.dateLabel);
             this.mainPanel.Controls.Add(this.statusLabel);
-            this.mainPanel.Controls.Add(this.viewDetailsButton);
             this.mainPanel.Controls.Add(this.scheduleButton);
             this.mainPanel.Controls.Add(this.completeButton);
             this.mainPanel.Controls.Add(this.cancelButton);
@@ -116,25 +112,6 @@ namespace DRCars.Controls
             this.statusLabel.Size = new System.Drawing.Size(100, 25);
             this.statusLabel.TabIndex = 3;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // viewDetailsButton
-            // 
-            this.viewDetailsButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
-            this.viewDetailsButton.BorderColor = System.Drawing.Color.Silver;
-            this.viewDetailsButton.BorderRadius = 4;
-            this.viewDetailsButton.BorderSize = 0;
-            this.viewDetailsButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.viewDetailsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.viewDetailsButton.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.viewDetailsButton.ForeColor = System.Drawing.Color.White;
-            this.viewDetailsButton.Location = new System.Drawing.Point(15, 130);
-            this.viewDetailsButton.Name = "viewDetailsButton";
-            this.viewDetailsButton.Size = new System.Drawing.Size(90, 35);
-            this.viewDetailsButton.TabIndex = 4;
-            this.viewDetailsButton.Text = "Ver Detalles";
-            this.viewDetailsButton.UseVisualStyleBackColor = false;
-            this.viewDetailsButton.Visible = false;
-            this.viewDetailsButton.Click += ViewDetailsButton_Click;
             // 
             // scheduleButton
             // 
@@ -204,15 +181,11 @@ namespace DRCars.Controls
         {
             if (_request != null)
             {
-                customerNameLabel.Text = _request.cliente.Name+ " " + _request.cliente.Surname;
+                customerNameLabel.Text = _request.client.Name+ " " + _request.client.Surname;
 
                 if (_request.Vehicle != null)
                 {
                     vehicleLabel.Text = $"{_request.Vehicle.Brand} {_request.Vehicle.Model} ({_request.Vehicle.Year})";
-                }
-                else if (!string.IsNullOrEmpty(_request.DesiredBrand) || !string.IsNullOrEmpty(_request.DesiredModel))
-                {
-                    vehicleLabel.Text = $"Deseado: {_request.DesiredBrand} {_request.DesiredModel}";
                 }
                 else
                 {
@@ -261,14 +234,6 @@ namespace DRCars.Controls
                     return Color.FromArgb(248, 215, 218); // Rojo claro
                 default:
                     return Color.FromArgb(240, 240, 240); // Gris claro
-            }
-        }
-
-        private void ViewDetailsButton_Click(object sender, EventArgs e)
-        {
-            if (_request != null && ViewDetailsClicked != null)
-            {
-                ViewDetailsClicked(this, _request);
             }
         }
 

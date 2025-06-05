@@ -9,8 +9,8 @@ namespace DRCars.Controls
     {
         private Appointment _appointment;
         private RoundedPanel mainPanel;
-        private Label customerNameLabel;
-        private Label vehicleLabel;
+        public Label customerNameLabel;
+        public Label vehicleLabel;
         private Label dateLabel;
         private RoundedButton completeButton;
         private RoundedButton cancelButton;

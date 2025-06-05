@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using DRCars.Controls.Cards;
+using DRCars.Forms;
 using DRCars.Models;
 using DRCars.Utils;
-using DRCars.Forms;
-using DRCars.Controls.Cards;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace DRCars.Controls
 {
@@ -66,7 +68,7 @@ namespace DRCars.Controls
                 // Load appointments
                 allSales = await apiClient.GetSalesAsync();
                 salesCountLabel.Text = $"Ventas: {allSales.Count}";
-                PopulateSalesCards(); // If you want to display appointments in a similar way
+                PopulateSaleCards(); 
             }
             catch (Exception ex)
             {
@@ -288,10 +290,9 @@ namespace DRCars.Controls
                 AppointmentCard card = new AppointmentCard
                 {
                     Margin = new Padding(10),
-                    Size = new Size(400, 250),
-                    Appointment = appointment
+                    Size = new Size(400, 250)
                 };
-               
+                card.Appointment = appointment;
                 card.CompleteClicked += AppointmentCard_CompleteClicked;
                 card.CancelClicked += AppointmentCard_CancelClicked;
 
@@ -308,9 +309,9 @@ namespace DRCars.Controls
                 RequestCard card = new RequestCard
                 {
                     Margin = new Padding(10),
-                    Size = new Size(400, 250),
-                    Request = request
+                    Size = new Size(400, 250)
                 };
+                card.Request = request;
                 card.ScheduleClicked += RequestCard_ScheduleClicked;
                 card.CompleteClicked += RequestCard_CompleteClicked;
                 card.CancelClicked += RequestCard_CancelClicked;
@@ -319,10 +320,10 @@ namespace DRCars.Controls
             }
         }
         
-        private void PopulateSalesCards()
-        {
-           
-            salesPanel.Controls.Clear();
+        private void PopulateSaleCards()
+        { 
+            
+           salesPanel.Controls.Clear();
 
             foreach (var sale in allSales)
             {
@@ -332,12 +333,13 @@ namespace DRCars.Controls
                     BorderColor = Color.FromArgb(220, 220, 220),
                     BorderSize = 1,
                     Size = new Size(400, 200),
-                    Margin = new Padding(10)
+                    Margin = new Padding(10),
+                    Tag = sale
                 };
 
-                Label appointmentIdLabel = new Label
+                Label saleIdLabel = new Label
                 {
-                    Text = $"Venta #{sale.Id}",
+                    Text = $"Reserva #{sale.Id}",
                     Font = new Font("Segoe UI", 12F, FontStyle.Bold),
                     AutoSize = false,
                     Size = new Size(380, 30),
@@ -355,7 +357,7 @@ namespace DRCars.Controls
 
                 Label customerLabel = new Label
                 {
-                    Text = $"Cliente ID: {sale.client.Id}",
+                    Text = $"Cliente: {sale.client.Name} {sale.client.Surname}",
                     Font = new Font("Segoe UI", 9F),
                     AutoSize = false,
                     Size = new Size(380, 25),
@@ -380,7 +382,7 @@ namespace DRCars.Controls
                     Location = new Point(10, 120)
                 };
 
-                saleCard.Controls.Add(appointmentIdLabel);
+                saleCard.Controls.Add(saleIdLabel);
                 saleCard.Controls.Add(vehicleLabel);
                 saleCard.Controls.Add(customerLabel);
                 saleCard.Controls.Add(priceLabel);
@@ -404,32 +406,23 @@ namespace DRCars.Controls
             FilterSales();
         }
 
-        private void FilterAppointments()
+        private void FilterSales()
         {
-            string searchText = searchAppointmentsTextBox.Texts.ToLower();
+            string searchText = searchSalesTextBox.Texts.ToLower();
 
-            appointmentsPanel.Controls.Clear();
-
-            foreach (var appointment in allAppointments)
+            foreach (RoundedPanel card in salesPanel.Controls.OfType<RoundedPanel>())
             {
-                if (string.IsNullOrEmpty(searchText) ||
-                    appointment.client.Name.ToLower().Contains(searchText) ||
-                    appointment.client.Name.ToLower().Contains(searchText) ||
-                    appointment.client.Name.ToLower().Contains(searchText) ||
-                    appointment.Vehicle.Brand?.ToLower().Contains(searchText) == true ||
-                    appointment.Vehicle.Model?.ToLower().Contains(searchText) == true)
+                Sale sale = card.Tag as Sale; // Asegúrate de que Sale sea tu clase
+
+                if (sale != null)
                 {
-                    AppointmentCard card = new AppointmentCard
-                    {
-                        Appointment = appointment,
-                        Margin = new Padding(10),
-                        Size = new Size(400, 250)
-                    };
+                    bool matchesSearch = string.IsNullOrEmpty(searchText) ||
+                                   sale.client.Name.ToLower().Contains(searchText) ||
+                                   sale.client.Surname.ToLower().Contains(searchText) ||
+                                   sale.Vehicle.Brand.ToLower().Contains(searchText) ||
+                                   sale.Vehicle.Model.ToLower().Contains(searchText);
 
-                    card.CompleteClicked += AppointmentCard_CompleteClicked;
-                    card.CancelClicked += AppointmentCard_CancelClicked;
-
-                    appointmentsPanel.Controls.Add(card);
+                    card.Visible = matchesSearch;
                 }
             }
         }
@@ -438,57 +431,37 @@ namespace DRCars.Controls
         {
             string searchText = searchRequestsTextBox.Texts.ToLower();
 
-            requestsPanel.Controls.Clear();
-
-            foreach (var request in allRequests)
+            foreach (RequestCard card in requestsPanel.Controls.OfType<RequestCard>())
             {
-                if (string.IsNullOrEmpty(searchText) ||
-                    request.cliente.Name.ToLower().Contains(searchText) ||
-                    request.cliente.Name.ToLower().Contains(searchText) ||
-                    request.cliente.Name.ToLower().Contains(searchText) ||
-                    request.DesiredBrand?.ToLower().Contains(searchText) == true ||
-                    request.DesiredModel?.ToLower().Contains(searchText) == true)
-                {
-                    RequestCard card = new RequestCard
-                    {
-                        Request = request,
-                        Margin = new Padding(10),
-                        Size = new Size(400, 250)
-                    };
 
-                    card.ScheduleClicked += RequestCard_ScheduleClicked;
-                    card.CompleteClicked += RequestCard_CompleteClicked;
-                    card.CancelClicked += RequestCard_CancelClicked;
+                Request request = card.Request;
 
-                    requestsPanel.Controls.Add(card);
-                }
+                bool matchesSearch = string.IsNullOrEmpty(searchText) ||
+                       request.client.Name.ToLower().Contains(searchText) ||
+                       request.client.Surname.ToLower().Contains(searchText) ||
+                       request.Vehicle.Brand.ToLower().Contains(searchText) ||
+                       request.Vehicle.Model.ToLower().Contains(searchText);
+
+                card.Visible = matchesSearch;
             }
         }
 
-        private void FilterSales()
+        private void FilterAppointments()
         {
-            string searchText = searchSalesTextBox.Texts.ToLower();
+            string searchText = searchAppointmentsTextBox.Texts.ToLower();
 
-            salesPanel.Controls.Clear();
-
-            foreach (var sale in allSales)
+            foreach (AppointmentCard card in appointmentsPanel.Controls.OfType<AppointmentCard>())
             {
-                if (string.IsNullOrEmpty(searchText) ||
-                    sale.client.Name.ToLower().Contains(searchText) ||
-                    sale.client.Name.ToLower().Contains(searchText) ||
-                    sale.client.Name.ToLower().Contains(searchText) ||
-                    sale.Vehicle.Brand?.ToLower().Contains(searchText) == true ||
-                    sale.Vehicle.Model?.ToLower().Contains(searchText) == true)
-                {
-                    SaleCard card = new SaleCard
-                    {
-                        Sale = sale,
-                        Margin = new Padding(10),
-                        Size = new Size(400, 250)
-                    };
 
-                    salesPanel.Controls.Add(card);
-                }
+                var appointment = card.Appointment;
+
+                bool matchesSearch = string.IsNullOrEmpty(searchText) ||
+                       appointment.client.Name.ToLower().Contains(searchText) ||
+                       appointment.client.Surname.ToLower().Contains(searchText) ||
+                       appointment.Vehicle.Brand.ToLower().Contains(searchText) ||
+                       appointment.Vehicle.Model.ToLower().Contains(searchText);
+
+                card.Visible = matchesSearch;
             }
         }
 
@@ -514,7 +487,7 @@ namespace DRCars.Controls
             {
                 // Update request status
                 request.Status = RequestStatus.Scheduled;
-                await apiClient.UpdateSaleRequestAsync(request);
+                await apiClient.UpdateRequestAsync(request);
                 LoadData();
             }
         }
@@ -523,7 +496,7 @@ namespace DRCars.Controls
         {
             // Mark request as completed
             request.Status = RequestStatus.Completed;
-            await apiClient.UpdateSaleRequestAsync(request);
+            await apiClient.UpdateRequestAsync(request);
             LoadData();
         }
 
@@ -536,14 +509,14 @@ namespace DRCars.Controls
             {
                 // Cancel request
                 request.Status = RequestStatus.Cancelled;
-                await apiClient.UpdateSaleRequestAsync(request);
+                await apiClient.DeleteRequestAsync(request);
                 LoadData();
             }
         }
 
         private async void AppointmentCard_CompleteClicked(object sender, Appointment appointment)
         {
-            await apiClient.CompleteAppointmentAsync(appointment);
+            await apiClient.completeAppointmentAsync(appointment);
             LoadData();
         }
 
@@ -554,7 +527,7 @@ namespace DRCars.Controls
 
             if (result == DialogResult.Yes)
             {
-                await apiClient.DeleteAppointmentAsync(appointment);
+                await apiClient.deleteAppointmentAsync(appointment);
                 LoadData();
             }
         }

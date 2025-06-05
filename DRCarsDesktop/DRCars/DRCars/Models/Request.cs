@@ -17,7 +17,7 @@ namespace DRCars.Models
         public int Id { get; set; }
 
         [JsonProperty("cliente")]
-        public ClientDTO cliente { get; set; }
+        public ClientDTO client { get; set; }
         
         [JsonProperty("vehiculo")]
         public Vehicle Vehicle { get; set; }
@@ -39,10 +39,6 @@ namespace DRCars.Models
         {
             Status = RequestStatus.Pending;
         }
-
-        // Campos adicionales para compatibilidad
-        public string DesiredBrand { get; set; }
-        public string DesiredModel { get; set; }
 
 
         public class RequestUser

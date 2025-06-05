@@ -506,7 +506,7 @@ namespace DRCars.Controls
                     Location = new Point(15, 10),
                     Font = new Font("Segoe UI Semibold", 10F),
                     ForeColor = textColor,
-                    Text = request.cliente.Name,
+                    Text = request.client.Name,
                     TextAlign = ContentAlignment.MiddleLeft
                 };
 

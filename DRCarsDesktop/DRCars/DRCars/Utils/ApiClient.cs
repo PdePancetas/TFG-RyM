@@ -20,10 +20,8 @@ namespace DRCars.Utils
         public ApiClient()
         {
             _baseUrl = AppConfig.ApiBaseUrl;
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri(_baseUrl)
-            };
+            _httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri(_baseUrl);
 
             // Añadir el encabezado requerido para ngrok
             _random = new Random();
@@ -144,14 +142,14 @@ namespace DRCars.Utils
             return JsonConvert.DeserializeObject<List<Request>>(content);
         }
 
-        public async Task<String> UpdateSaleRequestAsync(Request request)
+        public async Task<String> UpdateRequestAsync(Request request)
         {
             var respuesta = new
             {
-                idReserva = request.Id,
+                idSolicitud = request.Id,
                 aceptada = request.Vehicle!=null,
-                fechaVenta = request.RequestDate,
-                precioVenta = request.Budget
+                fechaSolicitud = request.RequestDate.ToString("yyyy-MM-ddTHH:mm:ss"),
+                precioSolicitud = request.Budget
             };
             var json = JsonConvert.SerializeObject(respuesta);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -240,26 +238,18 @@ namespace DRCars.Utils
             }
         }
 
-        public async Task<String> CompleteAppointmentAsync(Appointment appointment)
+        public async Task<String> completeAppointmentAsync(Appointment appointment)
         {
-            var respuesta = new
-            {
-                idReserva = appointment.Id,
-                cliente = appointment.client,
-                vehiculo = appointment.Vehicle,
-                fechaReserva = appointment.AppointmentDate.ToString("yyyy-MM-ddTHH:mm:ss"),
-                precioReserva = appointment.AppointmentPrice
-            };
-            var json = JsonConvert.SerializeObject(respuesta, new StringEnumConverter());
 
+            var json = JsonConvert.SerializeObject(appointment, new StringEnumConverter());
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/reservas/convertir", content);
+            var response = await _httpClient.PostAsync("/reservas/procesar", content);
             response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<String>(responseContent);
+            return responseContent;
         }
 
-        internal async Task<String> DeleteAppointmentAsync(Appointment appointment)
+        internal async Task<String> deleteAppointmentAsync(Appointment appointment)
         {
             var respuesta = new
             {
@@ -270,7 +260,21 @@ namespace DRCars.Utils
             var response = await _httpClient.PostAsync("/reservas/delete", content);
             response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<String>(responseContent);
+            return responseContent;
+        }
+
+        internal async Task<String> DeleteRequestAsync(Request request)
+        {
+            var respuesta = new
+            {
+                idSolicitud = request.Id
+            };
+            var json = JsonConvert.SerializeObject(respuesta);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/solicitudes/delete", content);
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return responseContent;
         }
     }
 }

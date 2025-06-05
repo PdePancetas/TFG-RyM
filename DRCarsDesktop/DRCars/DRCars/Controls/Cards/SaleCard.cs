@@ -2,15 +2,15 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-
+/*
 namespace DRCars.Controls.Cards
 {
     public class SaleCard : UserControl
     {
         private Sale _sale;
         private RoundedPanel mainPanel;
-        private Label customerNameLabel;
-        private Label vehicleLabel;
+        public Label customerNameLabel;
+        public Label vehicleLabel;
         private Label dateLabel;
 
         // Colores de Odoo
@@ -105,3 +105,4 @@ namespace DRCars.Controls.Cards
         }
     }
 }
+*/

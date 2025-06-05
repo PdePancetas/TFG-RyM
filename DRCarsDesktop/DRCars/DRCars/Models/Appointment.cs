@@ -24,7 +24,7 @@ namespace DRCars.Models
 
         public Appointment()
         {
-            
+
         }
     }
 

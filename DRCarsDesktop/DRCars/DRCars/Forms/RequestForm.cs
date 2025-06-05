@@ -75,7 +75,7 @@ namespace DRCars.Forms
             customerInfoLabel.Size = new Size(390, 60);
             customerInfoLabel.Location = new Point(30, 70);
             customerInfoLabel.Font = new Font("Segoe UI", 9F);
-            customerInfoLabel.Text = $"Cliente: {_request.cliente.Name}\nEmail: {_request.cliente.Name}";//\nTeléfono: {_request.cliente.Name}";
+            customerInfoLabel.Text = $"Cliente: {_request.client.Name} {_request.client.Surname}\nEmail: {_request.client.User.User}";//\nTeléfono: {_request.cliente.Name}";
 
             // Date Label
             dateLabel.AutoSize = true;
@@ -162,7 +162,7 @@ namespace DRCars.Forms
                 _request.Status = RequestStatus.Scheduled;
 
                 // Save changes
-                String estado = await apiClient.UpdateSaleRequestAsync(_request);
+                String estado = await apiClient.UpdateRequestAsync(_request);
                 MessageBox.Show(estado);
                 DialogResult = DialogResult.OK;
                 Close();

@@ -23,5 +23,10 @@ namespace DRCars.Models
 
         [JsonProperty("precioVenta")]
         public decimal SalePrice { get; set; }
+
+        public Sale()
+        {
+
+        }
     }
 }
