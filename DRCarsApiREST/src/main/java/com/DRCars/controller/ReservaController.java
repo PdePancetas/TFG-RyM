@@ -63,5 +63,17 @@ public class ReservaController {
 		return ResponseEntity.notFound().build();
 
 	}
+	
+	@PostMapping("/delete")
+	public ResponseEntity<String> eliminarReserva(@RequestBody Reserva r) {
+		Optional<Reserva> reserva = reservaService.obtenerReservaPorId(r.getIdReserva());
+
+		if (!reserva.isEmpty()) {
+			reservaService.eliminarReserva(r.getIdReserva());
+			return ResponseEntity.ok("La reserva se ha ");
+		}
+		return ResponseEntity.notFound().build();
+
+	}
 
 }
