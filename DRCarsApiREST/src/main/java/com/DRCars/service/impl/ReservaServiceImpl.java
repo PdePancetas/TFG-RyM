@@ -11,14 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.DRCars.model.Cliente;
 import com.DRCars.model.Reserva;
 import com.DRCars.model.Vehiculo;
+import com.DRCars.model.Venta;
 import com.DRCars.repository.ReservaRepository;
+import com.DRCars.repository.VentaRepository;
 import com.DRCars.service.ReservaService;
 
 @Service
 public class ReservaServiceImpl implements ReservaService {
-	
+
 	@Autowired
 	private ReservaRepository reservaRepository;
+
+	@Autowired
+	private VentaRepository ventaRepository;
 
 	@Override
 	@Transactional
@@ -64,5 +69,17 @@ public class ReservaServiceImpl implements ReservaService {
 
 	public List<Reserva> obtenerReservas() {
 		return reservaRepository.findAll();
+	}
+
+	//Mover a ventas
+	@Transactional
+	public void crearVenta(Reserva r) {
+		Venta v = new Venta();
+		v.setCliente(r.getCliente());
+		v.setVehiculo(r.getVehiculo());
+		v.setFechaVenta(r.getFechaReserva());
+		v.setPrecioVenta(r.getPrecioReserva());
+		ventaRepository.save(v);
+		reservaRepository.delete(r);
 	}
 }

@@ -74,8 +74,7 @@ namespace DRCars.Controls
             salesChart.ChartAreas.Add(new ChartArea());
             salesChart.ChartAreas[0].AxisY.Minimum = Double.NaN;
             salesChart.ChartAreas[0].AxisY.Maximum = Double.NaN;
-            salesChart.Titles.Add(new Title("Ventas", Docking.Top, new Font("Segoe UI Semibold", 12F), Color.FromArgb(51, 51, 51)));
-            salesChartPanel.Controls.Add(salesChart);
+            
 
             // Vehicles Chart
 
@@ -84,13 +83,15 @@ namespace DRCars.Controls
             vehiclesChart.BackColor = Color.White;
             vehiclesChart.Dock = DockStyle.Fill;
             vehiclesChart.ChartAreas.Add(new ChartArea());
-            vehiclesChartPanel.Controls.Add(vehiclesChart);
+            vehiclesChart.ChartAreas[0].AxisY.Minimum = Double.NaN;
+            vehiclesChart.ChartAreas[0].AxisY.Maximum = Double.NaN;
 
             // Stats Panel
             statsPanel.BorderRadius = 8;
             statsPanel.BorderColor = Color.FromArgb(230, 230, 230);
             statsPanel.BorderSize = 1;
             statsPanel.Dock = DockStyle.Top;
+            statsPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left ;
             statsPanel.Height = 100;
             statsPanel.BackColor = Color.White;
             statsPanel.Padding = new Padding(20);
@@ -201,6 +202,9 @@ namespace DRCars.Controls
             pendingRequestsFlow.Location = new Point(15, 45);
             pendingRequestsFlow.BackColor = Color.White;
             pendingRequestsFlow.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
+            pendingRequestsFlow.FlowDirection = FlowDirection.TopDown;
+            recentAppointmentsFlow.Dock = DockStyle.Fill;
+            pendingRequestsFlow.WrapContents = false;
 
             // Add controls to panels
             statsPanel.Controls.Add(totalVehiclesLabel);
@@ -213,6 +217,9 @@ namespace DRCars.Controls
 
             pendingRequestsPanel.Controls.Add(pendingRequestsTitle);
             pendingRequestsPanel.Controls.Add(pendingRequestsFlow);
+
+            salesChartPanel.Controls.Add(salesChart);
+            vehiclesChartPanel.Controls.Add(vehiclesChart);
 
             // Add panels to control
             this.Controls.Add(statsPanel);

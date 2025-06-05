@@ -39,14 +39,13 @@ public class AuthController {
 
 				cliente = clientService.obtenerClientePorEmail(request.getUsuario());
 				if (cliente.isPresent())
-					return ResponseEntity
-							.ok("Autenticación exitosa, "+usuario.get().getTipoUsuario()+" cliente ha iniciado sesión: " + cliente.get().getDniCliente());
+					return ResponseEntity.ok("Autenticación exitosa, " + usuario.get().getTipoUsuario()
+							+ " cliente ha iniciado sesión: " + cliente.get().getDniCliente());
 				else
-					return ResponseEntity
-							.ok("Autenticación exitosa, "+usuario.get().getTipoUsuario()+" usuario ha iniciado sesión: " + usuario.get().getUsuario());
+					return ResponseEntity.ok("Autenticación exitosa, " + usuario.get().getTipoUsuario()
+							+ " usuario ha iniciado sesión: " + usuario.get().getUsuario());
 			}
 		}
-		return ResponseEntity.status(401)
-				.body("Credenciales incorrectas, no ha podido iniciar sesión");
+		return ResponseEntity.status(401).body("Credenciales incorrectas, no ha podido iniciar sesión");
 	}
 }

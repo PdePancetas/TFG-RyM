@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using DRCars.Models;
 using DRCars.Utils;
 using DRCars.Forms;
+using DRCars.Controls.Cards;
 
 namespace DRCars.Controls
 {
@@ -278,9 +279,24 @@ namespace DRCars.Controls
         }
 
 
-        private void PopulateSalesCards()
+        private void PopulateAppointmentCards()
         {
-            
+            appointmentsPanel.Controls.Clear();
+
+            foreach (var appointment in allAppointments)
+            {
+                AppointmentCard card = new AppointmentCard
+                {
+                    Margin = new Padding(10),
+                    Size = new Size(400, 250),
+                    Appointment = appointment
+                };
+               
+                card.CompleteClicked += AppointmentCard_CompleteClicked;
+                card.CancelClicked += AppointmentCard_CancelClicked;
+
+                appointmentsPanel.Controls.Add(card);
+            }
         }
 
         private void PopulateRequestCards()
@@ -292,9 +308,9 @@ namespace DRCars.Controls
                 RequestCard card = new RequestCard
                 {
                     Margin = new Padding(10),
-                    Size = new Size(400, 250)
+                    Size = new Size(400, 250),
+                    Request = request
                 };
-                card.Request = request;
                 card.ScheduleClicked += RequestCard_ScheduleClicked;
                 card.CompleteClicked += RequestCard_CompleteClicked;
                 card.CancelClicked += RequestCard_CancelClicked;
@@ -302,16 +318,15 @@ namespace DRCars.Controls
                 requestsPanel.Controls.Add(card);
             }
         }
-
-        private void PopulateAppointmentCards()
+        
+        private void PopulateSalesCards()
         {
-            appointmentsPanel.Controls.Clear();
+           
+            salesPanel.Controls.Clear();
 
-            // Here you would create and add sale cards
-            // This is a placeholder for future implementation
-            foreach (var appointment in allAppointments)
+            foreach (var sale in allSales)
             {
-                RoundedPanel appointmentCard = new RoundedPanel
+                RoundedPanel saleCard = new RoundedPanel
                 {
                     BorderRadius = 15,
                     BorderColor = Color.FromArgb(220, 220, 220),
@@ -322,7 +337,7 @@ namespace DRCars.Controls
 
                 Label appointmentIdLabel = new Label
                 {
-                    Text = $"Reserva #{appointment.Id}",
+                    Text = $"Venta #{sale.Id}",
                     Font = new Font("Segoe UI", 12F, FontStyle.Bold),
                     AutoSize = false,
                     Size = new Size(380, 30),
@@ -331,7 +346,7 @@ namespace DRCars.Controls
 
                 Label vehicleLabel = new Label
                 {
-                    Text = $"Vehículo: (Id: {appointment.Vehicle.Id}) {appointment.Vehicle.Brand} {appointment.Vehicle.Model}",
+                    Text = $"Vehículo: (Id: {sale.Vehicle.Id}) {sale.Vehicle.Brand} {sale.Vehicle.Model}",
                     Font = new Font("Segoe UI", 9F),
                     AutoSize = false,
                     Size = new Size(380, 25),
@@ -340,7 +355,7 @@ namespace DRCars.Controls
 
                 Label customerLabel = new Label
                 {
-                    Text = $"Cliente ID: {appointment.client.Id}",
+                    Text = $"Cliente ID: {sale.client.Id}",
                     Font = new Font("Segoe UI", 9F),
                     AutoSize = false,
                     Size = new Size(380, 25),
@@ -349,7 +364,7 @@ namespace DRCars.Controls
 
                 Label priceLabel = new Label
                 {
-                    Text = $"Precio: {appointment.AppointmentPrice:N0} €",
+                    Text = $"Precio: {sale.SalePrice:N0} €",
                     Font = new Font("Segoe UI", 10F, FontStyle.Bold),
                     AutoSize = false,
                     Size = new Size(380, 25),
@@ -358,20 +373,20 @@ namespace DRCars.Controls
 
                 Label dateLabel = new Label
                 {
-                    Text = $"Fecha: {appointment.AppointmentDate:dd/MM/yyyy}",
+                    Text = $"Fecha: {sale.SaleDate:dd/MM/yyyy}",
                     Font = new Font("Segoe UI", 9F),
                     AutoSize = false,
                     Size = new Size(380, 25),
                     Location = new Point(10, 120)
                 };
 
-                appointmentCard.Controls.Add(appointmentIdLabel);
-                appointmentCard.Controls.Add(vehicleLabel);
-                appointmentCard.Controls.Add(customerLabel);
-                appointmentCard.Controls.Add(priceLabel);
-                appointmentCard.Controls.Add(dateLabel);
+                saleCard.Controls.Add(appointmentIdLabel);
+                saleCard.Controls.Add(vehicleLabel);
+                saleCard.Controls.Add(customerLabel);
+                saleCard.Controls.Add(priceLabel);
+                saleCard.Controls.Add(dateLabel);
 
-                appointmentsPanel.Controls.Add(appointmentCard);
+                salesPanel.Controls.Add(saleCard);
             }
         }
 
@@ -452,7 +467,29 @@ namespace DRCars.Controls
 
         private void FilterSales()
         {
-            
+            string searchText = searchSalesTextBox.Texts.ToLower();
+
+            salesPanel.Controls.Clear();
+
+            foreach (var sale in allSales)
+            {
+                if (string.IsNullOrEmpty(searchText) ||
+                    sale.client.Name.ToLower().Contains(searchText) ||
+                    sale.client.Name.ToLower().Contains(searchText) ||
+                    sale.client.Name.ToLower().Contains(searchText) ||
+                    sale.Vehicle.Brand?.ToLower().Contains(searchText) == true ||
+                    sale.Vehicle.Model?.ToLower().Contains(searchText) == true)
+                {
+                    SaleCard card = new SaleCard
+                    {
+                        Sale = sale,
+                        Margin = new Padding(10),
+                        Size = new Size(400, 250)
+                    };
+
+                    salesPanel.Controls.Add(card);
+                }
+            }
         }
 
         private void RefreshRequestsButton_Click(object sender, EventArgs e)
@@ -506,7 +543,7 @@ namespace DRCars.Controls
 
         private async void AppointmentCard_CompleteClicked(object sender, Appointment appointment)
         {
-            await apiClient.completeAppointmentAsync(appointment);
+            await apiClient.CompleteAppointmentAsync(appointment);
             LoadData();
         }
 
@@ -517,7 +554,7 @@ namespace DRCars.Controls
 
             if (result == DialogResult.Yes)
             {
-                await apiClient.deleteAppointmentAsync(appointment);
+                await apiClient.DeleteAppointmentAsync(appointment);
                 LoadData();
             }
         }

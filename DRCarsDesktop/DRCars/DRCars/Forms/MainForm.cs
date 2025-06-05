@@ -155,12 +155,14 @@ namespace DRCars.Forms
             int index = menuItemsPanel.Controls.Count;
             int yPos = index * 50;
 
-            Panel itemPanel = new Panel();
-            itemPanel.Size = new Size(240, 40);
-            itemPanel.Location = new Point(0, yPos);
-            itemPanel.Cursor = Cursors.Hand;
-            itemPanel.Tag = text;
-            itemPanel.Name = text + "Panel"; // Añadir un nombre único para facilitar la identificación
+            Panel itemPanel = new Panel
+            {
+                Size = new Size(240, 40),
+                Location = new Point(0, yPos),
+                Cursor = Cursors.Hand,
+                Tag = text,
+                Name = text + "Panel" // Añadir un nombre único para facilitar la identificación
+            };
 
             if (isLogout)
             {
@@ -168,12 +170,14 @@ namespace DRCars.Forms
                 itemPanel.Location = new Point(0, 350);
             }
 
-            Label iconLabel = new Label();
-            iconLabel.AutoSize = false;
-            iconLabel.Size = new Size(40, 40);
-            iconLabel.Location = new Point(20, 0);
-            iconLabel.TextAlign = ContentAlignment.MiddleCenter;
-            iconLabel.Font = new Font("Segoe UI Symbol", 14F);
+            Label iconLabel = new Label
+            {
+                AutoSize = false,
+                Size = new Size(40, 40),
+                Location = new Point(20, 0),
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI Symbol", 14F)
+            };
 
             // Simple icon representation using symbols
             switch (iconName)
@@ -187,14 +191,16 @@ namespace DRCars.Forms
                 default: iconLabel.Text = "📄"; break;
             }
 
-            Label textLabel = new Label();
-            textLabel.AutoSize = false;
-            textLabel.Size = new Size(180, 40);
-            textLabel.Location = new Point(60, 0);
-            textLabel.TextAlign = ContentAlignment.MiddleLeft;
-            textLabel.Font = new Font("Segoe UI", 11F);
-            textLabel.ForeColor = isLogout ? Color.FromArgb(220, 53, 69) : textColor;
-            textLabel.Text = text;
+            Label textLabel = new Label
+            {
+                AutoSize = false,
+                Size = new Size(180, 40),
+                Location = new Point(60, 0),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Segoe UI", 11F),
+                ForeColor = isLogout ? Color.FromArgb(220, 53, 69) : textColor,
+                Text = text
+            };
 
             // Hacer que todo el panel sea clickeable
             itemPanel.Click += clickEvent;
@@ -362,10 +368,7 @@ namespace DRCars.Forms
             if (result == DialogResult.Yes)
             {
                 // Clear Firebase authentication
-                if (AppConfig.FirebaseAuth != null)
-                {
-                    AppConfig.FirebaseAuth.ClearToken();
-                }
+                AppConfig.FirebaseAuth?.ClearToken();
 
                 AppConfig.DeleteConfig();
                 Application.Exit();

@@ -13,7 +13,7 @@ namespace DRCars.Models
         public long Id { get; set; }
 
         [JsonProperty("cliente")]
-        public ClientDTO cliente { get; set; }
+        public ClientDTO client { get; set; }
 
         [JsonProperty("vehiculo")]
         public Vehicle Vehicle { get; set; }

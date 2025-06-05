@@ -20,13 +20,12 @@ public class VentaController {
 
 	@Autowired
 	VentaServiceImpl ventaService;
-	
+
 	@GetMapping
-	public ResponseEntity<List<VentaDTO>> getVentas(){
+	public ResponseEntity<List<VentaDTO>> getVentas() {
 		List<Venta> ventas = ventaService.obtenerVentas();
-		List<VentaDTO> ventasDTO = ventas.stream().map(VentaMapper.INSTANCE::toDTO)
-				.collect(Collectors.toList());
+		List<VentaDTO> ventasDTO = ventas.stream().map(VentaMapper.INSTANCE::toDTO).collect(Collectors.toList());
 		return ResponseEntity.ok(ventasDTO);
 	}
-	
+
 }

@@ -36,7 +36,7 @@ public class SolicitudServiceImpl implements SolicitudService {
 
 	@Autowired
 	private VentaRepository ventasRepo;
-	
+
 	@Autowired
 	private UsuarioRepository userRepo;
 
@@ -66,7 +66,7 @@ public class SolicitudServiceImpl implements SolicitudService {
 			solicitud.setPrecioSolicitud(BigDecimal.valueOf(solicitudRequest.getPrecio()));
 		else
 			solicitud.setPrecioSolicitud(BigDecimal.ZERO);
-		
+
 		solicitud.setMotivo(solicitudRequest.getMotivo());
 		solicitud.setDescripcion(solicitudRequest.getDescripcion());
 
@@ -77,13 +77,13 @@ public class SolicitudServiceImpl implements SolicitudService {
 		return solicitudRepo.findAll();
 	}
 
-	//Mover a reservas
+	// Mover a reservas
 	@Transactional
 	public void procesarSolicitud(ProcSolicitudRequest solicitud) {
 		Optional<Solicitud> res = null;
 		try {
 			res = solicitudRepo.findById(solicitud.getIdSolicitud());
-			if(res.isPresent()) {
+			if (res.isPresent()) {
 				if (solicitud.isAceptada()) {
 					if (res.get().getVehiculo().getIdVehiculo() != null) {
 						Venta venta = new Venta();
@@ -91,13 +91,13 @@ public class SolicitudServiceImpl implements SolicitudService {
 						venta.setPrecioVenta(res.get().getPrecioSolicitud());
 						venta.setFechaVenta(solicitud.getFechaSolicitud());
 						venta.setVehiculo(vehiculoRepo.getReferenceById(res.get().getVehiculo().getIdVehiculo()));
-	
+
 						ventasRepo.save(venta);
 					}
 				}
 				solicitudRepo.delete(res.get());
 			} else
-				throw new Exception();
+				throw new ClassNotFoundException();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

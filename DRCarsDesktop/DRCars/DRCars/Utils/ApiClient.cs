@@ -20,8 +20,10 @@ namespace DRCars.Utils
         public ApiClient()
         {
             _baseUrl = AppConfig.ApiBaseUrl;
-            _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri(_baseUrl);
+            _httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(_baseUrl)
+            };
 
             // Añadir el encabezado requerido para ngrok
             _random = new Random();
@@ -153,7 +155,7 @@ namespace DRCars.Utils
             };
             var json = JsonConvert.SerializeObject(respuesta);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync($"/reservas/procesar", content);
+            var response = await _httpClient.PostAsync($"/solicitudes/procesar", content);
             response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
             return responseContent;
@@ -238,7 +240,7 @@ namespace DRCars.Utils
             }
         }
 
-        public async Task<String> completeAppointmentAsync(Appointment appointment)
+        public async Task<String> CompleteAppointmentAsync(Appointment appointment)
         {
             var respuesta = new
             {
@@ -251,13 +253,13 @@ namespace DRCars.Utils
             var json = JsonConvert.SerializeObject(respuesta, new StringEnumConverter());
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/reservas/completar", content);
+            var response = await _httpClient.PostAsync("/reservas/convertir", content);
             response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<String>(responseContent);
         }
 
-        internal async Task<String> deleteAppointmentAsync(Appointment appointment)
+        internal async Task<String> DeleteAppointmentAsync(Appointment appointment)
         {
             var respuesta = new
             {

@@ -12,7 +12,6 @@ namespace DRCars.Controls
         private Label customerNameLabel;
         private Label vehicleLabel;
         private Label dateLabel;
-        private Label statusLabel;
         private RoundedButton completeButton;
         private RoundedButton cancelButton;
 
@@ -22,8 +21,7 @@ namespace DRCars.Controls
         private Color textColor = Color.FromArgb(51, 51, 51); // Texto oscuro
         private Color accentColor = Color.FromArgb(108, 117, 125); // Gris para detalles
 
-        public event EventHandler<Appointment> ViewDetailsClicked;
-        public event EventHandler<Appointment> ScheduleClicked;
+        
         public event EventHandler<Appointment> CompleteClicked;
         public event EventHandler<Appointment> CancelClicked;
         public event EventHandler<Appointment> ProcessClicked;
@@ -49,7 +47,6 @@ namespace DRCars.Controls
             customerNameLabel = new Label();
             vehicleLabel = new Label();
             dateLabel = new Label();
-            statusLabel = new Label();
             completeButton = new RoundedButton();
             cancelButton = new RoundedButton();
 
@@ -66,7 +63,7 @@ namespace DRCars.Controls
             customerNameLabel.Size = new Size(270, 30);
             customerNameLabel.Location = new Point(15, 15);
             customerNameLabel.Font = new Font("Segoe UI Semibold", 12F);
-            //customerNameLabel.ForeColor = textColor;
+            customerNameLabel.ForeColor = textColor;
             customerNameLabel.TextAlign = ContentAlignment.MiddleLeft;
 
             // Vehicle Label
@@ -74,7 +71,7 @@ namespace DRCars.Controls
             vehicleLabel.Size = new Size(270, 20);
             vehicleLabel.Location = new Point(15, 45);
             vehicleLabel.Font = new Font("Segoe UI", 9F);
-            //vehicleLabel.ForeColor = accentColor;
+            vehicleLabel.ForeColor = accentColor;
             vehicleLabel.TextAlign = ContentAlignment.MiddleLeft;
 
             // Date Label
@@ -82,17 +79,8 @@ namespace DRCars.Controls
             dateLabel.Size = new Size(270, 20);
             dateLabel.Location = new Point(15, 65);
             dateLabel.Font = new Font("Segoe UI", 9F);
-            //dateLabel.ForeColor = accentColor;
+            dateLabel.ForeColor = accentColor;
             dateLabel.TextAlign = ContentAlignment.MiddleLeft;
-
-            // Status Label
-            statusLabel.AutoSize = false;
-            statusLabel.Size = new Size(100, 25);
-            statusLabel.Location = new Point(15, 95);
-            statusLabel.Font = new Font("Segoe UI", 9F);
-            statusLabel.TextAlign = ContentAlignment.MiddleCenter;
-            statusLabel.BackColor = Color.FromArgb(240, 240, 240);
-            statusLabel.BorderStyle = BorderStyle.None;
 
             // Complete Button
             completeButton.Text = "Completar";
@@ -101,7 +89,7 @@ namespace DRCars.Controls
             completeButton.BorderRadius = 4;
             completeButton.BackColor = Color.FromArgb(40, 167, 69);
             completeButton.ForeColor = Color.White;
-            completeButton.Click += CompleteButton_Click;
+            completeButton.Click += AppointmentCompleteButton_Click;
 
             // Cancel Button
             cancelButton.Text = "Cancelar";
@@ -110,13 +98,12 @@ namespace DRCars.Controls
             cancelButton.BorderRadius = 4;
             cancelButton.BackColor = Color.FromArgb(220, 53, 69);
             cancelButton.ForeColor = Color.White;
-            cancelButton.Click += CancelButton_Click;
+            cancelButton.Click += AppointmentCancelButton_Click;
 
             // Add controls to panel
             mainPanel.Controls.Add(customerNameLabel);
             mainPanel.Controls.Add(vehicleLabel);
             mainPanel.Controls.Add(dateLabel);
-            mainPanel.Controls.Add(statusLabel);
             mainPanel.Controls.Add(completeButton);
             mainPanel.Controls.Add(cancelButton);
 
@@ -141,37 +128,12 @@ namespace DRCars.Controls
                 }
 
                 dateLabel.Text = $"Reserva: {_appointment.AppointmentDate.ToShortDateString()} - Precio: {_appointment.AppointmentPrice} €";
-                /*
-                if (_appointment.ScheduledDate.HasValue)
-                {
-                    dateLabel.Text += $" | Cita: {_appointment.ScheduledDate.Value.ToShortDateString()}";
-                }
-                else if (_appointment.AppointmentDate.HasValue)
-                {
-                    dateLabel.Text += $" | Cita: {_appointment.AppointmentDate.Value.ToShortDateString()}";
-                */
+                
 
             }
         }
 
-        
-        private void ViewDetailsButton_Click(object sender, EventArgs e)
-        {
-            if (_appointment != null && ViewDetailsClicked != null)
-            {
-                ViewDetailsClicked(this, _appointment);
-            }
-        }
-
-        private void ScheduleButton_Click(object sender, EventArgs e)
-        {
-            if (_appointment != null && ScheduleClicked != null)
-            {
-                ScheduleClicked(this, _appointment);
-            }
-        }
-
-        private void CompleteButton_Click(object sender, EventArgs e)
+        private void AppointmentCompleteButton_Click(object sender, EventArgs e)
         {
             if (_appointment != null && CompleteClicked != null)
             {
@@ -179,7 +141,7 @@ namespace DRCars.Controls
             }
         }
 
-        private void CancelButton_Click(object sender, EventArgs e)
+        private void AppointmentCancelButton_Click(object sender, EventArgs e)
         {
             if (_appointment != null && CancelClicked != null)
             {
