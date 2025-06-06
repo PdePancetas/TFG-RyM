@@ -10,6 +10,9 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 @Configuration
 public class CorsConfig {
 	
