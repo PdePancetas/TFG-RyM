@@ -59,7 +59,6 @@ public class ReservaController {
 			reservaService.procesarReserva(r);
 			return ResponseEntity.ok("La reserva se ha procesado con éxito");
 		}
-
 		return ResponseEntity.notFound().build();
 
 	}
