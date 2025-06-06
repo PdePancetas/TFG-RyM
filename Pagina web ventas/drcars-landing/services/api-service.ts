@@ -27,7 +27,7 @@ export interface ApiVehicle {
 export async function getCatalogo(): Promise<ApiVehicle[]> {
   try {
     // Usar la URL base sin parámetros adicionales
-    const url = `${API_BASE_URL}/catalogo`
+    const url = `${API_BASE_URL}/catalogo/web`
     console.log(`🔍 Intentando obtener catálogo desde: ${url}`)
 
     // Realizar la petición con el header ngrok-skip-browser-warning
@@ -96,7 +96,7 @@ export async function getCatalogo(): Promise<ApiVehicle[]> {
 export async function testApiConnection(): Promise<boolean> {
   try {
     // Usar el endpoint de catálogo que sabemos que existe
-    const url = `${API_BASE_URL}/catalogo`
+    const url = `${API_BASE_URL}/catalogo/web`
     console.log(`🔍 Probando conexión con: ${url}`)
 
     // Agregar un timeout a la petición para evitar que se quede colgada
@@ -118,7 +118,7 @@ export async function testApiConnection(): Promise<boolean> {
 
       console.log(`✅ Respuesta de prueba - Status: ${response.status}, OK: ${response.ok}`)
       return response.ok
-    } catch (fetchError) {
+    } catch (fetchError:any) {
       // Limpiar el timeout en caso de error
       clearTimeout(timeoutId)
 
