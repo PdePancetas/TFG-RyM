@@ -28,8 +28,8 @@ public class AuthController {
 		return ResponseEntity.ok("Usuario registrado con éxito");
 	}
 
-	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+	@PostMapping("/appLogin")
+	public ResponseEntity<String> appLogin(@RequestBody LoginRequest request) {
 		Optional<Usuario> usuario = usuarioService.obtenerUsuarioPorId(request.getUsuario());
 		if (!usuario.isEmpty()) {
 			if (usuario.get().getTipoUsuario().equals(TipoUsuario.ADMIN)) {
@@ -49,6 +49,31 @@ public class AuthController {
 				}
 			}
 			return ResponseEntity.status(403).body("Acceso denegado. No tienes permisos de administrador.");
+		}
+		return ResponseEntity.status(401).body("Credenciales incorrectas, no ha podido iniciar sesión");
+	}
+	
+	@PostMapping("/webLogin")
+	public ResponseEntity<String> webLogin(@RequestBody LoginRequest request) {
+		Optional<Usuario> usuario = usuarioService.obtenerUsuarioPorId(request.getUsuario());
+		if (!usuario.isEmpty()) {
+			if (usuario.get().getTipoUsuario().equals(TipoUsuario.USER)) {
+				Optional<Cliente> cliente = Optional.empty();
+				if (usuario.isPresent()
+						&& usuarioService.verificarContraseña(request.getContraseña(), usuario.get().getContraseña())) {
+					usuario.get().setUltimo_acceso(request.getUltimo_acceso());
+					usuarioService.crearUsuario(usuario.get());
+
+					cliente = clientService.obtenerClientePorEmail(request.getUsuario());
+					if (cliente.isPresent())
+						return ResponseEntity.ok("Autenticación exitosa, " + usuario.get().getTipoUsuario()
+								+ " cliente ha iniciado sesión: " + cliente.get().getDniCliente());
+					else
+						return ResponseEntity.ok("Autenticación exitosa, " + usuario.get().getTipoUsuario()
+								+ " usuario ha iniciado sesión: " + usuario.get().getUsuario());
+				}
+			}
+			return ResponseEntity.status(403).body("Acceso denegado. No tienes permisos para acceder a la web.");
 		}
 		return ResponseEntity.status(401).body("Credenciales incorrectas, no ha podido iniciar sesión");
 	}
