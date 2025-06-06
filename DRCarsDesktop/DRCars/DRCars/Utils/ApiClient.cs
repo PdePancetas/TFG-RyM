@@ -193,7 +193,7 @@ namespace DRCars.Utils
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 // Realizar la petición POST
-                var response = await _httpClient.PostAsync("/auth/login", content);
+                var response = await _httpClient.PostAsync("/auth/appLogin", content);
 
                 // Leer el contenido de la respuesta
                 var responseContent = await response.Content.ReadAsStringAsync();
@@ -216,7 +216,12 @@ namespace DRCars.Utils
                         return (false, "", "Respuesta de autenticación no reconocida");
                     }
                 }
-                // Si la respuesta es 401 Unauthorized
+                // Si la respuesta es 401 Unauthorized, significa que el usuario no ha escrito bien sus credenciales
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    return (false, "", "Credenciales incorrectas. Por favor, inténtalo de nuevo.");
+                }
+                // Si la respuesta es 403 Forbidden, significa que el usuario no tiene permisos
                 else if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
                 {
                     return (false, "", "No tienes los permisos necesarios para iniciar sesión");
