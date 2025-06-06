@@ -69,6 +69,17 @@ namespace DRCars.Utils
             }
         }
 
+        //Metodo para actualizar el estado de un vehiculo
+        public async Task<Vehicle> UpdateVehicleStatusAsync(long id, VehicleStatus status)
+        {
+            var json = JsonConvert.SerializeObject(new { idVehiculo = id, estado = status }, new StringEnumConverter());
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/catalogo/actEstado", content);
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Vehicle>(responseContent);
+        }
+
         public async Task<Vehicle> GetVehicleAsync(int id)
         {
             var response = await _httpClient.GetAsync($"/catalogo/{id}");
@@ -175,7 +186,43 @@ namespace DRCars.Utils
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<List<Appointment>>(content);
         }
+        public async Task<String> completeAppointmentAsync(Appointment appointment)
+        {
+            appointment.AppointmentPrice += appointment.Vehicle.Price;
+            var json = JsonConvert.SerializeObject(appointment, new StringEnumConverter());
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/reservas/procesar", content);
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return responseContent;
+        }
 
+        internal async Task<String> deleteAppointmentAsync(Appointment appointment)
+        {
+            var respuesta = new
+            {
+                idReserva = appointment.Id
+            };
+            var json = JsonConvert.SerializeObject(respuesta);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/reservas/delete", content);
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return responseContent;
+        }
+        internal async Task<String> DeleteRequestAsync(Request request)
+        {
+            var respuesta = new
+            {
+                idSolicitud = request.Id
+            };
+            var json = JsonConvert.SerializeObject(respuesta);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/solicitudes/delete", content);
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return responseContent;
+        }
         public async Task<(bool Success, string UserType, string Message)> LoginAsync(string email, string password)
         {
             try
@@ -242,45 +289,6 @@ namespace DRCars.Utils
                 Console.WriteLine($"Error: {ex.Message}");
                 return (false, "", "Error al procesar la solicitud de inicio de sesión.");
             }
-        }
-
-        public async Task<String> completeAppointmentAsync(Appointment appointment)
-        {
-            appointment.AppointmentPrice += appointment.Vehicle.Price;
-            var json = JsonConvert.SerializeObject(appointment, new StringEnumConverter());
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/reservas/procesar", content);
-            response.EnsureSuccessStatusCode();
-            var responseContent = await response.Content.ReadAsStringAsync();
-            return responseContent;
-        }
-
-        internal async Task<String> deleteAppointmentAsync(Appointment appointment)
-        {
-            var respuesta = new
-            {
-                idReserva = appointment.Id
-            }; 
-            var json = JsonConvert.SerializeObject(respuesta);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/reservas/delete", content);
-            response.EnsureSuccessStatusCode();
-            var responseContent = await response.Content.ReadAsStringAsync();
-            return responseContent;
-        }
-
-        internal async Task<String> DeleteRequestAsync(Request request)
-        {
-            var respuesta = new
-            {
-                idSolicitud = request.Id
-            };
-            var json = JsonConvert.SerializeObject(respuesta);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("/solicitudes/delete", content);
-            response.EnsureSuccessStatusCode();
-            var responseContent = await response.Content.ReadAsStringAsync();
-            return responseContent;
         }
     }
 }

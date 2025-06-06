@@ -278,7 +278,7 @@ namespace DRCars.Forms
             SetActiveButton(currentSection);
             activeControl = salesControl;
             // Cargamos los datos de ventas cuando se muestra esta sección
-            salesControl.LoadData();
+            salesControl.LoadAllData();
         }
 
         private void ShowUsers()

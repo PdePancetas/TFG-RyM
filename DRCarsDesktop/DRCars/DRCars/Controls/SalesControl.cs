@@ -50,7 +50,21 @@ namespace DRCars.Controls
             // Eliminamos la carga automática: LoadData();
         }
 
-        public async void LoadData()
+        internal void LoadAllData()
+        {
+            try
+            {
+                LoadRequests();
+                LoadAppointments();
+                LoadSales();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar datos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void LoadRequests()
         {
             try
             {
@@ -58,16 +72,36 @@ namespace DRCars.Controls
                 allRequests = await apiClient.GetRequestsAsync();
                 requestsCountLabel.Text = $"Solicitudes: {allRequests.Count}";
                 PopulateRequestCards();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar datos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
+        private async void LoadAppointments()
+        {
+            try
+            {
+                // Load appointments
+                allSales = await apiClient.GetSalesAsync();
+                salesCountLabel.Text = $"Ventas: {allSales.Count}";
+                PopulateSaleCards();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar datos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void LoadSales()
+        {
+            try
+            {
                 // Load sales
                 allAppointments = await apiClient.GetAppointmentsAsync();
                 appointmentsCountLabel.Text = $"Reservas: {allAppointments.Count}";
                 PopulateAppointmentCards();
-
-                // Load appointments
-                allSales = await apiClient.GetSalesAsync();
-                salesCountLabel.Text = $"Ventas: {allSales.Count}";
-                PopulateSaleCards(); 
             }
             catch (Exception ex)
             {
@@ -473,16 +507,16 @@ namespace DRCars.Controls
 
         private void RefreshRequestsButton_Click(object sender, EventArgs e)
         {
-            LoadData();
+            LoadRequests();
         }
 
         private void RefreshSalesButton_Click(object sender, EventArgs e)
         {
-            LoadData();
+            LoadSales();
         }
         private void RefreshAppointmentsButton_Click(object sender, EventArgs e)
         {
-            LoadData();
+            LoadAppointments();
         }
 
         private async void RequestCard_ScheduleClicked(object sender, Request request)
@@ -494,8 +528,10 @@ namespace DRCars.Controls
                 // Update request status
                 request.Status = RequestStatus.Scheduled;
                 RequestDTO requestDto = new RequestDTO(request, "");
+                await apiClient.UpdateVehicleStatusAsync(request.Vehicle.Id, VehicleStatus.VENTA);
                 await apiClient.UpdateRequestAsync(requestDto, true);
-                LoadData();
+                LoadRequests();
+                LoadAppointments(); 
             }
         }
 
@@ -504,8 +540,10 @@ namespace DRCars.Controls
             // Mark request as completed
             request.Status = RequestStatus.Completed;
             RequestDTO requestDto = new RequestDTO(request, "");
+            await apiClient.UpdateVehicleStatusAsync(request.Vehicle.Id, VehicleStatus.VENTA);
             await apiClient.UpdateRequestAsync(requestDto, true);
-            LoadData();
+            LoadRequests();
+            LoadAppointments();
         }
 
         private async void RequestCard_CancelClicked(object sender, Request request)
@@ -516,16 +554,19 @@ namespace DRCars.Controls
             if (result == DialogResult.Yes)
             {
                 // Cancel request
+                await apiClient.UpdateVehicleStatusAsync(request.Vehicle.Id, VehicleStatus.STOCK);
                 request.Status = RequestStatus.Cancelled;
                 await apiClient.DeleteRequestAsync(request);
-                LoadData();
+                LoadRequests();
             }
         }
 
         private async void AppointmentCard_CompleteClicked(object sender, Appointment appointment)
         {
+            await apiClient.UpdateVehicleStatusAsync(appointment.Vehicle.Id, VehicleStatus.VENDIDO);
             await apiClient.completeAppointmentAsync(appointment);
-            LoadData();
+            LoadAppointments();
+            LoadSales();
         }
 
         private async void AppointmentCard_CancelClicked(object sender, Appointment appointment)
@@ -535,9 +576,11 @@ namespace DRCars.Controls
 
             if (result == DialogResult.Yes)
             {
+                await apiClient.UpdateVehicleStatusAsync(appointment.Vehicle.Id, VehicleStatus.STOCK);
                 await apiClient.deleteAppointmentAsync(appointment);
-                LoadData();
+                LoadSales();
             }
         }
+
     }
 }
