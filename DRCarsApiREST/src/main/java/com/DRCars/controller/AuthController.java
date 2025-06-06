@@ -72,8 +72,8 @@ public class AuthController {
 						return ResponseEntity.ok("Autenticación exitosa, " + usuario.get().getTipoUsuario()
 								+ " usuario ha iniciado sesión: " + usuario.get().getUsuario());
 				}
-			}
-			return ResponseEntity.status(403).body("Acceso denegado. No tienes permisos para acceder a la web.");
+			} else
+				return ResponseEntity.status(403).body("Acceso denegado. No tienes permisos para acceder a la web.");
 		}
 		return ResponseEntity.status(401).body("Credenciales incorrectas, no ha podido iniciar sesión");
 	}

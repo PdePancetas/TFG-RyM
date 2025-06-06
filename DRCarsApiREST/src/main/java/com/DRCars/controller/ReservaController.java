@@ -33,7 +33,7 @@ public class ReservaController {
 		return ResponseEntity.ok(reservasDTO);
 	}
 
-	@GetMapping("/cliente")
+	@PostMapping("/cliente")
 	public ResponseEntity<List<ReservaDTO>> obtenerReservasPorDni(@RequestBody ReservasClienteRequest id) {
 
 		List<Reserva> reservas = reservaService.obtenerReservas();
