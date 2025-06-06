@@ -8,14 +8,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfig {
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
+    WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                    .allowedOrigins("https://v0-pagina-de-venta-drc-ars.vercel.app/",
-                    		"https://localhost:3000/")
-                    .allowedMethods("*")
+                    .allowedOrigins("https://v0-pagina-de-venta-drc-ars.vercel.app/**",
+                    		"https://localhost:3000/**")
+                    .allowedMethods("GET","POST")
                     .allowedHeaders("*");
             }
         };
