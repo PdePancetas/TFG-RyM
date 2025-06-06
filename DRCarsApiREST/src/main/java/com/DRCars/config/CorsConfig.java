@@ -13,7 +13,8 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                    .allowedOrigins("https://v0-pagina-de-venta-drc-ars.vercel.app/")
+                    .allowedOrigins("https://v0-pagina-de-venta-drc-ars.vercel.app/",
+                    		"https://localhost:3000/")
                     .allowedMethods("*")
                     .allowedHeaders("*");
             }
