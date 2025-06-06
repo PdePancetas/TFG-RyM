@@ -154,7 +154,7 @@ export default function VehiculoDetalle({ params }: { params: { id: string } }) 
               </div>
               <div className="flex p-2 gap-2 overflow-x-auto">
                 {images.map((image, index) => (
-                  <button
+                  <button title="Imagen"
                     key={index}
                     onClick={() => setActiveImage(index)}
                     className={`relative w-20 h-20 rounded overflow-hidden flex-shrink-0 border-2 transition-all ${

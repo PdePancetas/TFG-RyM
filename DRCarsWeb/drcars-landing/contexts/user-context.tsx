@@ -8,6 +8,8 @@ export interface UserData {
   name: string
   email: string
   avatar?: string
+  address?:string
+  phone?:string
   totalSpent: number
   joinedDate: string
   lastLogin: string
@@ -21,7 +23,7 @@ interface UserContextType {
   user: UserData | null
   isLoading: boolean
   isAuthenticated: boolean
-  login: (email: string, password: string, dni: string, remember?: boolean, responseString?: string) => Promise<boolean>
+  login: (email: string, password: string, remember?: boolean, responseString?: string) => Promise<boolean>
   logout: (showNotification?: boolean) => void
   updateUserData: (data: Partial<UserData>) => void
   getSavedCredentials: () => { email: string; password: string } | null
@@ -32,9 +34,9 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined)
 
 // Función para guardar credenciales en localStorage
-const saveCredentials = (email: string, password: string, dni: string, remember: boolean) => {
+const saveCredentials = (email: string, password: string, remember: boolean) => {
   if (remember) {
-    localStorage.setItem("drcars-credentials", JSON.stringify({ email, password, dni }))
+    localStorage.setItem("drcars-credentials", JSON.stringify({ email, password, remember }))
   } else {
     localStorage.removeItem("drcars-credentials")
   }
@@ -85,13 +87,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const login = async (
     email: string,
     password: string,
-    remember = false,
+    remember: boolean = false,
     responseString?: string,
   ): Promise<boolean> => {
     setIsLoading(true)
 
-    // Extraer DNI si la respuesta contiene "cliente"
-    let extractedDNI: string | undefined = undefined
+    
+    let extractedDNI: string = "" ;
     if (responseString && responseString.toLowerCase().includes("cliente")) {
       const words = responseString.trim().split(/\s+/)
       if (words.length > 0) {

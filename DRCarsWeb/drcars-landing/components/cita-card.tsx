@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge"
 import { formatDate } from "@/lib/utils"
 
-interface Cita {
+interface Cita2 {
   id: number
   fecha: string
   motivo: string
@@ -14,6 +14,23 @@ interface Cita {
     modelo: string
   }
 }
+
+interface Cita {
+  idReserva: number;
+  fechaReserva: string;
+  precioReserva: number;
+
+  trabajador: {
+    telefono: string;
+    email: string;
+  };
+
+  vehiculo: {
+    marca: string;
+    modelo: string;
+  };
+}
+
 
 interface CitaCardProps {
   cita: Cita
@@ -57,19 +74,11 @@ export function CitaCard({ cita }: CitaCardProps) {
           <h4 className="font-medium">
             {cita.vehiculo ? `${cita.vehiculo.marca} ${cita.vehiculo.modelo}` : "Cita sin vehículo específico"}
           </h4>
-          <p className="text-sm text-gray-500">{formatDate(cita.fecha)}</p>
-          <p className="text-sm text-gray-600 mt-1">
-            <span className="font-medium">Motivo:</span> {formatMotivo(cita.motivo)}
-          </p>
-          {cita.descripcion && (
-            <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-              <span className="font-medium">Descripción:</span> {cita.descripcion}
-            </p>
-          )}
+          <p className="text-sm text-gray-500">{formatDate(cita.fechaReserva)}</p>
         </div>
         <div className="text-right">
-          <p className="font-bold">{cita.precio.toLocaleString("es-ES")}€</p>
-          <Badge className={`mt-1 ${getStatusColor(cita.estado)}`}>{cita.estado || "No especificado"}</Badge>
+          <p className="font-bold">{cita?.precioReserva ? cita.precioReserva.toLocaleString("es-ES") +"€": "Precio no disponible"}</p>
+          <Badge className={"Pendiente"}>{"Pendiente"}</Badge>
         </div>
       </div>
     </div>

@@ -46,8 +46,6 @@ export function CarCard({ car }: CarCardProps) {
             {car.category === "luxury" ? "Lujo" : "Estándar"}
           </Badge>
 
-          {!car.inStock && <Badge variant="destructive">Agotado</Badge>}
-
           {/* Mostrar el color si está disponible */}
           {car.color && (
             <Badge variant="outline" className="bg-white/80">

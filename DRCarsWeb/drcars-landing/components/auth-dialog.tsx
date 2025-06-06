@@ -115,7 +115,7 @@ async function enviarDatosLogin(
 
     // Enviar al endpoint de login
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      const response = await fetch(`${API_BASE_URL}/auth/webLogin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

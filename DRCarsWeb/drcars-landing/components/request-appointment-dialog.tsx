@@ -155,7 +155,7 @@ export function RequestAppointmentDialog({
         email: email,
         dni: dni,
         fecha: formattedDateTime,
-        motivo: reason,
+        motivo: reason=="test-drive"?"Prueba de vehículo":reason,
         descripcion: notes,
         precio: getPriceByReason(reason),
       }
@@ -171,7 +171,7 @@ export function RequestAppointmentDialog({
 
       // Realizar la petición POST si estamos en la página principal o en detalles de vehículo
       if (isHomePage || isVehicleDetailsPage) {
-        const response = await fetch("https://helped-bug-stirring.ngrok-free.app/reservas/crear", {
+        const response = await fetch("https://helped-bug-stirring.ngrok-free.app/solicitudes/crear", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

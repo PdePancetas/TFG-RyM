@@ -9,17 +9,22 @@ import { EmptyCitasState } from "@/components/empty-citas-state"
 import { RequestAppointmentDialog } from "@/components/request-appointment-dialog"
 
 interface Cita {
-  id: number
-  fecha: string
-  motivo: string
-  descripcion: string
-  precio: number
-  estado: string
-  vehiculo?: {
-    idVehiculo: number
-    marca: string
-    modelo: string
-  }
+  id: number;
+  idReserva: number;
+  fechaReserva: string;
+  precioReserva: number;
+  estado: string;
+  descripcion: string;
+
+  trabajador: {
+    telefono: string;
+    email: string;
+  };
+
+  vehiculo: {
+    marca: string;
+    modelo: string;
+  };
 }
 
 interface HistorialCitasProps {
@@ -47,8 +52,8 @@ export function HistorialCitas({ dni, onEditProfile }: HistorialCitasProps) {
 
     try {
       console.log(`Cargando citas para DNI: ${userDni}`)
-      const response = await fetch(`https://helped-bug-stirring.ngrok-free.app/reservas?id=${userDni}`, {
-        method: "GET",
+      const response = await fetch(`https://helped-bug-stirring.ngrok-free.app/reservas/cliente`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           "ngrok-skip-browser-warning": generateRandomValue(),
@@ -57,17 +62,24 @@ export function HistorialCitas({ dni, onEditProfile }: HistorialCitasProps) {
       })
 
       if (!response.ok) {
-        const errorText = await response.text()
-        console.error(`Error al obtener las citas: ${response.status}`, errorText)
-        throw new Error(`Error al obtener las citas: ${response.status}`)
+        const errorText = await response.text();
+        console.error(`Error al obtener las reservas: ${response.status}`, errorText);
+
+        if (response.status === 404) {
+          setErrorCitas("No se encontraron reservas pendientes.");
+        }
+
+       throw new Error(`Error al obtener las reservas: ${response.status}`);
       }
 
       const data = await response.json()
       console.log("Citas obtenidas:", data)
       setCitas(Array.isArray(data) ? data : [])
-    } catch (error) {
-      console.error("Error al cargar las citas:", error)
-      setErrorCitas("No se pudieron cargar las citas. Por favor, inténtalo de nuevo más tarde.")
+    } catch (error: any) {
+      console.error("Error al cargar las reservas:", error)
+      if (!error.message.includes("404")) {
+        setErrorCitas("No se pudieron cargar las reservas. Por favor, inténtalo de nuevo más tarde.")
+      }
       setCitas([])
     } finally {
       setLoadingCitas(false)
@@ -93,8 +105,8 @@ export function HistorialCitas({ dni, onEditProfile }: HistorialCitasProps) {
     <Card className="mt-6">
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
-          <CardTitle>Historial de Citas</CardTitle>
-          <CardDescription>Tus citas recientes</CardDescription>
+          <CardTitle>Historial de Reservas</CardTitle>
+          <CardDescription>Tus reservas recientes</CardDescription>
         </div>
         {dni && (
           <RequestAppointmentDialog buttonVariant="outline" buttonSize="sm">

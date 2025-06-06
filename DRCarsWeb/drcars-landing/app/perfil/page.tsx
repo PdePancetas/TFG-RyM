@@ -36,7 +36,7 @@ import { CarCard } from "@/components/car-card"
 import Link from "next/link"
 import { useAlert } from "@/components/custom-alert"
 import { Checkbox } from "@/components/ui/checkbox"
-import { HistorialCitas } from "./historial-citas"
+import { HistorialCitas } from "./historial-reservas"
 
 export default function PerfilPage() {
   const { user, isAuthenticated, updateUserData, logout } = useUser()
@@ -51,8 +51,8 @@ export default function PerfilPage() {
   const [userData, setUserData] = useState({
     name: "",
     email: "",
-    phone: "600123456",
-    address: "Calle Principal 123, Madrid",
+    phone: "",
+    address: "",
     dni: "", // Añadir el campo DNI
   })
 
@@ -71,8 +71,8 @@ export default function PerfilPage() {
       setUserData({
         name: user.name,
         email: user.email,
-        phone: "600123456", // Datos de ejemplo
-        address: "Calle Principal 123, Madrid", // Datos de ejemplo
+        phone: user.phone? user.phone:"", // Datos de ejemplo
+        address: user.address? user.address:"", // Datos de ejemplo
         dni: user.dni || "", // Añadir el campo DNI
       })
     }
@@ -91,7 +91,9 @@ export default function PerfilPage() {
     updateUserData({
       name: userData.name,
       email: userData.email,
-      dni: userData.dni, // Incluir el DNI en la actualización
+      dni: userData.dni,
+      address: userData.address,
+      phone: userData.phone,
     })
 
     setIsEditing(false)
@@ -243,7 +245,7 @@ export default function PerfilPage() {
                             value={userData.name}
                             onChange={handleInputChange}
                             className="pl-10"
-                            disabled={!isEditing}
+                            disabled={true}
                           />
                         </div>
                       </div>
@@ -258,7 +260,7 @@ export default function PerfilPage() {
                             value={userData.email}
                             onChange={handleInputChange}
                             className="pl-10"
-                            disabled={!isEditing}
+                            disabled={true}
                           />
                         </div>
                       </div>
@@ -313,8 +315,8 @@ export default function PerfilPage() {
                             value={userData.dni}
                             onChange={handleInputChange}
                             className="pl-10"
-                            disabled={!isEditing}
-                            placeholder="12345678A"
+                            disabled={true}
+                            placeholder="---------"
                           />
                         </div>
                       </div>
