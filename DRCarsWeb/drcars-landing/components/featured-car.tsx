@@ -39,11 +39,6 @@ export function FeaturedCar({ car }: FeaturedCarProps) {
         {car.category === "standard" && (
           <Badge className="absolute top-4 right-4 z-10 bg-secondary text-secondary-foreground">Estándar</Badge>
         )}
-        {!car.inStock && (
-          <Badge variant="destructive" className="absolute top-12 left-4 z-10">
-            Agotado
-          </Badge>
-        )}
         <Image
           src={carImage || "/placeholder.svg"}
           alt={car.name}

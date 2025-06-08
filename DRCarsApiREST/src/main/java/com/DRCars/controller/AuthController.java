@@ -57,7 +57,7 @@ public class AuthController {
 	public ResponseEntity<String> webLogin(@RequestBody LoginRequest request) {
 		Optional<Usuario> usuario = usuarioService.obtenerUsuarioPorId(request.getUsuario());
 		if (!usuario.isEmpty()) {
-			if (usuario.get().getTipoUsuario().equals(TipoUsuario.USER)) {
+			
 				Optional<Cliente> cliente = Optional.empty();
 				if (usuario.isPresent()
 						&& usuarioService.verificarContraseña(request.getContraseña(), usuario.get().getContraseña())) {
@@ -72,7 +72,7 @@ public class AuthController {
 						return ResponseEntity.ok("Autenticación exitosa, " + usuario.get().getTipoUsuario()
 								+ " usuario ha iniciado sesión: " + usuario.get().getUsuario());
 				}
-			} else
+			
 				return ResponseEntity.status(403).body("Acceso denegado. No tienes permisos para acceder a la web.");
 		}
 		return ResponseEntity.status(401).body("Credenciales incorrectas, no ha podido iniciar sesión");

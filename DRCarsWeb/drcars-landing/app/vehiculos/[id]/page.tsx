@@ -146,11 +146,6 @@ export default function VehiculoDetalle({ params }: { params: { id: string } }) 
                 {vehicle.category === "standard" && (
                   <Badge className="absolute top-4 left-4 z-10 bg-secondary text-secondary-foreground">Estándar</Badge>
                 )}
-                {!vehicle.inStock && (
-                  <Badge variant="destructive" className="absolute top-4 right-4 z-10">
-                    Agotado
-                  </Badge>
-                )}
               </div>
               <div className="flex p-2 gap-2 overflow-x-auto">
                 {images.map((image, index) => (

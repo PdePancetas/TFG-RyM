@@ -79,7 +79,7 @@ namespace DRCars.Controls
             }
         }
 
-        private async void LoadAppointments()
+        private async void LoadSales()
         {
             try
             {
@@ -94,7 +94,7 @@ namespace DRCars.Controls
             }
         }
 
-        private async void LoadSales()
+        private async void LoadAppointments()
         {
             try
             {
@@ -478,9 +478,7 @@ namespace DRCars.Controls
 
                 bool matchesSearch = string.IsNullOrEmpty(searchText) ||
                        request.client.Name.ToLower().Contains(searchText) ||
-                       request.client.Surname.ToLower().Contains(searchText) ||
-                       request.Vehicle.Brand.ToLower().Contains(searchText) ||
-                       request.Vehicle.Model.ToLower().Contains(searchText);
+                       request.client.Surname.ToLower().Contains(searchText);
 
                 card.Visible = matchesSearch;
             }
@@ -497,9 +495,7 @@ namespace DRCars.Controls
 
                 bool matchesSearch = string.IsNullOrEmpty(searchText) ||
                        appointment.client.Name.ToLower().Contains(searchText) ||
-                       appointment.client.Surname.ToLower().Contains(searchText) ||
-                       appointment.Vehicle.Brand.ToLower().Contains(searchText) ||
-                       appointment.Vehicle.Model.ToLower().Contains(searchText);
+                       appointment.client.Surname.ToLower().Contains(searchText);
 
                 card.Visible = matchesSearch;
             }
@@ -528,8 +524,9 @@ namespace DRCars.Controls
                 // Update request status
                 request.Status = RequestStatus.Scheduled;
                 RequestDTO requestDto = new RequestDTO(request, "");
-                await apiClient.UpdateVehicleStatusAsync(request.Vehicle.Id, VehicleStatus.VENTA);
                 await apiClient.UpdateRequestAsync(requestDto, true);
+                if (request.Vehicle != null)
+                    await apiClient.UpdateVehicleStatusAsync(request.Vehicle.Id, VehicleStatus.VENTA);
                 LoadRequests();
                 LoadAppointments(); 
             }
@@ -540,8 +537,9 @@ namespace DRCars.Controls
             // Mark request as completed
             request.Status = RequestStatus.Completed;
             RequestDTO requestDto = new RequestDTO(request, "");
-            await apiClient.UpdateVehicleStatusAsync(request.Vehicle.Id, VehicleStatus.VENTA);
             await apiClient.UpdateRequestAsync(requestDto, true);
+            if (request.Vehicle != null)
+                await apiClient.UpdateVehicleStatusAsync(request.Vehicle.Id, VehicleStatus.VENTA);
             LoadRequests();
             LoadAppointments();
         }
@@ -554,17 +552,22 @@ namespace DRCars.Controls
             if (result == DialogResult.Yes)
             {
                 // Cancel request
-                await apiClient.UpdateVehicleStatusAsync(request.Vehicle.Id, VehicleStatus.STOCK);
+
+                
                 request.Status = RequestStatus.Cancelled;
                 await apiClient.DeleteRequestAsync(request);
+                if (request.Vehicle != null)
+                    await apiClient.UpdateVehicleStatusAsync(request.Vehicle.Id, VehicleStatus.STOCK);
                 LoadRequests();
             }
         }
 
         private async void AppointmentCard_CompleteClicked(object sender, Appointment appointment)
         {
-            await apiClient.UpdateVehicleStatusAsync(appointment.Vehicle.Id, VehicleStatus.VENDIDO);
+            
             await apiClient.completeAppointmentAsync(appointment);
+            if (appointment.Vehicle != null)
+                await apiClient.UpdateVehicleStatusAsync(appointment.Vehicle.Id, VehicleStatus.VENDIDO);
             LoadAppointments();
             LoadSales();
         }
@@ -576,8 +579,10 @@ namespace DRCars.Controls
 
             if (result == DialogResult.Yes)
             {
-                await apiClient.UpdateVehicleStatusAsync(appointment.Vehicle.Id, VehicleStatus.STOCK);
+
                 await apiClient.deleteAppointmentAsync(appointment);
+                if (appointment.Vehicle != null)
+                    await apiClient.UpdateVehicleStatusAsync(appointment.Vehicle.Id, VehicleStatus.STOCK);
                 LoadSales();
             }
         }

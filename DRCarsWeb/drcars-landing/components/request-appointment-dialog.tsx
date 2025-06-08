@@ -59,6 +59,7 @@ export function RequestAppointmentDialog({
   const isHomePage = pathname === "/"
   const isVehicleDetailsPage = pathname?.startsWith("/vehiculos/")
 
+
   // Efecto para detectar cuando el usuario inicia sesión
   useEffect(() => {
     // Si el usuario acaba de iniciar sesión y teníamos el diálogo de auth abierto
@@ -105,6 +106,11 @@ export function RequestAppointmentDialog({
     { value: "financing", label: "Información sobre financiación" },
     { value: "other", label: "Otro motivo" },
   ]
+
+  const filteredReasons = reasons.filter((r) => {
+    const isHiddenPage = pathname === "/" || pathname === "/perfil"
+    return !(isHiddenPage && r.value === "test-drive")
+  })
 
   // Función para generar un valor aleatorio para el header de ngrok
   const generateRandomValue = () => {
@@ -155,7 +161,7 @@ export function RequestAppointmentDialog({
         email: email,
         dni: dni,
         fecha: formattedDateTime,
-        motivo: reason=="test-drive"?"Prueba de vehículo":reason,
+        motivo: reason,
         descripcion: notes,
         precio: getPriceByReason(reason),
       }
@@ -426,6 +432,7 @@ export function RequestAppointmentDialog({
                     <button
                       type="button"
                       className="w-full flex items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm"
+                      onClick={() => setShowReasonDropdown(!showReasonDropdown)}
                     >
                       {reason ? getReasonLabel(reason) : "Selecciona un motivo"}
                       <ChevronDown className="h-4 w-4 opacity-50" />
@@ -433,7 +440,7 @@ export function RequestAppointmentDialog({
 
                     {showReasonDropdown && (
                       <div className="absolute z-10 mt-1 w-full max-h-60 overflow-auto rounded-md bg-white py-1 shadow-lg border border-gray-200">
-                        {reasons.map((r) => (
+                        {filteredReasons.map((r) => (
                           <div
                             key={r.value}
                             className={`px-3 py-2 cursor-pointer hover:bg-gray-100 ${reason === r.value ? "bg-gray-200" : ""}`}
