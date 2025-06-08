@@ -40,7 +40,8 @@ public class CatalogoController {
 	@GetMapping("/web")
 	public ResponseEntity<List<VehiculoDTO>> obtenerCatalogoDisponibles() {
 		List<Vehiculo> vehiculos = vehiculoService.obtenerVehiculos();
-		List<VehiculoDTO> vehiculosDTO = vehiculos.stream().filter(v -> v.getEstado() != Estado.VENDIDO && v.getEstado()!= Estado.GARAJE)
+		List<VehiculoDTO> vehiculosDTO = vehiculos.stream().filter(v -> v.getEstado() != Estado.VENDIDO && v.getEstado()!= Estado.GARAJE
+				&& v.getEstado() != Estado.VENTA)
 				.map(VehiculoMapper.INSTANCE::toDTO).collect(Collectors.toList());
 		return ResponseEntity.ok(vehiculosDTO);
 	}
