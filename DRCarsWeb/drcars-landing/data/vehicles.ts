@@ -60,7 +60,7 @@ export function mapApiVehicleToVehicle(apiVehicle: ApiVehicle): Vehicle {
     category,
     features,
     description: `${apiVehicle.marca || "Vehículo"} ${apiVehicle.modelo || ""} del año ${apiVehicle.annoFabricacion || "N/A"} con ${apiVehicle.kilometraje || 0} km. Color ${apiVehicle.color || "No especificado"}.`,
-    inStock: apiVehicle.estado === "VENTA",
+    inStock: apiVehicle.estado === "STOCK",
     color: apiVehicle.color || "No especificado",
     licensePlate: apiVehicle.matricula || "No especificada",
     chassisNumber: apiVehicle.numeroChasis || "No especificado",
