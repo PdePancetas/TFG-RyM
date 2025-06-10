@@ -2,7 +2,7 @@ package com.DRCars.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -20,7 +20,7 @@ public class Reserva implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8477390087204606495L;
+	private static final long serialVersionUID = 8044411992315177605L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,18 +35,19 @@ public class Reserva implements Serializable {
 	@JoinColumn(name = "id_vehiculo", nullable = true)
 	private Vehiculo vehiculo;
 
-	@Column(name = "fecha_reserva", nullable = false)
-	private LocalDateTime fechaReserva;
+	/*@ManyToOne
+	@JoinColumn(name = "id_trabajador")
+	private Trabajador trabajador;*/
 
-	@Column(name = "precio_reserva", nullable = false)
+	@Column(name = "fecha_programada", nullable = true)
+	private LocalDate fechaReserva;
+
+	@Column(name = "precio_reserva", nullable = true)
 	private BigDecimal precioReserva;
-	
-	@Column(name = "motivo", nullable = false)
-	private String motivo;
-	
-	@Column(name = "descripcion", nullable = true)
-	private String descripcion;
 
+	@Column(name = "notas", nullable = true)
+	private String notas;
+	
 	public Reserva() {
 		super();
 	}
@@ -75,11 +76,19 @@ public class Reserva implements Serializable {
 		this.vehiculo = vehiculo;
 	}
 
-	public LocalDateTime getFechaReserva() {
+//	public Trabajador getTrabajador() {
+//		return trabajador;
+//	}
+//
+//	public void setTrabajador(Trabajador trabajador) {
+//		this.trabajador = trabajador;
+//	}
+
+	public LocalDate getFechaReserva() {
 		return fechaReserva;
 	}
 
-	public void setFechaReserva(LocalDateTime fechaReserva) {
+	public void setFechaReserva(LocalDate fechaReserva) {
 		this.fechaReserva = fechaReserva;
 	}
 
@@ -90,21 +99,12 @@ public class Reserva implements Serializable {
 	public void setPrecioReserva(BigDecimal precioReserva) {
 		this.precioReserva = precioReserva;
 	}
-
-	public String getMotivo() {
-		return motivo;
+	
+	public String getNotas() {
+		return notas;
 	}
-
-	public void setMotivo(String motivo) {
-		this.motivo = motivo;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setNotas(String notas) {
+		this.notas = notas;
 	}
 
 	@Override

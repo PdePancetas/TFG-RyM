@@ -6,8 +6,6 @@ import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
@@ -52,7 +50,7 @@ public class Cliente implements Serializable {
 	private Set<Venta> ventas;
 
 	@OneToMany(mappedBy = "cliente")
-	private Set<Reserva> reservas;
+	private Set<Solicitud> solicitudes;
 
 	public Cliente() {
 		super();
@@ -130,12 +128,12 @@ public class Cliente implements Serializable {
 		this.ventas = ventas;
 	}
 
-	public Set<Reserva> getReservas() {
-		return reservas;
+	public Set<Solicitud> getSolicitudes() {
+		return solicitudes;
 	}
 
-	public void setReservas(Set<Reserva> reservas) {
-		this.reservas = reservas;
+	public void setSolicitudes(Set<Solicitud> solicitudes) {
+		this.solicitudes = solicitudes;
 	}
 
 	@Override

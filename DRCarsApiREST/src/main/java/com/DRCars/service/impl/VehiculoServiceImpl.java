@@ -75,4 +75,17 @@ public class VehiculoServiceImpl implements VehiculoService {
 	public List<Vehiculo> obtenerVehiculos() {
 		return vehiculoRepository.findAll();
 	}
+
+	public Vehiculo actualizarEstado(Vehiculo vehiculo, String estado) {
+		
+		vehiculo.setEstado(switch(estado.toUpperCase().trim()) {
+			case "STOCK" -> Estado.STOCK;
+			case "GARAJE" -> Estado.GARAJE;
+			case "VENTA" -> Estado.VENTA;
+			case "VENDIDO" -> Estado.VENDIDO;
+			default -> Estado.GARAJE;
+		});
+		
+		return vehiculoRepository.save(vehiculo);
+	}
 }

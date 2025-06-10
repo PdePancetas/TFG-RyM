@@ -13,6 +13,7 @@ public class VentaDTO {
 	private LocalDate fechaVenta;
 	private BigDecimal precioVenta;
 	private Trabajador trabajador;
+	
 	public Long getIdVenta() {
 		return idVenta;
 	}

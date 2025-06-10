@@ -32,7 +32,7 @@ namespace DRCars.Utils
         {
             try
             {
-                var response = await _httpClient.GetAsync("/catalogo");
+                var response = await _httpClient.GetAsync("/catalogo/app");
                 response.EnsureSuccessStatusCode();
                 var content = await response.Content.ReadAsStringAsync();
 
@@ -69,6 +69,17 @@ namespace DRCars.Utils
             }
         }
 
+        //Metodo para actualizar el estado de un vehiculo
+        public async Task<Vehicle> UpdateVehicleStatusAsync(long id, VehicleStatus status)
+        {
+            var json = JsonConvert.SerializeObject(new { idVehiculo = id, estado = status }, new StringEnumConverter());
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/catalogo/actEstado", content);
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Vehicle>(responseContent);
+        }
+
         public async Task<Vehicle> GetVehicleAsync(int id)
         {
             var response = await _httpClient.GetAsync($"/catalogo/{id}");
@@ -96,40 +107,6 @@ namespace DRCars.Utils
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Vehicle>(responseContent);
         }
-
-        /*public async Task<Vehicle> UpdateVehicleToApiAsync(Vehicle vehicle)
-        {
-            try
-            {
-                // Crear objeto del vehículo sin imágenes para la API
-                var vehicleData = new
-                {
-                    idVehiculo = vehicle.Id,
-                    marca = vehicle.Brand,
-                    modelo = vehicle.Model,
-                    annoFabricacion = vehicle.Year,
-                    color = vehicle.Color,
-                    kilometraje = vehicle.Kilometers,
-                    precioCompra = vehicle.Price,
-                    matricula = vehicle.LicensePlate,
-                    numeroChasis = vehicle.VIN,
-                    estado = vehicle.Status,
-                    proveedor = vehicle.Supplier
-                };
-
-                var json = JsonConvert.SerializeObject(vehicleData, new StringEnumConverter());
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.PostAsync("/catalogo/act", content);
-                response.EnsureSuccessStatusCode();
-
-                return vehicle;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error al actualizar vehículo en la API: {ex.Message}", ex);
-            }
-        }*/
 
         public async Task<List<User>> GetUsersAsync()
         {
@@ -168,26 +145,27 @@ namespace DRCars.Utils
         }
 
 
-        public async Task<List<SaleRequest>> GetSaleRequestsAsync()
+        public async Task<List<Request>> GetRequestsAsync()
         {
-            var response = await _httpClient.GetAsync("/reservas");
+            var response = await _httpClient.GetAsync("/solicitudes");
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<List<SaleRequest>>(content);
+            return JsonConvert.DeserializeObject<List<Request>>(content);
         }
 
-        public async Task<String> UpdateSaleRequestAsync(SaleRequest request)
+        public async Task<String> UpdateRequestAsync(RequestDTO request, bool aceptada)
         {
             var respuesta = new
             {
-                idReserva = request.Id,
-                aceptada = request.Vehicle!=null,
-                fechaVenta = request.RequestDate,
-                precioVenta = request.Budget
+                idSolicitud = request.Request.Id,
+                aceptada = aceptada,
+                fechaSolicitud = request.Request.RequestDate.ToString("yyyy-MM-ddTHH:mm:ss"),
+                precioSolicitud = (request.Request.Vehicle!=null) ? request.Request.Budget : 0,
+                notas = request.notes,
             };
             var json = JsonConvert.SerializeObject(respuesta);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync($"/reservas/procesar", content);
+            var response = await _httpClient.PostAsync($"/solicitudes/procesar", content);
             response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
             return responseContent;
@@ -201,6 +179,50 @@ namespace DRCars.Utils
             return JsonConvert.DeserializeObject<List<Sale>>(content);
         }
 
+        public async Task<List<Appointment>> GetAppointmentsAsync()
+        {
+            var response = await _httpClient.GetAsync("/reservas");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<Appointment>>(content);
+        }
+        public async Task<String> completeAppointmentAsync(Appointment appointment)
+        {
+            appointment.AppointmentPrice += appointment.Vehicle.Price;
+            var json = JsonConvert.SerializeObject(appointment, new StringEnumConverter());
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/reservas/procesar", content);
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return responseContent;
+        }
+
+        internal async Task<String> deleteAppointmentAsync(Appointment appointment)
+        {
+            var respuesta = new
+            {
+                idReserva = appointment.Id
+            };
+            var json = JsonConvert.SerializeObject(respuesta);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/reservas/delete", content);
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return responseContent;
+        }
+        internal async Task<String> DeleteRequestAsync(Request request)
+        {
+            var respuesta = new
+            {
+                idSolicitud = request.Id
+            };
+            var json = JsonConvert.SerializeObject(respuesta);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/solicitudes/delete", content);
+            response.EnsureSuccessStatusCode();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return responseContent;
+        }
         public async Task<(bool Success, string UserType, string Message)> LoginAsync(string email, string password)
         {
             try
@@ -210,9 +232,7 @@ namespace DRCars.Utils
                 {
                     usuario = email,
                     contraseña = password,
-                    tipoUsuario = "ADMIN",
-                    ultimo_acceso = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"),
-                    registro_cuenta = ""
+                    ultimo_acceso = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")
                 };
 
                 // Convertir a JSON
@@ -220,7 +240,7 @@ namespace DRCars.Utils
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 // Realizar la petición POST
-                var response = await _httpClient.PostAsync("/auth/login", content);
+                var response = await _httpClient.PostAsync("/auth/appLogin", content);
 
                 // Leer el contenido de la respuesta
                 var responseContent = await response.Content.ReadAsStringAsync();
@@ -243,10 +263,15 @@ namespace DRCars.Utils
                         return (false, "", "Respuesta de autenticación no reconocida");
                     }
                 }
-                // Si la respuesta es 401 Unauthorized
+                // Si la respuesta es 401 Unauthorized, significa que el usuario no ha escrito bien sus credenciales
                 else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
-                    return (false, "", "Credenciales incorrectas");
+                    return (false, "", "Credenciales incorrectas. Por favor, inténtalo de nuevo.");
+                }
+                // Si la respuesta es 403 Forbidden, significa que el usuario no tiene permisos
+                else if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    return (false, "", "No tienes los permisos necesarios para iniciar sesión");
                 }
                 // Cualquier otro error
                 else
@@ -265,291 +290,5 @@ namespace DRCars.Utils
                 return (false, "", "Error al procesar la solicitud de inicio de sesión.");
             }
         }
-        /*
-        // Mock data methods
-        private List<Vehicle> GetMockVehicles()
-        {
-            return new List<Vehicle>
-            {
-                new Vehicle
-                {
-                    Id = 1,
-                    Brand = "Mercedes-Benz",
-                    Model = "S-Class",
-                    Year = 2023,
-                    Price = 125000,
-                    Category = "Lujo",
-                    FuelType = "Híbrido",
-                    TransmissionString = "Automática",
-                    Kilometers = 5200,
-                    Status = VehicleStatus.ForSale,
-                    ImageUrl = "https://example.com/mercedes-s-class.jpg",
-                    CreatedAt = DateTime.Now.AddMonths(-3)
-                },
-                new Vehicle
-                {
-                    Id = 2,
-                    Brand = "BMW",
-                    Model = "7 Series",
-                    Year = 2023,
-                    Price = 110000,
-                    Category = "Lujo",
-                    FuelType = "Híbrido",
-                    TransmissionString = "Automática",
-                    Kilometers = 3800,
-                    Status = VehicleStatus.InStock,
-                    ImageUrl = "https://example.com/bmw-7-series.jpg",
-                    CreatedAt = DateTime.Now.AddMonths(-2)
-                },
-                new Vehicle
-                {
-                    Id = 3,
-                    Brand = "Audi",
-                    Model = "A8",
-                    Year = 2023,
-                    Price = 105000,
-                    Category = "Lujo",
-                    FuelType = "Híbrido",
-                    TransmissionString = "Automática",
-                    Kilometers = 4500,
-                    Status = VehicleStatus.InGarage,
-                    ImageUrl = "https://example.com/audi-a8.jpg",
-                    CreatedAt = DateTime.Now.AddMonths(-1)
-                },
-                new Vehicle
-                {
-                    Id = 4,
-                    Brand = "Porsche",
-                    Model = "911",
-                    Year = 2022,
-                    Price = 145000,
-                    Category = "Deportivo",
-                    FuelType = "Gasolina",
-                    TransmissionString = "Automática",
-                    Kilometers = 8500,
-                    Status = VehicleStatus.ForSale,
-                    ImageUrl = "https://example.com/porsche-911.jpg",
-                    CreatedAt = DateTime.Now.AddMonths(-4)
-                },
-                new Vehicle
-                {
-                    Id = 5,
-                    Brand = "Maserati",
-                    Model = "Ghibli",
-                    Year = 2022,
-                    Price = 95000,
-                    Category = "Lujo",
-                    FuelType = "Gasolina",
-                    Transmission = "Automática",
-                    Kilometers = 12000,
-                    Status = VehicleStatus.Sold,
-                    ImageUrl = "https://example.com/maserati-ghibli.jpg",
-                    CreatedAt = DateTime.Now.AddMonths(-5)
-                }
-            };
-        }
-
-        private List<User> GetMockUsers()
-        {
-            return new List<User>
-            {
-                new User
-                {
-                    Id = 1,
-                    Name = "Admin Usuario",
-                    Email = "admin@drcars.com",
-                    Phone = "600123456",
-                    Role = UserRole.Admin,
-                    IsActive = true,
-                    CreatedAt = DateTime.Now.AddYears(-1),
-                    LastLogin = DateTime.Now.AddDays(-1)
-                },
-                new User
-                {
-                    Id = 2,
-                    Name = "Gerente Usuario",
-                    Email = "gerente@drcars.com",
-                    Phone = "600234567",
-                    Role = UserRole.Manager,
-                    IsActive = true,
-                    CreatedAt = DateTime.Now.AddMonths(-10),
-                    LastLogin = DateTime.Now.AddDays(-2)
-                },
-                new User
-                {
-                    Id = 3,
-                    Name = "Agente Usuario",
-                    Email = "agente@drcars.com",
-                    Phone = "600345678",
-                    Role = UserRole.SalesAgent,
-                    IsActive = true,
-                    CreatedAt = DateTime.Now.AddMonths(-8),
-                    LastLogin = DateTime.Now.AddDays(-3)
-                },
-                new User
-                {
-                    Id = 4,
-                    Name = "Visualizador Usuario",
-                    Email = "visualizador@drcars.com",
-                    Phone = "600456789",
-                    Role = UserRole.Viewer,
-                    IsActive = true,
-                    CreatedAt = DateTime.Now.AddMonths(-6),
-                    LastLogin = DateTime.Now.AddDays(-5)
-                },
-                new User
-                {
-                    Id = 5,
-                    Name = "Usuario Inactivo",
-                    Email = "inactivo@drcars.com",
-                    Phone = "600567890",
-                    Role = UserRole.SalesAgent,
-                    IsActive = false,
-                    CreatedAt = DateTime.Now.AddMonths(-12),
-                    LastLogin = DateTime.Now.AddMonths(-3)
-                }
-            };
-        }
-
-        private List<SaleRequest> GetMockSaleRequests()
-        {
-            return new List<SaleRequest>
-            {
-                new SaleRequest
-                {
-                    Id = 1,
-                    CustomerName = "Juan Pérez",
-                    CustomerEmail = "juan.perez@example.com",
-                    CustomerPhone = "600111222",
-                    DesiredBrand = "Mercedes-Benz",
-                    DesiredModel = "S-Class",
-                    Budget = 130000,
-                    DeliveryTimeframe = "3 meses",
-                    AdditionalDetails = "Preferiblemente color negro con interior beige.",
-                    Status = RequestStatus.Pending,
-                    CreatedAt = DateTime.Now.AddDays(-5)
-                },
-                new SaleRequest
-                {
-                    Id = 2,
-                    CustomerName = "María García",
-                    CustomerEmail = "maria.garcia@example.com",
-                    CustomerPhone = "600222333",
-                    DesiredBrand = "BMW",
-                    DesiredModel = "X5",
-                    Budget = 90000,
-                    DeliveryTimeframe = "1 mes",
-                    AdditionalDetails = "Interesada en financiación.",
-                    Status = RequestStatus.Scheduled,
-                    CreatedAt = DateTime.Now.AddDays(-10),
-                    AppointmentDate = DateTime.Now.AddDays(2)
-                },
-                new SaleRequest
-                {
-                    Id = 3,
-                    CustomerName = "Carlos Rodríguez",
-                    CustomerEmail = "carlos.rodriguez@example.com",
-                    CustomerPhone = "600333444",
-                    DesiredBrand = "Audi",
-                    DesiredModel = "Q7",
-                    Budget = 85000,
-                    DeliveryTimeframe = "2 meses",
-                    AdditionalDetails = "Busca un vehículo familiar con 7 plazas.",
-                    Status = RequestStatus.Completed,
-                    CreatedAt = DateTime.Now.AddDays(-15),
-                    AppointmentDate = DateTime.Now.AddDays(-5)
-                },
-                new SaleRequest
-                {
-                    Id = 4,
-                    CustomerName = "Ana Martínez",
-                    CustomerEmail = "ana.martinez@example.com",
-                    CustomerPhone = "600444555",
-                    DesiredBrand = "Porsche",
-                    DesiredModel = "Cayenne",
-                    Budget = 120000,
-                    DeliveryTimeframe = "Inmediato",
-                    AdditionalDetails = "Prefiere color blanco o gris.",
-                    Status = RequestStatus.Pending,
-                    CreatedAt = DateTime.Now.AddDays(-2)
-                },
-                new SaleRequest
-                {
-                    Id = 5,
-                    CustomerName = "Roberto Sánchez",
-                    CustomerEmail = "roberto.sanchez@example.com",
-                    CustomerPhone = "600555666",
-                    DesiredBrand = "Maserati",
-                    DesiredModel = "Levante",
-                    Budget = 110000,
-                    DeliveryTimeframe = "3 meses",
-                    AdditionalDetails = "Interesado en modelo híbrido si está disponible.",
-                    Status = RequestStatus.Cancelled,
-                    CreatedAt = DateTime.Now.AddDays(-20)
-                }
-            };
-        }
-
-        private List<Sale> GetMockSales()
-        {
-            return new List<Sale>
-            {
-                new Sale
-                {
-                    Id = 1,
-                    VehicleId = 5,
-                    CustomerId = 101,
-                    SalesAgentId = 3,
-                    SalePrice = 92000,
-                    SaleDate = DateTime.Now.AddDays(-30),
-                    PaymentMethod = "Transferencia Bancaria",
-                    Notes = "Cliente satisfecho con la compra."
-                },
-                new Sale
-                {
-                    Id = 2,
-                    VehicleId = 8,
-                    CustomerId = 102,
-                    SalesAgentId = 2,
-                    SalePrice = 135000,
-                    SaleDate = DateTime.Now.AddDays(-25),
-                    PaymentMethod = "Financiación",
-                    Notes = "Financiación a 5 años con entrada de 30.000€."
-                },
-                new Sale
-                {
-                    Id = 3,
-                    VehicleId = 12,
-                    CustomerId = 103,
-                    SalesAgentId = 3,
-                    SalePrice = 78000,
-                    SaleDate = DateTime.Now.AddDays(-15),
-                    PaymentMethod = "Efectivo",
-                    Notes = "Cliente internacional."
-                },
-                new Sale
-                {
-                    Id = 4,
-                    VehicleId = 15,
-                    CustomerId = 104,
-                    SalesAgentId = 2,
-                    SalePrice = 105000,
-                    SaleDate = DateTime.Now.AddDays(-10),
-                    PaymentMethod = "Transferencia Bancaria",
-                    Notes = "Incluye garantía extendida."
-                },
-                new Sale
-                {
-                    Id = 5,
-                    VehicleId = 18,
-                    CustomerId = 105,
-                    SalesAgentId = 3,
-                    SalePrice = 95000,
-                    SaleDate = DateTime.Now.AddDays(-5),
-                    PaymentMethod = "Financiación",
-                    Notes = "Financiación a 3 años."
-                }
-            };
-        }*/
     }
 }

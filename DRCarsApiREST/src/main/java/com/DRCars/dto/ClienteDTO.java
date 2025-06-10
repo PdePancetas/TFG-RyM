@@ -5,17 +5,17 @@ public class ClienteDTO {
     private String dniCliente;
     private String nombre;
     private String apellidos;
-    private String email;
+    private UsuarioDTO usuario;
 
     public ClienteDTO() {
     	super();
     }
 
-    public ClienteDTO(String dniCliente, String nombre, String apellidos, String email) {
+    public ClienteDTO(String dniCliente, String nombre, String apellidos, UsuarioDTO usuario) {
         this.dniCliente = dniCliente;
         this.nombre = nombre;
         this.apellidos = apellidos;
-        this.email = email;
+        this.usuario = usuario;
     }
 
     public String getDniCliente() {
@@ -42,11 +42,11 @@ public class ClienteDTO {
         this.apellidos = apellidos;
     }
 
-    public String getEmail() {
-        return email;
+    public UsuarioDTO getUsuario() {
+        return usuario;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsuario(UsuarioDTO usuario) {
+        this.usuario = usuario;
     }
 }

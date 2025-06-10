@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.DRCars.dto.EstadoVehiculoRequest;
 import com.DRCars.dto.VehiculoDTO;
 import com.DRCars.dto.VehiculoRequest;
 import com.DRCars.mapper.VehiculoMapper;
@@ -35,17 +36,15 @@ public class CatalogoController {
 				.collect(Collectors.toList());
 		return ResponseEntity.ok(vehiculosDTO);
 	}
-	
+
 	@GetMapping("/web")
 	public ResponseEntity<List<VehiculoDTO>> obtenerCatalogoDisponibles() {
 		List<Vehiculo> vehiculos = vehiculoService.obtenerVehiculos();
-		List<VehiculoDTO> vehiculosDTO = vehiculos.stream()
-				.filter(v -> v.getEstado()!=Estado.VENDIDO)
-				.map(VehiculoMapper.INSTANCE::toDTO)
-				.collect(Collectors.toList());
+		List<VehiculoDTO> vehiculosDTO = vehiculos.stream().filter(v -> v.getEstado() != Estado.VENDIDO && v.getEstado()!= Estado.GARAJE
+				&& v.getEstado() != Estado.VENTA)
+				.map(VehiculoMapper.INSTANCE::toDTO).collect(Collectors.toList());
 		return ResponseEntity.ok(vehiculosDTO);
 	}
-
 
 	@PostMapping("/crear")
 	public ResponseEntity<VehiculoDTO> addVehiculo(@RequestBody VehiculoRequest vehiculo) {
@@ -60,14 +59,14 @@ public class CatalogoController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<VehiculoDTO> getVehiculo(@PathVariable Long id) {
-		 Optional<Vehiculo> v = vehiculoService.obtenerVehiculoPorId(id);
-		if(v.isPresent()) {
+		Optional<Vehiculo> v = vehiculoService.obtenerVehiculoPorId(id);
+		if (v.isPresent()) {
 			VehiculoDTO vdto = VehiculoMapper.INSTANCE.toDTO(v.get());
 			return ResponseEntity.ok(vdto);
-		}else {
+		} else {
 			return ResponseEntity.notFound().build();
 		}
-			
+
 	}
 
 	@PostMapping("/act")
@@ -75,15 +74,34 @@ public class CatalogoController {
 		Optional<Vehiculo> vehiculo = null;
 		try {
 			vehiculo = vehiculoService.obtenerVehiculoPorId(v.getIdVehiculo());
-			
-			if(vehiculo.isEmpty())
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); 
-			
+
+			if (vehiculo.isEmpty())
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
 			Vehiculo actualizado = vehiculoService.actualizarVehiculo(v);
 			return ResponseEntity.ok(VehiculoMapper.INSTANCE.toDTO(actualizado));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(VehiculoMapper.INSTANCE.toDTO(vehiculo.get()));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(VehiculoMapper.INSTANCE.toDTO(vehiculo.get()));
+		}
+	}
+
+	@PostMapping("/actEstado")
+	public ResponseEntity<VehiculoDTO> actEstadoVehiculo(@RequestBody EstadoVehiculoRequest v) {
+		Optional<Vehiculo> vehiculo = null;
+		try {
+			vehiculo = vehiculoService.obtenerVehiculoPorId(v.getIdVehiculo());
+
+			if (vehiculo.isEmpty())
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+			Vehiculo actualizado = vehiculoService.actualizarEstado(vehiculo.get(), v.getEstado());
+			return ResponseEntity.ok(VehiculoMapper.INSTANCE.toDTO(actualizado));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(VehiculoMapper.INSTANCE.toDTO(vehiculo.get()));
 		}
 		
 	}

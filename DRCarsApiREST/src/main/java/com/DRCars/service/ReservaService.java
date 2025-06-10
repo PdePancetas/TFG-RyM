@@ -1,19 +1,25 @@
 package com.DRCars.service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
-import com.DRCars.dto.ProcReservaRequest;
-import com.DRCars.dto.ReservaRequest;
+import com.DRCars.model.Cliente;
 import com.DRCars.model.Reserva;
+import com.DRCars.model.Vehiculo;
 
 public interface ReservaService {
+	Reserva crearReserva(Reserva reserva);
 
-	void crearReserva(ReservaRequest reserva);
-	
-	List<Reserva> obtenerReservas();
-	
-	void procesarReserva(ProcReservaRequest reserva);
-	
+	Optional<Reserva> obtenerReservaPorId(Long id);
+
+	List<Reserva> obtenerReservasPorCliente(Cliente cliente);
+
+	List<Reserva> obtenerReservasPorVehiculo(Vehiculo vehiculo);
+
+	List<Reserva> obtenerReservasEntreFechas(LocalDate inicio, LocalDate fin);
+
+	Reserva actualizarReserva(Reserva reserva);
+
+	void eliminarReserva(Long id);
 }

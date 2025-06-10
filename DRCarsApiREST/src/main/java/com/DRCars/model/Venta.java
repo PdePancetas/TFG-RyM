@@ -44,7 +44,7 @@ public class Venta implements Serializable {
 
 	@Column(name = "precio_venta", nullable = true)
 	private BigDecimal precioVenta;
-
+	
 	public Venta() {
 		super();
 	}

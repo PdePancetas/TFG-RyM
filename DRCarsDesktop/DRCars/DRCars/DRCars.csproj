@@ -82,7 +82,10 @@
     <Compile Include="Controls\DashboardControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\RequestCard.cs">
+    <Compile Include="Controls\Cards\AppointmentCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Cards\RequestCard.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\RoundedButton.cs">
@@ -103,19 +106,13 @@
     <Compile Include="Controls\UsersControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\VehicleCard.cs">
+    <Compile Include="Controls\Cards\VehicleCard.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\VehiclesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\AppointmentForm.cs">
+    <Compile Include="Forms\RequestForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\LoginForm.cs">
@@ -130,8 +127,11 @@
     <Compile Include="Forms\VehicleForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Models\ClientDTO.cs" />
+    <Compile Include="Models\RequestDTO.cs" />
+    <Compile Include="Models\Appointment.cs" />
+    <Compile Include="Models\Request.cs" />
     <Compile Include="Models\Sale.cs" />
-    <Compile Include="Models\SaleRequest.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Program.cs" />
@@ -143,6 +143,9 @@
     <Compile Include="Utils\FirebaseVehicleService.cs" />
     <Compile Include="Utils\FirestoreImageService.cs" />
     <Compile Include="Utils\SimpleImageService.cs" />
+    <EmbeddedResource Include="Controls\DashboardControl.resx">
+      <DependentUpon>DashboardControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
