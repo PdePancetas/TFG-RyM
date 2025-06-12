@@ -23,6 +23,7 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                     .allowedOrigins("https://v0-pagina-de-venta-drc-ars.vercel.app",
+                    		"https://v0-drcarslanding.vercel.app",
                     		"https://localhost:3000")
                     .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                     .allowedHeaders("*")
