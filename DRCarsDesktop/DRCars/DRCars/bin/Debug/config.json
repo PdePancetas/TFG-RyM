@@ -1,0 +1,15 @@
+{
+  "ApiBaseUrl": "https://helped-bug-stirring.ngrok-free.app",
+  "FirebaseUrl": "https://drcars-b7c5f-default-rtdb.firebaseio.com",
+  "FirebaseStorageUrl": "https://firebasestorage.googleapis.com/v0/b/drcars-b7c5f.appspot.com/o",
+  "FirebaseApiKey": "AIzaSyA9QwrGTolafzmvvVOTrivoSIww5W_3eBY",
+  "AppName": "DRCars",
+  "AppVersion": "1.0.0",
+  "CompanyName": "DR Cars Import",
+  "LogoPath": "D:\\TFG-RyM\\DRCarsDesktop\\DRCars\\DRCars\\bin\\Debug\\Resources\\logo.png",
+  "ThemeName": "Default",
+  "EnableDarkMode": false,
+  "UseFirebase": true,
+  "EnableWebPCompression": true,
+  "EnableSVGVectorization": true
+}
